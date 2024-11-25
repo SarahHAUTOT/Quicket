@@ -3,12 +3,12 @@
 namespace App\Controllers;
 
 use App\Models\UtilisateurModel;
+use App\Entities\Utilisateur;
 
 class Home extends BaseController
 {
 	public function __construct()
 	{
-	//Chargement du helper Form
 		helper(['form']);
 	}
     
@@ -31,9 +31,14 @@ class Home extends BaseController
 			]);
 		} else {
             $data = $this->request->getPost();
-            $utilisateur = new \App\Entities\Utilisateur();
+            $utilisateur = new Utilisateur();
             $utilisateur->fill($data);
-            $utilisateur->setRole('ROLE_INACTIF');
+            $utilisateur->setRole(Utilisateur::$ROLE_INACTIF);
+            $utilisateur->setTokenInscription('abcd');
+            echo '<pre>';
+            var_dump($utilisateur);
+            echo '</pre>';
+
             $utilisateurModel->save($utilisateur);
 		}
     }
