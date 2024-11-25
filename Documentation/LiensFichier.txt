@@ -1,0 +1,11 @@
+# Liens des fichiers 
+Nous avons réaliser beaucoup de document écrit et graphique, voici les liens, a terme on téléchargera les doc et on les mettera dans se dossier
+## document d'installation 
+voir le reamdme.md mais sinon voir (Créer un doc d'instalation)
+## documentation technique
+https://docs.google.com/document/d/1khf8dl21sBIQIKak5-SvIq6_G7SRF2qXBpOIFTwaV0U/edit?tab=t.0#heading=h.urmjtpfqncil
+## canvas
+https://www.canva.com/design/DAGXZqPCCGs/P30fXUh92X4TsWbFJacREw/edit
+## Figma
+https://www.figma.com/design/FcutptkhsngX8zFNsIiKGg/igniter-4?node-id=0-1&node-type=canvas&t=zkkdppD6IznavsMQ-0
+
