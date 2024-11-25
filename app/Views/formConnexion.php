@@ -6,22 +6,18 @@
 </head>
 <body>
 	<h2>Créer un nouveau compte </h2>
-	<?php echo form_open('/userModel'); ?>
-	<?php echo form_label('Pseudo', 'nom-pseudo'); ?>
-	<?php echo form_input('pseudo', set_value('pseudo'), 'required'); ?>
-	<?= validation_show_error('pseudo') ?>
+	<?php echo form_open('/model'); ?>
+	<?php echo form_label('Titre', 'nom-titre'); ?>
+	<?php echo form_input('titre', set_value('titre'), 'required'); ?>
+	<?= validation_show_error('titre') ?>
 	<br>
-	<?php echo form_label('Email', 'email'); ?>
-	<?php echo form_input('email', set_value('email'), 'required'); ?>
-	<?= validation_show_error('email') ?>
+	<?php echo form_label('Description', 'description'); ?>
+	<?php echo form_input('description', set_value('description'), 'required'); ?>
+	<?= validation_show_error('description') ?>
 	<br>
-	<?php echo form_label('Mot de passe', 'mdp'); ?>
-	<?php echo form_input('mdp', set_value('password'), 'required'); ?>
-	<?= validation_show_error('mdp') ?>
-	<br>
-	<?php echo form_label('Confirmation mot de passe', 'mdp-confirmation'); ?>
-	<?php echo form_input('mdpConf', set_value('password'), 'required'); ?>
-	<?= validation_show_error('mdp-conf') ?>
+	<?php echo form_label('Echeange', 'echeange'); ?>
+	<?php echo form_input('echeange', set_value('echeange'), 'required'); ?>
+	<?= validation_show_error('echeange') ?>
 	<br>
 	<br>
 	<?php echo form_submit('submit', 'Envoyer'); ?>
