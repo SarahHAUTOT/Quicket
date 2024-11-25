@@ -1,0 +1,11 @@
+.btn-principale, .btn-principale:hover
+{
+	background-color: #E60026;
+	color: white !important;
+
+}
+
+.btn-principale:focus
+{
+	background-color: #9A001A !important;
+}
