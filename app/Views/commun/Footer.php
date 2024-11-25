@@ -1,4 +1,4 @@
-	<footer class="p-2 pt-3 small ws-100 bg-light">
+	<footer class="p-2 pt-3 small ws-100">
 			
 		<div class="row mx-5 ">
 			<div class="col-12 text-center">
@@ -12,7 +12,7 @@
 
 		<div class="row mx-5 mt-1">
 			<div class="col-12 text-center">
-				<a href="">CGV</a> • <a href="">Mentions légales</a> • @copyright 2024
+				@copyright 2024
 			</div>
 		</div>
 	</footer>

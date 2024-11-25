@@ -17,7 +17,7 @@
 
 <!-- NAVBAR -->
 	<div class="text-display sticky-top">
-		<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
 			<div class="container-fluid">
 
 				<!-- Icône et nom à gauche -->
@@ -29,11 +29,11 @@
 				<!-- TODO : AFFICHER LA PARTIE EN COMMENTAIRE SI CONNECTER SINON AFFICHER LE TRUC LAISSER -->
 				 
 			
-				<!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 
-				<div class="collapse navbar-collapse justify-content-start text-start" id="navbarNav">
+				<!-- <div class="collapse navbar-collapse justify-content-start text-start" id="navbarNav">
 					<ul class="navbar-nav ms-auto">
 
 
@@ -48,7 +48,7 @@
 				</div>  -->
 
 				<div class="justify-content-start text-start">
-					<a class="nav-link btn btn-principale p-2" href="/conexion">Se connecter</a>
+					<a class="nav-link btn btn-principale px-3 py-2" href="/connexion">Se connecter</a>
 				</div>
 			</div>
 		</nav>
