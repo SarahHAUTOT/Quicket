@@ -5,7 +5,8 @@ use CodeIgniter\Model;
 
 class UtilisateurModel extends Model
 {
-	protected $table      = 'Utilisateur';
+	protected $table      = 'utilisateur';
+    protected $autoIncrement = true;
 	protected $primaryKey = 'id_utilisateur';
 	protected $returnType = 'App\Entities\Utilisateur';
 	protected $allowedFields = ['id_utilisateur', 'email', 'mdp', 'pseudo', 'role', 'token', 'date_creation_token'];
@@ -22,18 +23,21 @@ class UtilisateurModel extends Model
 
 	protected $validationMessages = [
 		'pseudo' => [
-			'max_length'  => 'Votre pseudo est trop long, il doit faire moins de 50 caractères.',
+            'required'    => 'Champ requis.',
+			'max_length'  => 'Votre pseudo dépasse les de 50 caractères.',
 		],
 
 		'mdp' => [
-			'max_length'  => 'Votre mot de passe est trop long. Veuillez en choisir un autre.',
-			'min_length'  => 'Votre mot de passe est trop court. Veuillez en choisir un autre.',
+            'required'    => 'Champ requis.',
+			'max_length'  => 'Votre mot de passe dépasse les 255 caractères.',
+			'min_length'  => 'Votre mot de passe est inférieur à 8 caractères.',
 		],
 
 		'email' => [
-			'is_unique'   => 'Cet émail est déjà utilisé. Veuillez en prendre une autre.',
-			'max_length'  => 'Votre émail est trop long. Veuillez en prendre une autre.',
-			'valid_email' => 'Entrez un émail valid.',
+            'required'    => 'Champ requis.',
+			'is_unique'   => 'Cet émail est déjà utilisé.',
+			'max_length'  => 'Votre émail dépasse les 255 caractères.',
+			'valid_email' => 'Entrer un émail valid.',
 		]
 	];
 

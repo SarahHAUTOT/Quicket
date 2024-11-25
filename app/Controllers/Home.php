@@ -23,14 +23,18 @@ class Home extends BaseController
         $regleValidation = $utilisateurModel->getValidationRules();
         $regleValidation['mdpConf'] = 'required_with[mdp]|min_length[8]|max_length[255]|matches[mdp]';
 
-		$isValid = $this->validate($regleValidation);
+		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
 		
 		if (!$isValid) {
-			return view('/userModel',[
+			return view('formConnexion',[
 				'validation' => \Config\Services::validation()
 			]);
 		} else {
-			echo 'succès'; 
+            $data = $this->request->getPost();
+            $utilisateur = new \App\Entities\Utilisateur();
+            $utilisateur->fill($data);
+            $utilisateur->setRole('ROLE_INACTIF');
+            $utilisateurModel->save($utilisateur);
 		}
     }
 }
