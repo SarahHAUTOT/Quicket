@@ -9,7 +9,16 @@ class UtilisateurModel extends Model
     protected $autoIncrement = true;
 	protected $primaryKey = 'id_utilisateur';
 	protected $returnType = 'App\Entities\Utilisateur';
-	protected $allowedFields = ['id_utilisateur', 'email', 'mdp', 'pseudo', 'role', 'token', 'date_creation_token'];
+	protected $allowedFields = [
+        'email',
+        'mdp',
+        'pseudo',
+        'role',
+        'token_mdp',
+        'creation_token_mdp',
+        'token_inscription',
+        'creation_token_inscription'
+    ];
 	
 	protected $useTimestamps = false;
 	protected $useSoftDeletes = true;
