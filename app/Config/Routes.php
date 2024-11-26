@@ -30,3 +30,5 @@ $routes->match(['get', 'post'], '/inscription/create', 'ControllerUtilisateur::t
 $routes->match(['get', 'post'], '/connexion/mdp'              , 'ControllerUtilisateur::traitement_modificationMDP'); // (c_ControllerUtilisateur : traitement_inscription())
 $routes->match(['get', 'post'], '/connexion/activation/(:any)', 'ControllerUtilisateur::traitement_activation/$1'  ); // (c_ControllerUtilisateur : traitement_inscription())
 
+// Redirection vers la liste des taches
+$routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_ControllerTaches --> v_taches/Taches.php)
