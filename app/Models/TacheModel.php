@@ -29,7 +29,7 @@ class TacheModel extends Model
 	protected $validationRules = [
 		'titre'       => 'required|max_length[50]|min_length[5]',
 		'description' => 'required|max_length[255]',
-		'priorite'    => 'required|greater_than[0]',
+		'priorite'    => 'required|greater_than[0]|in_list[1,2,3]',
 		'echeance'    => 'required',
 	];
 

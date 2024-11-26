@@ -24,10 +24,9 @@ class ControllerTaches extends BaseController
 	{
 		$tacheModele = new TacheModel();
 
-		$pageCourante = $this->request->getGet('page') ?? null;
-		$titreRech = $this->request->getGet('titre') ?? null;
-		$attribut  = $this->request->getGet('attribut') ?? null;
-		$ordre     = $this->request->getGet('ordre') ?? null;
+        $titreRech = $this->request->getGet('titre') ?? null;
+        $attribut  = $this->request->getGet('attribut') ?? null;
+        $ordre     = $this->request->getGet('ordre') ?? null;
 
 		$taches = $tacheModele->getFiltre($titreRech, $attribut, $ordre)->paginate(5);
 		
