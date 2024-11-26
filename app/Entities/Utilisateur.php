@@ -12,13 +12,13 @@ class Utilisateur extends Entity
     
     protected $attributes = [
         'id_utilisateur' => null,
-        'email' => null,
-        'mdp'   => null,
-        'pseudo'=> null,
-        'role'  => null,
+        'email'     => null,
+        'mdp'       => null,
+        'pseudo'    => null,
+        'role'      => null,
         'token_mdp' => null,
         'creation_token_mdp' => null,
-        'token_inscription' => null,
+        'token_inscription'  => null,
         'creation_token_inscription' => null,
     ];
 
@@ -57,51 +57,47 @@ class Utilisateur extends Entity
 
     // Getteurs
 
-    public function getIdUtilisateur(): int|null
+    public function getIdUtilisateur(): int
     {
-        $id = intval($this->attributes['id_utilisateur']) == 0 ?
-            null :
-            intval($this->attributes['id_utilisateur']);
-
-        return $id;
+        return intval($this->attributes['id_utilisateur']);
     }
 
-    public function getEmail(): string|null
+    public function getEmail(): ?string
     {
         return $this->attributes['email'];
     }
 
-    public function getMdp(): string|null
+    public function getMdp(): ?string
     {
         return $this->attributes['mdp'];
     }
 
-    public function getPseudo(): string|null
+    public function getPseudo(): ?string
     {
         return $this->attributes['pseudo'];
     }
 
-    public function getRole(): string|null
+    public function getRole(): ?string
     {
         return $this->attributes['role'];
     }
 
-    public function getTokenMdp(): string|null
+    public function getTokenMdp(): ?string
     {
         return $this->attributes['token_mdp'];
     }
 
-    public function getCreationTokenMdp(): string|null
+    public function getCreationTokenMdp(): ?string
     {
         return $this->attributes['creation_token_mdp'];
     }
 
-    public function getTokenInscription(): string|null
+    public function getTokenInscription(): ?string
     {
         return $this->attributes['token_inscription'];
     }
 
-    public function getCreationTokenInscription(): string|null
+    public function getCreationTokenInscription(): ?string
     {
         return $this->attributes['creation_token_inscription'];
     }

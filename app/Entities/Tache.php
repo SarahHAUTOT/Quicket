@@ -7,22 +7,30 @@ use CodeIgniter\I18n\Time;
 class Tache extends Entity
 {
     protected $attributes = [
-        'id_tache',
-        'creation_tache',
-        'modiff_tache',
-        'titre',
-        'description',
-        'echeange',
-        'id_utilisateur'
+        'id_tache' => null,
+        'creation_tache' => null,
+        'modiff_tache' => null,
+        'titre' => null,
+        'description' => null,
+        'priorite' => null,
+        'echeance' => null,
+        'id_utilisateur' => null
     ];
 
     protected $dates = ['creation_tache', 'modiff_tache'];
 
     // Setteurs
     
-    public function setTitre(string $titre)
+    public function setTitre(string $titre): Tache
     {
         $this->attributes['titre'] = $titre;
+
+        return $this;
+    }
+    
+    public function setIdUtilisateur(int $id): Tache
+    {
+        $this->attributes['id_utilisateur'] = $id;
 
         return $this;
     }
@@ -34,71 +42,64 @@ class Tache extends Entity
         return $this;
     }
     
-    public function setDescription(string $desc)
+    public function setDescription(string $desc): Tache
     {
         $this->attributes['description'] = $desc;
 
         return $this;
     }
-    
-    public function setEcheance(int $nombre, string $format)
-    {
-        switch($format)
-        {
-            case 'AAAA':
-                $this->attributes['modiff_tache'] = $this->getCreationTache()->addYears($nombre);
-                break;
 
-            case 'MM':
-                $this->attributes['modiff_tache'] = $this->getCreationTache()->addMonths($nombre);
-                break;
-            
-            case 'DD':
-                $this->attributes['modiff_tache'] = $this->getCreationTache()->addDays($nombre);
-                break;
-        }
+    public function setEcheance(Time $time): Tache
+    {
+        $this->attributes['echeance'] = $time;
+
+        return $this;
+    }
+
+    public function setCreationTache(): Tache
+    {
+        $this->attributes['creation_tache'] = Time::now('Europe/Paris', 'fr_FR');
+
+        return $this;
+    }
+    
+    public function setPriorite(int $nb): Tache
+    {
+        $this->attributes['priorite'] = $nb;
 
         return $this;
     }
 
     // Getteurs
 
-    public function getIdTache(): int|null
+    public function getIdTache(): int
     {
-        $id = intval($this->attributes['id_tache']) == 0 ?
-            null :
-            intval($this->attributes['id_tache']);
-
-        return $id;
+        return intval($this->attributes['id_tache']);
     }
 
-    public function getCreationTache(): Time|null
-    {
-        return $this->attributes['creation_tache'];
-    }
-
-    public function getModiffTache(): Time|null
+    public function getModiffTache(): ?Time
     {
         return $this->attributes['modiff_tache'];
     }
 
-    public function getTitre(): Time|null
+    
+    public function getTitre(): ?string
     {
         return $this->attributes['titre'];
     }
 
-    public function getDescription(): Time|null
+    public function getDescription(): ?string
     {
         return $this->attributes['description'];
     }
 
-    public function getEcheance(): Time|null
+    public function getEcheance(): ?Time
     {
-        return $this->attributes['echeange'];
+        return $this->attributes['echeance'];
     }
 
-    public function getIdUtilisateur(): Time|null
+    public function getIdUtilisateur(): int
     {
-        return $this->attributes['id_utilisateur'];
+        return intval($this->attributes['id_utilisateur']);
     }
 }

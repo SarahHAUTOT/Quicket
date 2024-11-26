@@ -14,8 +14,9 @@ class TacheModel extends Model
         'modiff_tache',
         'titre',
         'description',
-        'echeange',
-        'id_utilisateur'
+        'echeance',
+        'id_utilisateur',
+        'priorite'
     ];
 	
 	protected $useTimestamps = true;
@@ -26,9 +27,10 @@ class TacheModel extends Model
 	
 	// Règles de validation
 	protected $validationRules = [
-		'titre'     => 'required|max_length[50]|min_length[5]',
-		'texte'     => 'required|max_length[255]',
-		'echeange'  => 'required|greater_than[0]',
+		'titre'       => 'required|max_length[50]|min_length[5]',
+		'description' => 'required|max_length[255]',
+		'priorite'    => 'required|greater_than[0]',
+		'echeance'    => 'required',
 	];
 
 	protected $validationMessages = [
@@ -43,9 +45,13 @@ class TacheModel extends Model
 			'max_length'  => 'Votre description dépasse les 255 caractères.',
 		],
 
-		'echeange' => [
+		'echeance' => [
             'required'     => 'Champ requis.',
-			'greater_than' => 'L\'échéance doit être supérieur à zéro.',
-		]
+        ],
+
+		'priorite' => [
+            'required'     => 'Champ requis.',
+            'greater_than' => 'La priorité doit être supérieure à zéro.',
+        ],
 	];
 }
