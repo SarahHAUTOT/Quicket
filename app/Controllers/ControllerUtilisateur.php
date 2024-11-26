@@ -39,6 +39,16 @@ class ControllerUtilisateur extends BaseController
 	}
 
 
+	public function mail_Modification()
+	{
+		// TODO : Envoie du mail de modification de mots de passe
+
+    	echo view('commun/Navbar'); 
+    	echo view('connexion/Modif'); 
+    	echo view('commun/Footer'); 
+	}
+
+
 	public function traitement_connexion()
 	{
     	// TODO : Traitement de connexion
