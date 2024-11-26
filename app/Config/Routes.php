@@ -36,3 +36,8 @@ $routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_Controlle
 
 // Redirection vers une tâche précise
 $routes->get('/Detailtache/(:num)', 'ControllerTaches::grosse_tache/$1');
+
+
+
+// Redirection Planning
+$routes->get('/planning/', 'ControllerPlanning::redirection_vueGlobale');
