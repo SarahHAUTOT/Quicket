@@ -1,87 +1,111 @@
-<!--
+	<!--
 	@author   : Sarah Hautot, Alizéa Lebaron
 	@since    : 25/11/2024
 	@version  : 1.1.0 - 26/11/2024
 -->
 
 <div style="min-height: 90vh;padding-top: 80px;">
-        <div class="table-responsive mx-5">
 
-            
-            <!-- TODO : DECOMMENTER LIGNE -->
-            <?php if (!empty($taches)) : ?>
-            <table class="table">
-                <thead>
-                    <tr style="background-color: #009A80; color: antiquewhite;">
-                        <th scope="col">Titre</th>
-                        <th scope="col">Date de création</th>
-                        <th scope="col">Date de modification</th>
-                        <th scope="col">Echéance</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
 
-                <tbody>
-					<!-- TODO : SUPP CETTE LIGNE DE TEST -->
-					<tr>
-						<td class="align-middle">titre</td>
-						<td class="align-middle">creation_tache</td>
-						<td class="align-middle">modiff_tache</td>
-						<td class="align-middle">echeance</td>
-						<td class="align-middle"> 
-							<a href="/taches/supp/" class="btn"><i class="bi bi-trash3"></i></a> 
-							<a href="/taches/" class="btn"><i class="bi bi-eye"></i></a> 
-						</td>
-					</tr>
 
-                    <!-- Génération des lignes selon les données  -->
-					<?php foreach ($taches as $tache) : ?>
-						<!-- TODO : Calculer retard et mettre la classe "table-danger" sur le tr si dépassé -->
+		<div class="container my-4">
+			<div class="row gy-2">
+
+
+				<!-- Barre de recherche -->
+				<div class="col-md-6 col-lg-4">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="basic-addon2">
+						<label class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></label>
+					</div>
+				</div>
+		
+				<!-- Select Trié par -->
+				<div class="col-md-3 col-lg-4">
+					<div class="input-group">
+						<label class="input-group-text" for="type">Trié par</label>
+						<select class="form-select" id="type">
+							<option value="creation_tache">Date de modification</option>
+							<option value="echeance"      >Echéance</option>
+							<option value="retard"        >Retard</option>
+							<option value="priorite"      >Priorité</option>
+						</select>
+					</div>
+				</div>
+		
+				<!-- Select Ordre -->
+				<div class="col-md-3 col-lg-4">
+					<div class="input-group">
+						<label class="input-group-text" for="order">Ordre</label>
+						<select class="form-select" id="order">
+							<option value="asc" >Croissant</option>
+							<option value="desc">Décroissant</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+
+
+
+
+
+		<div class="table-responsive mx-5">
+			<!-- TODO : DECOMMENTER LIGNE -->
+			<?php if (!empty($taches)) : ?>
+				<table class="table">
+					<thead>
 						<tr>
-							<td class="align-middle"><?= $tache['titre']; ?></td>
-							<td class="align-middle"><?= $tache['creation_tache']; ?></td>
-							<td class="align-middle"><?= $tache['modiff_tache']; ?></td>
-							<td class="align-middle"><?= $tache['echeance']; ?></td>
-							<td class="align-middle"> 
-								<a href="<?php "/taches/supp/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-trash3"></i></a> 
-								<a href="<?php "/detailtache/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
-							</td>
+							<th scope="col">Titre</th>
+							<th scope="col">Date de création</th>
+							<th scope="col">Date de modification</th>
+							<th scope="col">Echéance</th>
+							<th scope="col">Actions</th>
 						</tr>
-					<?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else : ?>
-            <p> Aucune tache crée. </p>    
-        <?php endif; ?>
+					</thead>
 
-			<table class="table">
-				<thead>
-					<tr style="background-color: #009A80; color: antiquewhite;">
-						<th scope="col">Titre</th>
-						<th scope="col">Date de création</th>
-						<th scope="col">Date de modification</th>
-						<th scope="col">Echéance</th>
-						<th scope="col">Actions</th>
-					</tr>
-				</thead>
+					<tbody>
+						<!-- Génération des lignes selon les données  -->
+						<?php foreach ($taches as $tache) : ?>
+							<!-- TODO : Calculer retard et mettre la classe "table-danger" sur le tr si dépassé -->
+							<tr>
+								<td class="align-middle"><?= $tache['titre']; ?></td>
+								<td class="align-middle"><?= $tache['creation_tache']; ?></td>
+								<td class="align-middle"><?= $tache['modiff_tache']; ?></td>
+								<td class="align-middle"><?= $tache['echeance']; ?></td>
+								<td class="align-middle"> 
+									<a href="<?php "/taches/supp/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-trash3"></i></a> 
+									<a href="<?php "/taches/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
 
-				<tbody>
-					<!-- TODO : SUPP CETTE LIGNE DE TEST -->
-					<tr class="table-danger">
-						<td class="align-middle">titre</td>
-						<td class="align-middle">creation_tache</td>
-						<td class="align-middle">modiff_tache</td>
-						<td class="align-middle">echeance</td>
-						<td class="align-middle"> 
-							<a href="/taches/supp/1" class="btn"><i class="bi bi-trash3"></i></a> 
-							<a href="/detailtache/1" class="btn"><i class="bi bi-eye"></i></a> 
-						</td>
-					</tr>
-                </tbody>
-            </table>
+			<?php else : ?>
+				<p class="mx-5"> Aucune tache crée. </p>    
+			<?php endif; ?>
 
-            <a href="/taches/create" class="btn btn-principale">Ajouter une taches</a>
+			<a href="/taches/create" class="btn btn-principale mx-5 my-2">Ajouter une taches</a>
 
-        </div>
 
-    </div>
+			<div class="m-5">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						
+						<!-- TODO : Faire la vrai pagination -->
+						<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+			
+
+
+	</div>

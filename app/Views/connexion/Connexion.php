@@ -52,7 +52,7 @@
 				</div>
 
 				<div class="d-flex justify-content-center align-items-center">
-					<a href="/pwdChange" class="btn btn-link"> Mot de passe oublié ?</a>
+					<a href="connexion/mdp" class="btn btn-link"> Mot de passe oublié ?</a>
 				</div>
 			</div>
 		</div>
