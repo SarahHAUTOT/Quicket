@@ -1,3 +1,9 @@
+<!--
+	@author   : Sarah Hautot, Alizéa Lebaron
+	@since    : 25/11/2024
+	@version  : 1.1.0 - 26/11/2024
+-->
+
 <div style="min-height: 90vh;padding-top: 80px;">
         <div class="table-responsive mx-5">
 
@@ -38,7 +44,7 @@
 							<td class="align-middle"><?= $tache['echeance']; ?></td>
 							<td class="align-middle"> 
 								<a href="<?php "/taches/supp/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-trash3"></i></a> 
-								<a href="<?php "/taches/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
+								<a href="<?php "/Detailtache/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -68,7 +74,7 @@
 						<td class="align-middle">echeance</td>
 						<td class="align-middle"> 
 							<a href="/taches/supp/1" class="btn"><i class="bi bi-trash3"></i></a> 
-							<a href="/taches/1" class="btn"><i class="bi bi-eye"></i></a> 
+							<a href="/Detailtache/1" class="btn"><i class="bi bi-eye"></i></a> 
 						</td>
 					</tr>
                 </tbody>
