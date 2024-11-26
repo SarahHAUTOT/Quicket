@@ -63,9 +63,9 @@ class Tache extends Entity
         return $this;
     }
     
-    public function setPriorite(int $nb): Tache
+    public function setPriorite(string $str): Tache
     {
-        $this->attributes['priorite'] = $nb;
+        $this->attributes['priorite'] = intval($str);
 
         return $this;
     }

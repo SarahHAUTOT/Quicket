@@ -16,7 +16,7 @@
 				<div class="col-md-6 col-lg-4">
 					<div class="input-group">
 						<input type="text" class="form-control" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="basic-addon2">
-						<label class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></label>
+						<label class="input-group-text" id="basic-addon2"> <i class="bi bi-search"></i> </label>
 					</div>
 				</div>
 		
@@ -74,7 +74,10 @@
 								<td class="align-middle"><?= $tache->getModiffTache()->toDateString(); ?></td>
 								<td class="align-middle"><?= $tache->getEcheance()->toDateString(); ?></td>
 								<td class="align-middle"> 
-									<a href="<?php echo "/taches/supp/".$tache->getIdTache(); ?>" class="btn btn-primaire"><i class="bi bi-trash3"></i></a> 
+									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" 
+									   class="btn btn-primaire">
+									   <i class="bi bi-trash3"></i>
+									</a> 
 									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
 								</td>
 							</tr>
@@ -87,7 +90,9 @@
 				<p class="mx-5"> Aucune tache crée. </p>    
 			<?php endif; ?>
 
-			<a href="/taches/create" class="btn btn-principale mx-5 my-2">Ajouter une taches</a>
+			<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
+				Ajouter une tache
+			</button>
 
 
 			<div class="m-5">
@@ -97,3 +102,99 @@
 
 
 	</div>
+
+	<div class="modal fade" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Ajouter une tache</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<?php echo form_open('/taches/create'); ?>
+
+					<div class="form-group mb-2">
+						<?php echo form_label('Titre', 'titre'); ?>
+						
+						<?php echo form_input([
+							'name'        => 'titre',
+							'id'          => 'titre',
+							'class'       => 'form-control',
+							'value'       => set_value('titre'),
+							'required'
+						]); ?>
+
+						<?= validation_show_error('titre') ?>
+					</div>
+
+
+					<div class="form-group mb-2">
+						<?php echo form_label('Priorité', 'priorite'); ?>
+						
+						<?php 
+							$options = [
+								'1'=> 'A faire',
+								'2'=> 'Important',
+								'3'=> 'Cruciale',
+							];
+							echo form_dropdown([
+								'name'    => 'priorite',
+								'id'      => 'priorite',
+								'class'   => 'form-select',
+								'options' =>  $options,
+								'value'   => set_value('priorite'),
+								'required'
+							]);
+						?>
+
+						<?= validation_show_error('priorite') ?>
+					</div>
+
+
+					<div class="form-group mb-2">
+						<?php echo form_label('Description', 'description'); ?>
+						
+						<?php echo form_textarea([
+							'name'        => 'description' ,
+							'id'          => 'description' ,
+							'class'       => 'form-control',
+							'rows'        => '3',
+							'maxlength'   => '255',
+							'value'       => set_value('description'),
+							'required'
+						]); ?>
+
+						<?= validation_show_error('description') ?>
+					</div>
+
+
+					<div class="form-group mb-2">
+						<?php echo form_label('Echéance', 'echeance'); ?>
+						
+						<?php echo form_input([
+							'name'        => 'echeance',
+							'id'          => 'echeance',
+							'type'        => 'datetime-local',
+							'class'       => 'form-control',
+							'value'       => set_value('echeance'),
+							'required'
+						]); ?>
+
+						<?= validation_show_error('echeance') ?>
+					</div>
+
+					<br>
+					<div class="d-flex justify-content-center align-items-center">
+						<?php echo form_submit('submit', 'Ajouter la tache',"class='btn w-50 btn-principale'"); ?>
+					</div>
+
+					<?php echo form_close(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- Include Bootstrap 5 Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

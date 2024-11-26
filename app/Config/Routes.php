@@ -33,7 +33,9 @@ $routes->match(['get', 'post'], '/connexion/activation/(:any)', 'ControllerUtili
 // Redirection vers la liste des taches
 $routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_ControllerTaches --> v_taches/Taches.php)
 $routes->get('/taches/(:num)', 'ControllerTaches::detail_tache'); // (c_ControllerTaches --> v_??? )
+
 $routes->get('/taches/supp/(:num)', 'ControllerTaches::traitement_suppression_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
+$routes->match(['get', 'post'], '/taches/create'     , 'ControllerTaches::traitement_creation_tache'      ); // (c_ControllerTaches  --> v_taches/Taches.php)
 
 // Redirection vers une tâche précise
 $routes->get('/Detailtache/(:num)', 'ControllerTaches::grosse_tache/$1');
