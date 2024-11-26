@@ -38,3 +38,4 @@ $routes->get('/detailtache/(:num)', 'ControllerTaches::grosse_tache/$1');
 
 //Ajouter un commentaire sur une tâche
 $routes->match(['get', 'post'], '/detailtache/ajoutComm' , 'ControllerTaches::ajouterCommentaire'  ); // (c_ControllerUtilisateur : traitement_connexion()  )
+$routes->match(['get', 'post'], '/detailtache/modifComm' , 'ControllerTaches::modifierCommentaire'  ); // (c_ControllerUtilisateur : traitement_connexion()  )

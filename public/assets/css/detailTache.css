@@ -1,7 +1,7 @@
 /*
 @author   : Alizéa Lebaron
 @since    : 26/11/2024
-@version  : 1.0.0 - 26/11/2024
+@version  : 1.0.1 - 26/11/2024
 */
 
 .infoTache
@@ -133,4 +133,22 @@ td
 input
 {
 	background-color: rgb(43, 43, 43);
+}
+
+form
+{
+	margin : 0 auto;
+	width: 80%;
+	display: flex;
+	justify-content: center;
+	padding: 2vh;
+}
+
+.boutonModif
+{
+	text-align: center;
+	padding: 5px;
+	background-color: rgb(174, 207, 188);
+	border: rgb(125, 156, 138) solid 1px;
+	border-radius: 5px;
 }

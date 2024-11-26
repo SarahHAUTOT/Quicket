@@ -34,4 +34,9 @@ class ControllerTaches extends BaseController
     {
         # TODO: Ajouter un commentaire
     }
+
+    public function modifierCommentaire()
+    {
+        # TODO: Ajouter un commentaire
+    }
 }

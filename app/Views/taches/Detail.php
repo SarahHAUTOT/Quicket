@@ -1,7 +1,7 @@
 <!--
 	@author   : Alizéa Lebaron
 	@since    : 26/11/2024
-	@version  : 1.0.0 - 26/11/2024
+	@version  : 1.0.1 - 26/11/2024
 -->
 
 <!--
@@ -90,7 +90,7 @@ $commentaires = listes des commentaires de cette tâche
 				<tbody>
 
 					<tr>
-						<td colspan=2 class="mt-5 p-0"><?php echo form_label('Entrez votre commentaire : ', 'comm'); ?></td>
+						<td colspan=2 class="mt-5 p-0"><?php echo form_label('Ajoutez votre commentaire : ', 'comm'); ?></td>
 					</tr>
 
 					<tr class="ajout">
@@ -119,10 +119,12 @@ $commentaires = listes des commentaires de cette tâche
 
 			</table>
 
-           
-
-
-
 	</div>
+
+	<?php echo form_open('/detailtache/modifComm'); ?>
+
+	<?php echo form_submit('submit', 'Modifier cette tâche',"class='boutonModif'"); ?>
+
+	<?php echo form_close(); ?>
 
 </div>
