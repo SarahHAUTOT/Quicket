@@ -15,16 +15,20 @@
 				<!-- Barre de recherche -->
 				<div class="col-md-6 col-lg-4">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="basic-addon2">
-						<label class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></label>
+						<input type="text" class="form-control" id="titre-recherche" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="titre-recherche">
+						<label class="input-group-text" id="titre-recherche">
+							<a href="#" id="lien-recherche" onclick="redirection_recherche()">
+								<i class="bi bi-search"></i>
+							</a>
+						</label>
 					</div>
 				</div>
 		
 				<!-- Select Trié par -->
 				<div class="col-md-3 col-lg-4">
 					<div class="input-group">
-						<label class="input-group-text" for="type">Trié par</label>
-						<select class="form-select" id="type">
+						<label class="input-group-text" for="trier-par">Trié par</label>
+						<select class="form-select" id="trier-par">
 							<option value="modiff_tache">Date de modification</option>
 							<option value="echeance"      >Echéance</option>
 							<option value="retard"        >Retard</option>
@@ -36,8 +40,8 @@
 				<!-- Select Ordre -->
 				<div class="col-md-3 col-lg-4">
 					<div class="input-group">
-						<label class="input-group-text" for="order">Ordre</label>
-						<select class="form-select" id="order">
+						<label class="input-group-text" for="ordre">Ordre</label>
+						<select class="form-select" id="ordre">
 							<option value="asc" >Croissant</option>
 							<option value="desc">Décroissant</option>
 						</select>
@@ -91,7 +95,6 @@
 
 
 			<div class="m-5">
-                <?= $pagerTache->links('default', 'pager_tache') ?>
 			</div>
 			
 
