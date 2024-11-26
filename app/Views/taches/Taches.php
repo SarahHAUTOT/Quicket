@@ -25,7 +25,7 @@
 					<div class="input-group">
 						<label class="input-group-text" for="type">Trié par</label>
 						<select class="form-select" id="type">
-							<option value="creation_tache">Date de modification</option>
+							<option value="modiff_tache">Date de modification</option>
 							<option value="echeance"      >Echéance</option>
 							<option value="retard"        >Retard</option>
 							<option value="priorite"      >Priorité</option>
@@ -59,7 +59,6 @@
 					<thead>
 						<tr>
 							<th scope="col">Titre</th>
-							<th scope="col">Date de création</th>
 							<th scope="col">Date de modification</th>
 							<th scope="col">Echéance</th>
 							<th scope="col">Actions</th>
@@ -71,13 +70,12 @@
 						<?php foreach ($taches as $tache) : ?>
 							<!-- TODO : Calculer retard et mettre la classe "table-danger" sur le tr si dépassé -->
 							<tr>
-								<td class="align-middle"><?= $tache['titre']; ?></td>
-								<td class="align-middle"><?= $tache['creation_tache']; ?></td>
-								<td class="align-middle"><?= $tache['modiff_tache']; ?></td>
-								<td class="align-middle"><?= $tache['echeance']; ?></td>
+								<td class="align-middle"><?= $tache->getTitre(); ?></td>
+								<td class="align-middle"><?= $tache->getModiffTache()->toDateString(); ?></td>
+								<td class="align-middle"><?= $tache->getEcheance()->toDateString(); ?></td>
 								<td class="align-middle"> 
-									<a href="<?php "/taches/supp/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-trash3"></i></a> 
-									<a href="<?php "/taches/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
+									<a href="<?php echo "/taches/supp/".$tache->getIdTache(); ?>" class="btn btn-primaire"><i class="bi bi-trash3"></i></a> 
+									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -93,17 +91,7 @@
 
 
 			<div class="m-5">
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						
-						<!-- TODO : Faire la vrai pagination -->
-						<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a></li>
-					</ul>
-				</nav>
+                <?= $pagerTache->links('default', 'pager_tache') ?>
 			</div>
 			
 

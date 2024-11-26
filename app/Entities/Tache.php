@@ -79,9 +79,8 @@ class Tache extends Entity
 
     public function getModiffTache(): ?Time
     {
-        return $this->attributes['modiff_tache'];
+        return new Time($this->attributes['modiff_tache']);
     }
-
     
     public function getTitre(): ?string
     {
@@ -95,7 +94,7 @@ class Tache extends Entity
 
     public function getEcheance(): ?Time
     {
-        return $this->attributes['echeance'];
+        return new Time($this->attributes['echeance']);
     }
 
     public function getIdUtilisateur(): int

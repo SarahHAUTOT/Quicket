@@ -23,7 +23,7 @@ class TacheModel extends Model
     protected $createdField = 'creation_tache';
     protected $updatedField = 'modiff_tache';
 
-	protected $useSoftDeletes = true;
+	protected $useSoftDeletes = false;
 	
 	// Règles de validation
 	protected $validationRules = [
@@ -54,4 +54,23 @@ class TacheModel extends Model
             'greater_than' => 'La priorité doit être supérieure à zéro.',
         ],
 	];
+
+    // Fonctions
+    public function getPagination(int $parPage)
+    {
+        $this->paginate($parPage);
+    }
+
+    public function getFiltre(?string $titreRech = null, string $attributOrdre  = null, string $ordre  = null): TacheModel
+    {
+        $tacheModele = $this->select();
+
+        if ($titreRech)
+            $tacheModele->like('titre', $titreRech);
+
+        if ($attributOrdre)
+            $tacheModele->orderBy($attributOrdre, $ordre);
+
+        return $tacheModele;
+    }
 }
