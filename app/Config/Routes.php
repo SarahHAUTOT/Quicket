@@ -32,3 +32,6 @@ $routes->match(['get', 'post'], '/connexion/activation/(:any)', 'ControllerUtili
 
 // Redirection vers la liste des taches
 $routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_ControllerTaches --> v_taches/Taches.php)
+
+// Redirection vers une tâche précise
+$routes->get('/Detailtache/(:num)', 'ControllerTaches::grosse_tache/$1');

@@ -1,4 +1,10 @@
-	<div style="min-height: 90vh;padding-top: 80px;">
+	<!--
+	@author   : Sarah Hautot, Alizéa Lebaron
+	@since    : 25/11/2024
+	@version  : 1.1.0 - 26/11/2024
+-->
+
+<div style="min-height: 90vh;padding-top: 80px;">
 
 
 
