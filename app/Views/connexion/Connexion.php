@@ -48,11 +48,11 @@
 
 				
 				<div class="d-flex justify-content-center align-items-center mt-4">
-					<a href="/inscription" class="btn btn-link"> Pas de compte ?Inscrivez vous !</a> 
+					<a href="/inscription" class="btn btn-link"> Pas de compte ? Inscrivez vous !</a> 
 				</div>
 
 				<div class="d-flex justify-content-center align-items-center">
-					<a href="/pwdChange" class="btn btn-link"> Mots de passe oublié ?</a>
+					<a href="/pwdChange" class="btn btn-link"> Mot de passe oublié ?</a>
 				</div>
 			</div>
 		</div>
