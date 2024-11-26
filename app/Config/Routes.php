@@ -34,4 +34,7 @@ $routes->match(['get', 'post'], '/connexion/activation/(:any)', 'ControllerUtili
 $routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_ControllerTaches --> v_taches/Taches.php)
 
 // Redirection vers une tâche précise
-$routes->get('/Detailtache/(:num)', 'ControllerTaches::grosse_tache/$1');
+$routes->get('/detailtache/(:num)', 'ControllerTaches::grosse_tache/$1');
+
+//Ajouter un commentaire sur une tâche
+$routes->match(['get', 'post'], '/detailtache/ajoutComm' , 'ControllerTaches::ajouterCommentaire'  ); // (c_ControllerUtilisateur : traitement_connexion()  )

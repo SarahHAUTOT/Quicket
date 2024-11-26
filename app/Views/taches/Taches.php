@@ -44,7 +44,7 @@
 							<td class="align-middle"><?= $tache['echeance']; ?></td>
 							<td class="align-middle"> 
 								<a href="<?php "/taches/supp/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-trash3"></i></a> 
-								<a href="<?php "/Detailtache/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
+								<a href="<?php "/detailtache/".$tache['id_tache'] ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -74,7 +74,7 @@
 						<td class="align-middle">echeance</td>
 						<td class="align-middle"> 
 							<a href="/taches/supp/1" class="btn"><i class="bi bi-trash3"></i></a> 
-							<a href="/Detailtache/1" class="btn"><i class="bi bi-eye"></i></a> 
+							<a href="/detailtache/1" class="btn"><i class="bi bi-eye"></i></a> 
 						</td>
 					</tr>
                 </tbody>

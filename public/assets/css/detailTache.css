@@ -1,0 +1,136 @@
+/*
+@author   : Alizéa Lebaron
+@since    : 26/11/2024
+@version  : 1.0.0 - 26/11/2024
+*/
+
+.infoTache
+{
+	/* Fond */
+	background-color: aliceblue;
+	border: 1px gray solid;
+
+	/* Position de la boîte */
+	margin: 0 auto;
+	margin-top: 15vh;
+
+	/* Taille de la boîte */
+	width: 80%;
+
+	/* Intérieur */
+	padding: 2vh;
+}
+
+h2
+{
+	float: left;
+	width: 50%;
+}
+.temps
+{
+	float: right;
+	width: 50%;
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.annotation
+{
+	margin: 0;
+}
+
+.temps img, .temps p 
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+hr
+{
+	clear: both;
+}
+
+.small-image
+{
+	height: 25px;
+	width: 25px;
+	margin: 0px 5px 0px 40px; /* Espacement entre les éléments */
+}
+
+.desc
+{
+	width: 100%;
+	height: 20vh;
+	margin: 0 auto;
+	background-color: rgb(150, 180, 169);
+	color: black;
+	border-radius: 5px;
+}
+
+.tabComm
+{
+	width: 100%;
+	margin-top: 2vh;
+}
+
+.infoTache img, .infoTache p 
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+td
+{
+	padding: 5px;
+}
+
+.user
+{
+	font-weight: 500;
+}
+
+.date
+{
+	float: right; 
+}
+
+.commentaire
+{
+	background-color: rgb(180, 204, 195);
+	color: rgb(0, 0, 0);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.ajout
+{
+	padding: 0px;
+	width: 100%;
+}
+
+.ajoutComm
+{
+	padding: 0px;
+	width: 95%;
+}
+
+.valid
+{
+	width: 5%;
+}
+
+.bouton
+{
+	padding: 5px;
+	background-color: rgb(174, 207, 188);
+	border: rgb(125, 156, 138) solid 1px;
+	border-radius: 5px;
+
+	float: right;
+}
+
+input
+{
+	background-color: rgb(43, 43, 43);
+}

@@ -10,6 +10,12 @@ use App\Models\User;
 
 class ControllerTaches extends BaseController
 {
+    public function __construct()
+	{
+		//Chargement du helper Form
+		helper(['form']);
+	}
+
     public function redirection_taches()
     {
         echo view('commun/Navbar'); 
@@ -20,7 +26,12 @@ class ControllerTaches extends BaseController
     public function grosse_tache($idTache)
     {
         echo view('commun/Navbar'); 
-        echo view('taches/Taches'); 
+        echo view('taches/Detail'); 
         echo view('commun/Footer');
+    }
+
+    public function ajouterCommentaire()
+    {
+        # TODO: Ajouter un commentaire
     }
 }

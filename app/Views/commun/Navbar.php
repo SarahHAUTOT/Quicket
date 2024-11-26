@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,8 @@
 
     <link rel="stylesheet" href="<?=base_url()."assets/css/commun.css";?>">
     <link rel="stylesheet" href="<?=base_url()."assets/css/navbar.css";?>">
+
+	<link rel="shortcut icon" type="image/png" href="<?=base_url()."assets/img/Logoicone.png";?>">
 </head>
 <body>
 	  
