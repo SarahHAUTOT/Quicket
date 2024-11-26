@@ -18,7 +18,7 @@
 
 <!-- NAVBAR -->
 	<div class="text-display sticky-top">
-		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
+		<nav class="navbar navbar-expand-lg navbar-light fixed-top">
 			<div class="container-fluid">
 
 				<!-- Icône et nom à gauche -->
