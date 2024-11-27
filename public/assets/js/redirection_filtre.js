@@ -3,7 +3,7 @@ titreInput.addEventListener('keyup',
     (event) =>
     {
         if (event.key === 'Enter')
-            redirection_recherche()   
+            redirection_recherche()
     }
 );
 

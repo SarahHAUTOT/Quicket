@@ -25,16 +25,15 @@ class ControllerTaches extends BaseController
 		$tacheModele = new TacheModel();
 
         $titreRech = $this->request->getGet('titre') ?? null;
-        $attribut  = $this->request->getGet('attribut') ?? null;
-        $ordre     = $this->request->getGet('ordre') ?? null;
+        $trierPar  = $this->request->getGet('trierPar') ?? 'modiff_tache';
+        $ordre     = $this->request->getGet('ordre') ?? 'ASC';
 
-		$taches = $tacheModele->getFiltre($titreRech, $attribut, $ordre)->paginate(5);
+		$taches = $tacheModele->getFiltre($titreRech, $trierPar, $ordre)->paginate(5);
 		
 		$data = [
 			'taches' => $taches,
 			'pagerTache' => $tacheModele->pager
 		];
-		
 		echo view('commun/Navbar'); 
 		echo view('taches/Taches', $data); 
 		echo view('commun/Footer');

@@ -99,7 +99,10 @@
 			</button>
 
 
+
+	
 			<div class="m-5">
+				<?= $pagerTache->links('default', 'pager_tache') ?>
 			</div>
 			
 

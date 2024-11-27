@@ -60,17 +60,24 @@ class TacheModel extends Model
     {
         $this->paginate($parPage);
     }
-
-    public function getFiltre(?string $titreRech = null, string $attributOrdre  = null, string $ordre  = null): TacheModel
+    
+    public function getFiltre(?string $titreRech = null, string $attributOrdre, string $ordre): TacheModel
     {
         $tacheModele = $this->select();
 
         if ($titreRech)
             $tacheModele->like('titre', $titreRech);
 
-        if ($attributOrdre)
+        if (strcmp($attributOrdre, 'retard') == 0)
+        {
+            $tacheModele->where('echeance <', date('Y-m-d H:i:s'));
+            $tacheModele->orderBy('echeance', $ordre);
+        }
+        else
+        {
             $tacheModele->orderBy($attributOrdre, $ordre);
-
+        }
+        
         return $tacheModele;
     }
 }
