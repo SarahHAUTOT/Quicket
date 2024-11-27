@@ -42,3 +42,4 @@ $routes->get('/taches/(:num)', 'ControllerTaches::grosse_tache/$1'); // (c_Contr
 
 $routes->get('/taches/supp/(:num)', 'ControllerTaches::traitement_suppression_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
 $routes->match(['get', 'post'], '/taches/create'     , 'ControllerTaches::traitement_creation_tache'      ); // (c_ControllerTaches  --> v_taches/Taches.php)
+

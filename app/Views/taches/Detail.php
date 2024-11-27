@@ -1,18 +1,17 @@
 <!--
 	@author   : Alizéa Lebaron
 	@since    : 26/11/2024
-	@version  : 2.0.1 - 27/11/2024
+	@version  : 2.1.0 - 27/11/2024
 -->
 
 <link rel="stylesheet" href="<?=base_url()."assets/css/detailTache.css";?>">
 
 <div class="bg2">
 
-	<?php echo form_open('/detailtache/modifComm'); ?>
-
-	<?php echo form_submit('submit', 'Modifier cette tâche',"class='boutonModif'"); ?>
-
-	<?php echo form_close(); ?>
+	<div class="boutonOption">
+		<a href="<?php echo "/taches/modif/".$tache->getIdTache() ?>" class="boutonModif">Modifier cette tâche</a>
+		<a href="<?php echo "/taches/supp/".$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
+	</div>
 
 	<div class="infoTache">
 		<h2><?= $tache->getTitre() ?></h2>

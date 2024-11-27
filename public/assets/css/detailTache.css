@@ -158,12 +158,47 @@ form
 	padding: 2vh;
 }
 
-.boutonModif
+.boutonOption
+{
+	margin: 0 auto;
+	margin-top: 10vh;
+	margin-bottom: 3vh;
+	display: flex;
+	justify-content: center; /* Centre horizontalement */
+	gap: 50vh;
+}
+
+.boutonModif, .boutonSupp
 {
 	text-align: center;
-	padding: 5px;
-	background-color: rgb(174, 207, 188);
-	border: rgb(125, 156, 138) solid 1px;
+	padding: 10px;
 	border-radius: 5px;
-	margin-top: 10vh;
+	text-decoration: none;
+	color: black;
+	letter-spacing: 1px;
+	transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.boutonModif
+{
+	background-color: rgb(174, 207, 188);	
+	border: rgb(125, 156, 138) solid 1px;
+}
+
+.boutonSupp
+{
+	background-color: rgb(230, 134, 131);
+	border: rgb(209, 92, 88) solid 1px;
+}
+
+.boutonModif:hover
+{
+	background-color: rgb(125, 156, 138); /* Plus foncé */
+    border-color: rgb(95, 125, 110);
+}
+
+.boutonSupp:hover
+{
+	background-color: rgb(182, 67, 63); /* Plus foncé */
+    border-color: rgb(150, 40, 40);
 }
