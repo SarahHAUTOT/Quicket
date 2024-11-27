@@ -24,7 +24,9 @@ class Utilisateur extends Entity
 
     protected $dates = ['creation_token_mdp', 'creation_token_inscription'];
 
-    // Setteurs
+    /* ---------------------------------------- */
+	/* ---------------- Setter ---------------- */
+	/* ---------------------------------------- */
     
     public function setRole(string $role): Utilisateur
     {
@@ -43,7 +45,7 @@ class Utilisateur extends Entity
     public function setTokenMdp(string $token): Utilisateur
     {
         $this->attributes['token_mdp'] = $token;
-        $this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
+        // $this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
 
         return $this;
     }
@@ -51,11 +53,13 @@ class Utilisateur extends Entity
     public function setTokenInscription(string $token): Utilisateur
     {
         $this->attributes['token_inscription'] = $token;
-        $this->attributes['creation_token_inscription'] = Time::now('Europe/Paris', 'fr_FR');
+        // $this->attributes['creation_token_inscription'] = Time::now('Europe/Paris', 'fr_FR');
         return $this;
     }
 
-    // Getteurs
+    /* ---------------------------------------- */
+	/* ---------------- Getter ---------------- */
+	/* ---------------------------------------- */
 
     public function getIdUtilisateur(): int
     {
