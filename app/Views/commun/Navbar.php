@@ -29,8 +29,6 @@
 				</a>
 			
 				<!-- Liens à droite avec redirection -->
-				<!-- TODO : AFFICHER LA PARTIE EN COMMENTAIRE SI CONNECTER SINON AFFICHER LE TRUC LAISSER -->
-				 
     			<?php if (session()->get('isLoggedIn')): ?>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
