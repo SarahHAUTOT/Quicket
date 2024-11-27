@@ -96,13 +96,16 @@ class ControllerTaches extends BaseController
 
 	public function grosse_tache($idTache)
 	{
-        $commentaireModel = new CommentaireModel();
         $tacheModel = new TacheModel();
+        $commentaireModel = new CommentaireModel();
+        $commentaires = $commentaireModel->getCommentaireTache($idTache);
+
 		echo view('commun/Navbar'); 
         echo view('taches/Detail', 
         [
             'tache' => $tacheModel->getTacheById($idTache),
-            'commentaires' => $commentaireModel->getCommentaireTache($idTache),
+            'commentaires' => $commentaires,
+            'pagerCommentaire' => $commentaireModel->pager
         ]);
 		
 		echo view('commun/Footer');

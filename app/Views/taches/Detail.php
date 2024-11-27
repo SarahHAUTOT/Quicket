@@ -71,6 +71,9 @@
 				 <p>Aucun commentaire pour le moment !</p>
 		
 		<?php endif; ?>
+			<div class="m-2">
+				<?= $pagerCommentaire->links('default', 'pager_tache') ?>
+			</div>
 
 
 			<?php echo form_open('/detailtache/ajoutComm'); ?>
