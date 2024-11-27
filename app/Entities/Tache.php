@@ -101,4 +101,9 @@ class Tache extends Entity
     {
         return intval($this->attributes['id_utilisateur']);
     }
+
+    public function getTacheById(int $idTache): ?Tache
+    {
+        return $this->find($idTache); // Récupère la tâche en fonction de l'ID
+    }
 }

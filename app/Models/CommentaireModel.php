@@ -8,12 +8,12 @@ class CommentaireModel extends Model
 	protected $table      = 'commentaire';
 	protected $autoIncrement = true;
 	protected $primaryKey = 'id_commentaire';
-	protected $returnType = 'App\Entities\commentaire';
+	protected $returnType = 'App\Entities\Commentaire';
 	protected $allowedFields = ['texte_commentaire', 'creation_tache', 'id_utilisateur', 'id_tache' ];
 	
 	protected $useTimestamps = false;
 	protected $createdField = 'creation_commentaire';
-	protected $useSoftDeletes = true;
+	protected $useSoftDeletes = false;
 	
 	// Règles de validation
 	protected $validationRules = [
@@ -27,4 +27,16 @@ class CommentaireModel extends Model
 			'max_length'  => 'Votre commentaire dépasse les de 250 caractères.',
 		],
 	];
+
+	/**
+	 * Retourne tous les commentaires liés à une tâche donnée.
+	 *
+	 * @param int $idTache L'ID de la tâche pour laquelle récupérer les commentaires.
+	 * @return array|null Une liste d'entités `Commentaire` ou `null` si aucun commentaire trouvé.
+	 */
+	public function getCommentaireTache(int $idTache): ?array
+	{
+		return $this->where('id_tache', $idTache)
+					->findAll(); // Récupère tous les enregistrements correspondants
+	}
 }

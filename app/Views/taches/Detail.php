@@ -16,8 +16,14 @@ $commentaires = listes des commentaires de cette tâche
 
 <div class="bg">
 
+	<?php echo form_open('/detailtache/modifComm'); ?>
+
+	<?php echo form_submit('submit', 'Modifier cette tâche',"class='boutonModif'"); ?>
+
+	<?php echo form_close(); ?>
+
 	<div class="infoTache">
-		<h2>${Tache.Titre}</h2>
+		<h2><?= $tache->getTitre() ?></h2>
 
 		<div class="temps">
 			<img src="<?=base_url()."assets/img/horloge.png";?>" alt="Horloge" class="small-image">
@@ -26,35 +32,39 @@ $commentaires = listes des commentaires de cette tâche
 
 		<div class="temps">
 			<img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image">
-			<p class="annotation">${date} à ${heure}</p>
+			<p class="annotation"><?= $tache->getModiffTache()->format('Y-m-d'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></p>
 
 			<img src="<?=base_url()."assets/img/modif.png";?>" alt="Horloge" class="small-image">
-			<p class="annotation">${date} à ${heure}</p>
+			<p class="annotation"><?= $tache->getModiffTache()->format('Y-m-d'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?> </p>
 		</div>
 		
 		<hr>
 
-		<textarea class="desc" name="desc" disabled>${Tache.Description}</textarea>
+		<textarea class="desc" name="desc" disabled><?= $tache->getDescription() ?></textarea>
 
 		<h3 class="mt-4">Commentaire</h3>
 
 		<?php if (!empty($commentaires)) : ?>
-            <table class="table">
+            <table class="tabComm">
                 <tbody>
                     <!-- Génération des lignes selon les données  -->
 					<?php foreach ($commentaires as $commentaire) : ?>
 						<!-- TODO : Calculer retard et mettre la classe "table-danger" sur le tr si dépassé -->
 						<tr class="infoComm">
-							<td class="user">${Nom.Utilisateur}/td>
-							<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation">${date.comm}</p></td>
+							<td class="user"><?= $commentaire->getIdUtilisateur() ?></td>
+							<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation"><?= $commentaire->getCreationCommentaire()->format('Y-m-d'); ?> à <?= $commentaire->getCreationCommentaire()->format('H:i'); ?></p></td>
 						</tr>
 
 						<tr>
-							<td class="commentaire" colspan="2">${commentaire}</td>
+							<td class="commentaire" colspan="2"><?= $commentaire->getTexteCommentaire() ?></td>
 						</tr>
+
 					<?php endforeach; ?>
                 </tbody>
             </table>
+			
+					
+
         <?php else : ?>
 
 			<!-- A supprimer plus tard et décommenter l'autre ligne dessous -->
@@ -78,11 +88,13 @@ $commentaires = listes des commentaires de cette tâche
 						<td class="commentaire" colspan="2">Les ornithorynque sont des mammifères ☝️🤓</td>
 					</tr>
 
+
 				</tbody>
 			</table>
 				 <!-- <p>Aucun commentaire pour le moment !</p>     -->
 		
 			<?php endif; ?>
+
 
 			<?php echo form_open('/detailtache/ajoutComm'); ?>
 
@@ -121,10 +133,6 @@ $commentaires = listes des commentaires de cette tâche
 
 	</div>
 
-	<?php echo form_open('/detailtache/modifComm'); ?>
-
-	<?php echo form_submit('submit', 'Modifier cette tâche',"class='boutonModif'"); ?>
-
-	<?php echo form_close(); ?>
+	
 
 </div>

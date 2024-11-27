@@ -12,7 +12,7 @@
 
 	/* Position de la boîte */
 	margin: 0 auto;
-	margin-top: 15vh;
+	margin-top: 1vh;
 
 	/* Taille de la boîte */
 	width: 80%;
@@ -92,7 +92,7 @@ td
 
 .date
 {
-	float: right; 
+	float: right;
 }
 
 .commentaire
@@ -151,4 +151,5 @@ form
 	background-color: rgb(174, 207, 188);
 	border: rgb(125, 156, 138) solid 1px;
 	border-radius: 5px;
+	margin-top: 10vh;
 }
