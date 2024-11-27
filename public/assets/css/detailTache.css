@@ -40,25 +40,26 @@ h2
 	float: left;
 	width: 50%;
 }
-.temps
+
+.head
 {
-	float: right;
-	width: 50%;
-	text-align: right;
-	margin-bottom: 10px;
+	width: 100%;
 }
 
 .annotation
 {
+	text-align: right;
+}
+
+.left
+{
+	width: 82%;
+}
+
+p
+{
 	margin: 0;
 }
-
-.temps img, .temps p 
-{
-    display: inline-block;
-    vertical-align: middle;
-}
-
 
 hr
 {
@@ -69,7 +70,6 @@ hr
 {
 	height: 25px;
 	width: 25px;
-	margin: 0px 5px 0px 40px; /* Espacement entre les éléments */
 }
 
 .desc
@@ -158,12 +158,85 @@ form
 	padding: 2vh;
 }
 
-.boutonModif
+.prio
+{
+	font-size: large;
+}
+
+.boutonOption
+{
+	margin: 0 auto;
+	margin-top: 10vh;
+	margin-bottom: 3vh;
+	display: flex;
+	justify-content: center; /* Centre horizontalement */
+	gap: 10%;
+}
+
+.boutonEnre
+{
+	display: flex;
+	justify-content: center; /* Centre horizontalement */
+	margin-top: 3vh;
+	margin-bottom: 3vh;
+}
+
+.dateComm
+{
+	margin-right: 10px;
+}
+
+.boutonModif, .boutonModif2, .boutonSupp, .boutonInfo
 {
 	text-align: center;
-	padding: 5px;
-	background-color: rgb(174, 207, 188);
-	border: rgb(125, 156, 138) solid 1px;
+	padding: 10px;
 	border-radius: 5px;
-	margin-top: 10vh;
+	text-decoration: none;
+	color: black;
+	letter-spacing: 1px;
+	transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.boutonModif2
+{
+	background-color: rgb(174, 207, 188);	
+	border: rgb(125, 156, 138) solid 1px;
+	margin-top: 1vh;
+	text-align: center;
+}
+
+.boutonModif
+{
+	background-color: rgb(174, 207, 188);	
+	border: rgb(125, 156, 138) solid 1px;
+}
+
+.boutonSupp
+{
+	background-color: rgb(230, 134, 131);
+	border: rgb(209, 92, 88) solid 1px;
+}
+
+.boutonModif:hover, .boutonModif2:hover
+{
+	background-color: rgb(125, 156, 138); /* Plus foncé */
+    border-color: rgb(95, 125, 110);
+}
+
+.boutonSupp:hover
+{
+	background-color: rgb(182, 67, 63); /* Plus foncé */
+    border-color: rgb(150, 40, 40);
+}
+
+.boutonInfo
+{
+	background-color: rgb(177, 204, 207);
+	border: rgb(126, 162, 167) solid 1px;
+}
+
+.boutonInfo:hover
+{
+	background-color: rgb(137, 176, 180);
+	border: rgb(92, 126, 131) solid 1px;
 }

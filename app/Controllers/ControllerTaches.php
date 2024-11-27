@@ -65,6 +65,16 @@ class ControllerTaches extends BaseController
 	public function traitement_suppression_tache(int $idTache)
 	{
 		$tacheModele = new TacheModel();
+		$commentaireModele = new CommentaireModel();
+		$tache = $tacheModele->getTacheById($idTache);
+		$commentaires = $tacheModele->getCommentaires($tache);
+
+		
+		foreach ($commentaires as $commentaire)
+		{
+			$commentaireModele->delete($commentaire->getIdCommentaire());
+		}
+
 		$tacheModele->delete($idTache);
 
         $page    = (int) ($this->request->getGet('page') ?? 1);
@@ -112,4 +122,20 @@ class ControllerTaches extends BaseController
 		
 		echo view('commun/Footer');
 	}
+
+	// C'est pour  la view qui modifie les tâches mais j'aime beaucoup l'humour
+	// Pitié ne supprimez pas ça
+	public function pis_tache($idTache)
+	{
+		$commentaireModel = new CommentaireModel();
+        $tacheModel = new TacheModel();
+		echo view('commun/Navbar'); 
+        echo view('taches/Modif', 
+        [
+            'tache' => $tacheModel->getTacheById($idTache),
+        ]);
+		
+		echo view('commun/Footer');
+	}
 }
+

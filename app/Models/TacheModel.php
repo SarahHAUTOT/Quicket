@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Entities\Tache;
 
 class TacheModel extends Model
 {
@@ -29,7 +30,7 @@ class TacheModel extends Model
 	protected $validationRules = [
 		'titre'       => 'required|max_length[50]|min_length[5]',
 		'description' => 'required|max_length[255]',
-		'priorite'    => 'required|greater_than[0]|in_list[1,2,3]',
+		'priorite'    => 'required|greater_than[0]|in_list[1,2,3,4]',
 		'echeance'    => 'required',
 	];
 
@@ -81,8 +82,14 @@ class TacheModel extends Model
         return $tacheModele;
     }
 
-    public function getTacheById(int $idTache): ?\App\Entities\Tache
+    public function getTacheById(int $idTache): Tache
     {
         return $this->find($idTache); // Utilisation de la méthode native find()
+    }
+
+    public function getCommentaires(Tache $tache): array
+    {
+        $commentaireModele = new CommentaireModel();
+        return $commentaireModele->where('id_tache', $tache->getIdTache())->get()->getResult('App\Entities\Commentaire');
     }
 }
