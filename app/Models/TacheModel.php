@@ -62,7 +62,7 @@ class TacheModel extends Model
         $this->paginate($parPage);
     }
     
-    public function getFiltre(?string $titreRech = null, string $attributOrdre, string $ordre): TacheModel
+    public function getFiltre(string $attributOrdre, string $ordre, ?string $titreRech = null): TacheModel
     {
         $tacheModele = $this->select();
 

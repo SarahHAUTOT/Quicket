@@ -1,2 +1,21 @@
-/app/Controllers/Email.php
-/app/Config/Routes.php
+# Cache de l'éditeur et fichiers temporaires
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+*.sql
+*.sqlite
+
+# Ignorer les dossiers writable au projet
+writable/*
+!writable/index.html
+!writable/.htaccess
+
+# Ignorer les dossiers de logs et de cache
+writable/logs/*
+writable/cache/*
+
+# Autres
+writable/uploads/*
+!writable/uploads/index.html
