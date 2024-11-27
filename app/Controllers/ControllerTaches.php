@@ -98,11 +98,14 @@ class ControllerTaches extends BaseController
 	{
         $commentaireModel = new CommentaireModel();
         $tacheModel = new TacheModel();
+        $commentaires = $commentaireModel->getCommentaireTache($idTache);
+
 		echo view('commun/Navbar'); 
         echo view('taches/Detail', 
         [
             'tache' => $tacheModel->getTacheById($idTache),
             'commentaires' => $commentaireModel->getCommentaireTache($idTache),
+            'pagerCommentaire' => $commentaireModel->pager
         ]);
 		
 		echo view('commun/Footer');
