@@ -80,4 +80,9 @@ class TacheModel extends Model
         
         return $tacheModele;
     }
+
+    public function getTacheById(int $idTache): ?\App\Entities\Tache
+    {
+        return $this->find($idTache); // Utilisation de la méthode native find()
+    }
 }

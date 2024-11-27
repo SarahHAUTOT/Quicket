@@ -1,88 +1,77 @@
 <!--
 	@author   : Alizéa Lebaron
 	@since    : 26/11/2024
-	@version  : 1.0.1 - 26/11/2024
--->
-
-<!--
-A LIRE POUR SE CONNECTER A LA BDD : 
-
-${nom} = A remplacé par le bon lien
-$commentaires = listes des commentaires de cette tâche
-
+	@version  : 2.0.0 - 27/11/2024
 -->
 
 <link rel="stylesheet" href="<?=base_url()."assets/css/detailTache.css";?>">
 
-<div class="bg">
+<div class="bg2">
+
+	<?php echo form_open('/detailtache/modifComm'); ?>
+
+	<?php echo form_submit('submit', 'Modifier cette tâche',"class='boutonModif'"); ?>
+
+	<?php echo form_close(); ?>
 
 	<div class="infoTache">
-		<h2>${Tache.Titre}</h2>
+		<h2><?= $tache->getTitre() ?></h2>
 
 		<div class="temps">
 			<img src="<?=base_url()."assets/img/horloge.png";?>" alt="Horloge" class="small-image">
-			<p class="annotation">${TempsRestant} jour(s)</p>
+			<p class="annotation">
+				<?php if ($tache->getTempsRestant()->getDays() > 0) : ?>
+					<?= $tache->getTempsRestant()->getDays(); ?> jour(s) 
+					<?= $tache->getTempsRestant()->getHours() - $tache->getTempsRestant()->getDays() *24; ?> minute(s)
+				<?php else : ?>
+					retard de 
+					<?= abs($tache->getTempsRestant()->getDays()); ?> jour(s) 
+					<?= abs($tache->getTempsRestant()->getHours()) - abs($tache->getTempsRestant()->getDays() *24); ?> minute(s)
+				<?php endif ?>
+			</p>
 		</div>
 
 		<div class="temps">
 			<img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image">
-			<p class="annotation">${date} à ${heure}</p>
+			<p class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></p>
 
 			<img src="<?=base_url()."assets/img/modif.png";?>" alt="Horloge" class="small-image">
-			<p class="annotation">${date} à ${heure}</p>
+			<p class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?> </p>
 		</div>
 		
 		<hr>
 
-		<textarea class="desc" name="desc" disabled>${Tache.Description}</textarea>
+		<textarea class="desc" name="desc" disabled><?= $tache->getDescription() ?></textarea>
 
 		<h3 class="mt-4">Commentaire</h3>
 
 		<?php if (!empty($commentaires)) : ?>
-            <table class="table">
+            <table class="tabComm">
                 <tbody>
                     <!-- Génération des lignes selon les données  -->
 					<?php foreach ($commentaires as $commentaire) : ?>
 						<!-- TODO : Calculer retard et mettre la classe "table-danger" sur le tr si dépassé -->
 						<tr class="infoComm">
-							<td class="user">${Nom.Utilisateur}/td>
-							<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation">${date.comm}</p></td>
+							<td class="user"><?= $commentaire->getIdUtilisateur() ?></td>
+							<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation"><?= $commentaire->getCreationCommentaire()->format('d/m/Y'); ?> à <?= $commentaire->getCreationCommentaire()->format('H:i'); ?></p></td>
 						</tr>
 
 						<tr>
-							<td class="commentaire" colspan="2">${commentaire}</td>
+							<td class="commentaire" colspan="2"><?= $commentaire->getTexteCommentaire() ?></td>
 						</tr>
+
 					<?php endforeach; ?>
                 </tbody>
             </table>
+			
+					
+
         <?php else : ?>
 
-			<!-- A supprimer plus tard et décommenter l'autre ligne dessous -->
-			<table class="tabComm">
-				<tbody>
-					<tr class="infoComm">
-						<td class="user">User_253694</td>
-						<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation">26/11/2024 18:55</p></td>
-					</tr>
-
-					<tr>
-						<td class="commentaire" colspan="2">Lorem Ipsum Dolores Sit Ames</td>
-					</tr>
-
-					<tr class="infoComm">
-						<td class="user">User_253694</td>
-						<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation">28/11/2024 13:45</p></td>
-					</tr>
-
-					<tr>
-						<td class="commentaire" colspan="2">Les ornithorynque sont des mammifères ☝️🤓</td>
-					</tr>
-
-				</tbody>
-			</table>
-				 <!-- <p>Aucun commentaire pour le moment !</p>     -->
+				 <p>Aucun commentaire pour le moment !</p>
 		
-			<?php endif; ?>
+		<?php endif; ?>
+
 
 			<?php echo form_open('/detailtache/ajoutComm'); ?>
 
@@ -121,10 +110,6 @@ $commentaires = listes des commentaires de cette tâche
 
 	</div>
 
-	<?php echo form_open('/detailtache/modifComm'); ?>
-
-	<?php echo form_submit('submit', 'Modifier cette tâche',"class='boutonModif'"); ?>
-
-	<?php echo form_close(); ?>
+	
 
 </div>

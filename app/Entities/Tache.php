@@ -3,6 +3,7 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\I18n\TimeDifference;
 
 class Tache extends Entity
 {
@@ -100,5 +101,11 @@ class Tache extends Entity
     public function getIdUtilisateur(): int
     {
         return intval($this->attributes['id_utilisateur']);
+    }
+
+    public function getTempsRestant(): TimeDifference
+    {
+        $time = $this->getEcheance();
+        return $time->difference(Time::now('Europe/Paris', 'fr_FR'));
     }
 }

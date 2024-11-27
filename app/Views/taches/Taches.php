@@ -1,7 +1,7 @@
 	<!--
 	@author   : Sarah Hautot, Alizéa Lebaron
 	@since    : 25/11/2024
-	@version  : 1.1.0 - 26/11/2024
+	@version  : 1.1.1 - 26/11/2024
 -->
 
 <div style="min-height: 90vh;padding-top: 80px;">
@@ -76,8 +76,8 @@
 							<!-- TODO : Calculer retard et mettre la classe "table-danger" sur le tr si dépassé -->
 							<tr>
 								<td class="align-middle"><?= $tache->getTitre(); ?></td>
-								<td class="align-middle"><?= $tache->getModiffTache()->toDateString(); ?></td>
-								<td class="align-middle"><?= $tache->getEcheance()->toDateString(); ?></td>
+								<td class="align-middle"><?= $tache->getModiffTache()->format('d/m/Y'); ?></td>
+								<td class="align-middle"><?= $tache->getEcheance()->format('d/m/Y'); ?></td>
 								<td class="align-middle"> 
 									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme"><i class="bi bi-eye"></i></a> 
 									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire">
