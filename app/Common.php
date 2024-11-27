@@ -16,9 +16,7 @@
 
 use Config\Services;
 
-define("__EMAIL0", Services::email());
-
-__EMAIL0->setFrom('quicket.noreply@gmail.com', 'Quicket');
+const __EMAIL0 = 'email';
 
 function envoyer_mail(string $mail, string $sujet, string $corps, string $titre, string $lien_btn, string $sous_titre =
 ""):
