@@ -78,7 +78,7 @@ class Autoload extends AutoloadConfig
      * @var list<string>
      */
     public $files = [
-        APPPATH . "/Mail.php",
+		APPPATH . "/Mail.php",
     ];
 
     /**
