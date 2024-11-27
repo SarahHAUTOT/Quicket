@@ -14,7 +14,7 @@ $commentaires = listes des commentaires de cette tâche
 
 <link rel="stylesheet" href="<?=base_url()."assets/css/detailTache.css";?>">
 
-<div class="bg">
+<div class="bg2">
 
 	<?php echo form_open('/detailtache/modifComm'); ?>
 

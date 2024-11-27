@@ -85,6 +85,7 @@ class ControllerTaches extends BaseController
             'tache' => $tacheModel->getTacheById($idTache),
             'commentaires' => $commentaireModel->getCommentaireTache($idTache),
         ]);
+		
 		echo view('commun/Footer');
 	}
 }
