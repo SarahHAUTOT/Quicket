@@ -23,6 +23,8 @@ class ControllerTaches extends BaseController
 
 	public function redirection_taches()
 	{
+		$session = session();
+		$idUtilisateur = $session->get('id_utilisateur');
 		helper('cookie');
 
 
@@ -43,7 +45,7 @@ class ControllerTaches extends BaseController
 		// Recherches des données (filtre + pagination)
 		$tacheModele = new TacheModel();
 
-		$taches = $tacheModele->getFiltre($titreRech, $trierPar, $ordre)->paginate(5);
+		$taches = $tacheModele->getFiltre($trierPar, $ordre, $titreRech)->where('id_utilisateur', $idUtilisateur)->paginate(5);
 		
 		$data = [
 			'taches'     => $taches,

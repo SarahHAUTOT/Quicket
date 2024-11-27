@@ -9,6 +9,11 @@
 
 				<?php echo form_open('/connexion/connect'); ?>
 
+					<?php if (session()->has('error')) : ?>
+						<p class="text-danger">
+							<?= session('error') ?>
+						</p>
+					<?php endif; ?>
 
 					<div class="form-group mb-2">
 						<?php echo form_label('Email', 'email'); ?>
@@ -35,9 +40,8 @@
 							'value'       => set_value('mdp'),
 							'required'
 						]); ?>
-
-						<?= validation_show_error('mdp') ?>
 					</div>
+
 					
 					<br>
 					<div class="d-flex justify-content-center align-items-center">

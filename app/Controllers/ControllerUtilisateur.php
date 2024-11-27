@@ -1,5 +1,6 @@
 <?php
 namespace App\Controllers;
+use App\Entities\Utilisateur;
 use CodeIgniter\Controller;
 use App\Models\User;
 
@@ -62,48 +63,77 @@ class ControllerUtilisateur extends BaseController
 	 */
 	public function traitement_connexion()
 	{
-		// TODO : Traitement de connexion
 		$session = session();
 		$utilisateurModel = new UtilisateurModel();
 
+
 		// Récupérer les données du formulaire
 		$email = $this->request->getVar('email');
-		$mdp = $this->request->getVar('mdp');
+		$mdp   = $this->request->getVar('mdp');
+
+
+
 
 		// Rechercher l'utilisateur par email
 		$utilisateur = $utilisateurModel->where('email', $email)->first();
 
 		// Vérifier si un utilisateur a été trouvé
 		if ($utilisateur) {
-			// Comparer le mot de passe
-			if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
-				// Créer les données de session
-				$session->set([
-					'id_utilisateur' => $utilisateur->getIdUtilisateur(),  // Utiliser la méthode getIdUtilisateur()
-					'email' => $utilisateur->getEmail(),  // Utiliser la méthode getEmail()
-					'pseudo' => $utilisateur->getPseudo(),  // Utiliser la méthode getPseudo()
-					'role' => $utilisateur->getRole(),  // Utiliser la méthode getRole()
-					'isLoggedIn' => true
-				]);
 
-				// Rediriger vers la page d'accueil
-				return redirect()->to('/taches'); 
+			// Si le ccompte est inactif
+			if ($utilisateur->getRole() != Utilisateur::$ROLE_INACTIF) {
+
+
+				// Comparer le mot de passe
+				// if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
+				if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
+
+
+					// Créer les données de session
+					$session->set([
+						'id_utilisateur' => $utilisateur->getIdUtilisateur(),  // Utiliser la méthode getIdUtilisateur()
+						'email'          => $utilisateur->getEmail(),          // Utiliser la méthode getEmail()
+						'pseudo'         => $utilisateur->getPseudo(),         // Utiliser la méthode getPseudo()
+						'role'           => $utilisateur->getRole(),           // Utiliser la méthode getRole()
+						'isLoggedIn'     => true
+					]);
+
+
+					// Rediriger vers la page d'accueil
+					return redirect()->to('/taches'); 
+
+
+				} else {
+
+					// Mot de passe incorrect
+					return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
+				}
 			} else {
-				// Mot de passe incorrect
-				$session->setFlashdata('msg', 'Mot de passe incorrect.');
-				echo view('commun/Navbar'); 
-				echo view('connexion/Connexion'); 
-				echo view('commun/Footer'); 
+				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif.');
 			}
+
+
 		} else {
-			// Email non trouvé
-			$session->setFlashdata('msg', 'Email inexistant.');
-			echo view('commun/Navbar'); 
-			echo view('connexion/Connexion'); 
-			echo view('commun/Footer'); 
+			// Email non trouvéreturn redirect()->back()->withInput()->with('error', 'Email inutilisé');
+			return redirect()->back()->withInput()->with('error', 'Email inutilisé');
 		}
 	}
 
+
+
+
+
+
+
+	public function traitement_deconnexion()
+	{
+		session()->destroy();
+		return redirect()->to('/connexion');
+	}
+
+
+
+	
 	public function traitement_inscription()
 	{
 		$utilisateurModel = new UtilisateurModel();
