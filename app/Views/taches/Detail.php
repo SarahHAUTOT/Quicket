@@ -1,7 +1,7 @@
 <!--
 	@author   : Alizéa Lebaron
 	@since    : 26/11/2024
-	@version  : 2.0.0 - 27/11/2024
+	@version  : 2.0.1 - 27/11/2024
 -->
 
 <link rel="stylesheet" href="<?=base_url()."assets/css/detailTache.css";?>">
@@ -20,14 +20,20 @@
 		<div class="temps">
 			<img src="<?=base_url()."assets/img/horloge.png";?>" alt="Horloge" class="small-image">
 			<p class="annotation">
-				<?php if ($tache->getTempsRestant()->getDays() > 0) : ?>
-					<?= $tache->getTempsRestant()->getDays(); ?> jour(s) 
-					<?= $tache->getTempsRestant()->getHours() - $tache->getTempsRestant()->getDays() *24; ?> minute(s)
+			<?php 
+				$tempsRestant = $tache->getTempsRestant();
+				$joursRestants = $tempsRestant->getDays();
+				$heuresRestantes = $tempsRestant->getHours() % 24;
+
+				if ($joursRestants > 0) : ?>
+					Retard de 
+					<?= $joursRestants; ?> jour(s) 
+					<?= $heuresRestantes; ?> heure(s)
 				<?php else : ?>
-					retard de 
-					<?= abs($tache->getTempsRestant()->getDays()); ?> jour(s) 
-					<?= abs($tache->getTempsRestant()->getHours()) - abs($tache->getTempsRestant()->getDays() *24); ?> minute(s)
-				<?php endif ?>
+					Il reste
+					<?= abs($joursRestants); ?> jour(s) et 
+					<?= abs($heuresRestantes); ?> heure(s)
+				<?php endif; ?>
 			</p>
 		</div>
 
