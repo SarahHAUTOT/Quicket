@@ -16,8 +16,6 @@ $routes->get('/', 'ControllerHome::redirection_home');
 
 
 
-
-
 // Redirection vers les pages des formulaires
 $routes->get('/inscription'				, 'ControllerUtilisateur::redirection_inscription'			); // (c_ControllerUtilisateur --> v_connexion/Inscription.php)
 $routes->get('/connexion'				, 'ControllerUtilisateur::redirection_connexion'			); // (c_ControllerUtilisateur --> v_connexion/Connexion.php  )

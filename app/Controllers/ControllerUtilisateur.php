@@ -16,34 +16,34 @@ class ControllerUtilisateur extends BaseController
 
 	public function redirection_connexion()
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('connexion/Connexion'); 
-    	echo view('commun/Footer'); 
+		echo view('commun/Navbar'); 
+		echo view('connexion/Connexion'); 
+		echo view('commun/Footer'); 
 	}
 
 	public function redirection_inscription()
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('connexion/Inscription'); 
-    	echo view('commun/Footer'); 
+		echo view('commun/Navbar'); 
+		echo view('connexion/Inscription'); 
+		echo view('commun/Footer'); 
 	}
 
 	public function redirection_modificationMDP($tokenMdp)
 	{
 		// TODO : Afficher seulement si le token est bon
 
-    	echo view('commun/Navbar'); 
-    	echo view('connexion/ModifMDP'); 
-    	echo view('commun/Footer'); 
+		echo view('commun/Navbar'); 
+		echo view('connexion/ModifMDP'); 
+		echo view('commun/Footer'); 
 	}
 
 	public function mail_Modification()
 	{
 		// TODO : Envoie du mail de modification de mots de passe
 
-    	echo view('commun/Navbar'); 
-    	echo view('connexion/Modif'); 
-    	echo view('commun/Footer'); 
+		echo view('commun/Navbar'); 
+		echo view('connexion/Modif'); 
+		echo view('commun/Footer'); 
 	}
 
 	/**
@@ -52,22 +52,19 @@ class ControllerUtilisateur extends BaseController
 	 */
 	public function email_mdp()
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('connexion/EmailMDP'); 
-    	echo view('commun/Footer'); 
+		echo view('commun/Navbar'); 
+		echo view('connexion/EmailMDP'); 
+		echo view('commun/Footer'); 
 	}
 
 	/**
 	 * Vérifie la demande de connexion
-	 * @return void page d'acueil mais connecter
-	 * @return void page de connxion mais mdp incorect
-	 * @return void page de connexion mais email pas inscrit
 	 */
 	public function traitement_connexion()
 	{
-    	// TODO : Traitement de connexion
+		// TODO : Traitement de connexion
 		$session = session();
-		$utilisateurModel = new \App\Models\UtilisateurModel();
+		$utilisateurModel = new UtilisateurModel();
 
 		// Récupérer les données du formulaire
 		$email = $this->request->getVar('email');
@@ -90,9 +87,7 @@ class ControllerUtilisateur extends BaseController
 				]);
 
 				// Rediriger vers la page d'accueil
-				echo view('commun/Navbar'); 
-				echo view('Accueil'); //TODO changer la page
-				echo view('commun/Footer'); 
+				return redirect()->to('/taches'); 
 			} else {
 				// Mot de passe incorrect
 				$session->setFlashdata('msg', 'Mot de passe incorrect.');
@@ -109,14 +104,11 @@ class ControllerUtilisateur extends BaseController
 		}
 	}
 
-	
-	
 	public function traitement_inscription()
 	{
-		// TODO : Traitement de l'inscription
 		$utilisateurModel = new UtilisateurModel();
-        $regleValidation = $utilisateurModel->getValidationRules();
-        $regleValidation['mdpConf'] = 'required_with[mdp]|min_length[8]|max_length[255]|matches[mdp]';
+		$regleValidation = $utilisateurModel->getValidationRules();
+		$regleValidation['mdpConf'] = 'required_with[mdp]|min_length[8]|max_length[255]|matches[mdp]';
 
 		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
 		
@@ -125,13 +117,14 @@ class ControllerUtilisateur extends BaseController
 				'validation' => \Config\Services::validation()
 			]);
 		} else {
-            $data = $this->request->getPost();
-            $utilisateur = new \App\Entities\Utilisateur();
-            $utilisateur->fill($data);
-            $utilisateur->setRole(\App\Entities\Utilisateur::$ROLE_INACTIF);
-            $utilisateur->setTokenInscription('abcd');
-
-            $utilisateurModel->insert($utilisateur);
+			$data = $this->request->getPost();
+			$utilisateur = new \App\Entities\Utilisateur();
+			$utilisateur->fill($data);
+			$utilisateur->setRole(\App\Entities\Utilisateur::$ROLE_INACTIF);
+			$tokenInsc= bin2hex(random_bytes(16));
+			$utilisateur->setTokenInscription($tokenInsc);
+			// TODO appel fonction mail avec param et $utilisateur->getEmail() $tokenInsc
+			$utilisateurModel->insert($utilisateur);
 			echo view('commun/Navbar'); 
 			echo view('connexion/Connexion'); 
 			echo view('commun/Footer'); 
@@ -141,7 +134,38 @@ class ControllerUtilisateur extends BaseController
 
 	public function traitement_activation($tokenActivation)
 	{
-		// TODO : Afficher seulement si le token est bon
+	    $session = session();
+	    $utilisateurModel = new UtilisateurModel();
+
+	
+	    // Rechercher l'utilisateur avec ce token
+	    $utilisateur = $utilisateurModel->where('token_inscription', $tokenActivation)->first();
+	
+	    if ($utilisateur) {
+	        // Activer le compte (supprimer le token et mettre à jour le rôle si nécessaire)
+            $utilisateur->setRole(\App\Entities\Utilisateur::$ROLE_UTILISATEUR);
+	        $utilisateur->token_inscription = null; // Supprimer le token
+	        $utilisateur->creation_token_inscription = null; // Supprimer la date du token
+	        $utilisateurModel->save($utilisateur);
+	
+	        // Créer une session de connexion
+	        $session->set([
+	            'id_utilisateur' => $utilisateur->id_utilisateur,
+	            'email' => $utilisateur->email,
+	            'pseudo' => $utilisateur->pseudo,
+	            'role' => $utilisateur->role,
+	            'isLoggedIn' => true
+	        ]);
+	
+	        // Redirection vers la page d'accueil connecté
+	        return redirect()->to('/taches'); 
+	    } else {
+	        // Token invalide, rediriger vers la page d'inscription
+	        $session->setFlashdata('msg', 'Lien d\'activation invalide ou expiré. Veuillez vous inscrire à nouveau.');
+	        echo view('commun/Navbar'); 
+			echo view('connexion/Connexion'); 
+			echo view('commun/Footer'); 
+	    }
 	}
 
 	public function traitement_emailMDPoublie()
