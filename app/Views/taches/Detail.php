@@ -1,7 +1,7 @@
 <!--
 	@author   : Alizéa Lebaron
 	@since    : 26/11/2024
-	@version  : 2.0.0 - 27/11/2024
+	@version  : 2.0.1 - 27/11/2024
 -->
 
 <link rel="stylesheet" href="<?=base_url()."assets/css/detailTache.css";?>">
@@ -26,11 +26,12 @@
 				$heuresRestantes = $tempsRestant->getHours() % 24;
 
 				if ($joursRestants > 0) : ?>
+					Retard de 
 					<?= $joursRestants; ?> jour(s) 
 					<?= $heuresRestantes; ?> heure(s)
 				<?php else : ?>
-					retard de 
-					<?= abs($joursRestants); ?> jour(s) 
+					Il reste
+					<?= abs($joursRestants); ?> jour(s) et 
 					<?= abs($heuresRestantes); ?> heure(s)
 				<?php endif; ?>
 			</p>
