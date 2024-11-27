@@ -42,6 +42,10 @@
 							</li>
 							
 							<li class="nav-item">
+								<a class="nav-link" id="planning" href="/planning">Planning</a>
+							</li>
+							
+							<li class="nav-item">
 								<a class="nav-link" id="account" href="/account">Mon compte</a>
 							</li> 
 							

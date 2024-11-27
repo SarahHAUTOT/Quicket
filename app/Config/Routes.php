@@ -59,6 +59,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 	$routes->match(['get', 'post'], '/account/delete', 'ControllerUtilisateur::traitement_delete'    ); // (c_ControllerTaches  --> v_taches/Taches.php)
 
 	$routes->get('/planning/', 'ControllerPlanning::redirection_vueGlobale');
+	$routes->get('/planning/(:any)', 'ControllerPlanning::redirection_vueGlobale/$1');
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
 
