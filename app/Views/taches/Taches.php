@@ -109,7 +109,7 @@
 
 	</div>
 
-	<div class="modal fade" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade <?= validation_errors() ? 'show' : '' ?>" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="<?= validation_errors() ? 'false' : 'true' ?>">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -132,7 +132,7 @@
 							'required'
 						]); ?>
 
-						<?= validation_show_error('titre') ?>
+						<p class="text-danger"><?= validation_show_error('titre') ?></p>
 					</div>
 
 
@@ -155,7 +155,7 @@
 							]);
 						?>
 
-						<?= validation_show_error('priorite') ?>
+						<p class="text-danger"><?= validation_show_error('priorite') ?>
 					</div>
 
 
@@ -172,7 +172,7 @@
 							'required'
 						]); ?>
 
-						<?= validation_show_error('description') ?>
+						<p class="text-danger"><?= validation_show_error('description') ?></p>
 					</div>
 
 
@@ -188,7 +188,7 @@
 							'required'
 						]); ?>
 
-						<?= validation_show_error('echeance') ?>
+						<p class="text-danger"><?= validation_show_error('echeance') ?></p>
 					</div>
 
 					<br>
@@ -205,3 +205,13 @@
 <!-- Include Bootstrap 5 Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo base_url('/assets/js/redirection_filtre.js') ?>"></script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		// Si le modal contient des erreurs, on le déclenche
+		if (document.querySelector('.modal.show')) {
+			const modal = new bootstrap.Modal(document.getElementById('add'));
+			modal.show();
+		}
+	});
+</script>
