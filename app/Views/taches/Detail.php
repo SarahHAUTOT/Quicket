@@ -4,14 +4,6 @@
 	@version  : 2.0.0 - 27/11/2024
 -->
 
-<!--
-A LIRE POUR SE CONNECTER A LA BDD : 
-
-${nom} = A remplacé par le bon lien
-$commentaires = listes des commentaires de cette tâche
-
--->
-
 <link rel="stylesheet" href="<?=base_url()."assets/css/detailTache.css";?>">
 
 <div class="bg2">
