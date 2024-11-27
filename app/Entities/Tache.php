@@ -1,6 +1,7 @@
 <?php
 namespace App\Entities;
 
+use App\Models\TacheModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\I18n\TimeDifference;
@@ -103,9 +104,42 @@ class Tache extends Entity
         return intval($this->attributes['id_utilisateur']);
     }
 
+    public function getPrioriteString(): ?string
+    {
+        switch ($this->attributes['priorite']) 
+        {
+            case 1:
+                return "Crucial";
+                break;
+            
+            case 2:
+                return "Important";
+                break;
+            
+            case 3:
+                return "Neutre";
+                break;
+
+            case 4:
+                return "Négligeable";
+                break;
+        }
+
+        return $this->attributes['priorite'];
+    }
+
     public function getTempsRestant(): TimeDifference
     {
         $time = $this->getEcheance();
         return $time->difference(Time::now('Europe/Paris', 'fr_FR'));
+    }
+
+    /**
+	 * Getter l'utilisateur
+	 */
+    public function getCommentaires(): array
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getCommentaires($this);
     }
 }

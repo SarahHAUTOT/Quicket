@@ -15,7 +15,6 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'ControllerHome::redirection_home');
 
 
-
 // Accessible uniquement a ce qui ne sont pas connecté
 $routes->group('', ['filter' => 'guest'], function($routes) {
 	// Redirection vers les pages des formulaires
@@ -52,6 +51,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 	$routes->get('/taches/(:num)', 'ControllerTaches::grosse_tache/$1'); // (c_ControllerTaches --> v_??? )
 
 	$routes->get('/taches/supp/(:num)', 'ControllerTaches::traitement_suppression_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
+  $routes->get('/taches/modif/(:num)', 'ControllerTaches::pis_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/taches/create'     , 'ControllerTaches::traitement_creation_tache'      ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	
 	$routes->get('/account', 'ControllerUtilisateur::redirection_compte');
@@ -59,3 +59,4 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
 });
+
