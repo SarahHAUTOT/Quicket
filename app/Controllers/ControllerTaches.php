@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Entities\Tache;
 use App\Models\TacheModel;
+use App\Models\CommentaireModel;
 use CodeIgniter\Controller;
 use CodeIgniter\I18n\Time;
 use App\Models\User;
@@ -75,8 +76,15 @@ class ControllerTaches extends BaseController
 
 	public function grosse_tache($idTache)
 	{
+        $commentaireModel = new CommentaireModel();
+        $tacheModel = new TacheModel();
 		echo view('commun/Navbar'); 
-		echo view('taches/Taches'); 
+        echo view('taches/Detail', 
+        [
+            'tache' => $tacheModel->getTacheById($idTache),
+            'commentaires' => $commentaireModel->getCommentaireTache($idTache),
+        ]);
+		
 		echo view('commun/Footer');
 	}
 }

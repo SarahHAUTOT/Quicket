@@ -4,6 +4,19 @@
 @version  : 1.0.1 - 26/11/2024
 */
 
+.bg2 {
+    background-image: url('../img/bg.png');
+    background-repeat: no-repeat;
+	background-attachment: fixed;
+
+	position: fixed;
+	top: 0;
+
+    background-size: cover;
+    width: 100%;
+    position: relative; /* Nécessaire pour les éléments positionnés */
+}
+
 .infoTache
 {
 	/* Fond */
@@ -12,13 +25,13 @@
 
 	/* Position de la boîte */
 	margin: 0 auto;
-	margin-top: 15vh;
+	margin-top: 1vh;
 
 	/* Taille de la boîte */
 	width: 80%;
 
 	/* Intérieur */
-	padding: 2vh;
+	padding: 2vh;	
 }
 
 h2
@@ -92,7 +105,7 @@ td
 
 .date
 {
-	float: right; 
+	float: right;
 }
 
 .commentaire
@@ -151,4 +164,5 @@ form
 	background-color: rgb(174, 207, 188);
 	border: rgb(125, 156, 138) solid 1px;
 	border-radius: 5px;
+	margin-top: 10vh;
 }
