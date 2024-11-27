@@ -53,7 +53,6 @@ class Utilisateur extends Entity
     public function setTokenInscription(string $token): Utilisateur
     {
         $this->attributes['token_inscription'] = $token;
-        // $this->attributes['creation_token_inscription'] = Time::now('Europe/Paris', 'fr_FR');
         return $this;
     }
 
