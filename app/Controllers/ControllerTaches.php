@@ -22,18 +22,38 @@ class ControllerTaches extends BaseController
 
 	public function redirection_taches()
 	{
-		$tacheModele = new TacheModel();
+		helper('cookie');
 
-        $titreRech = $this->request->getGet('titre') ?? null;
-        $trierPar  = $this->request->getGet('trierPar') ?? 'modiff_tache';
-        $ordre     = $this->request->getGet('ordre') ?? 'ASC';
+
+		$request = service('request');
+
+
+		// Récupération 
+		$titreRech = $this->request->getGet('titre')    ?? '';
+		$trierPar  = $this->request->getGet('trierPar') ?? $request->getCookie('trierPar') ?? 'modiff_tache';
+		$ordre     = $this->request->getGet('ordre')    ?? $request->getCookie('ordre')    ?? 'ASC';
+		
+		// Si ils sont définis la, c'est que les préférences ont changé
+		set_cookie('titre'   , $titreRech, 1800);
+		set_cookie('trierPar', $trierPar , 1800);
+		set_cookie('ordre'   , $ordre    , 1800);
+
+
+		// Recherches des données (filtre + pagination)
+		$tacheModele = new TacheModel();
 
 		$taches = $tacheModele->getFiltre($titreRech, $trierPar, $ordre)->paginate(5);
 		
 		$data = [
-			'taches' => $taches,
-			'pagerTache' => $tacheModele->pager
+			'taches'     => $taches,
+			'pagerTache' => $tacheModele->pager,
+			'titre'      => $titreRech,
+			'trierPar'   => $trierPar,
+			'ordre'      => $ordre
 		];
+
+
+		// Affichages
 		echo view('commun/Navbar'); 
 		echo view('taches/Taches', $data); 
 		echo view('commun/Footer');

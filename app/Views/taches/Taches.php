@@ -15,19 +15,19 @@
 				<!-- Barre de recherche -->
 				<div class="col-md-6 col-lg-3">
 					<div class="input-group">
-						<input type="text" class="form-control" id="titre-recherche" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="titre-recherche">
+						<input type="text" class="form-control" id="titre-recherche" value="<?=$titre?>" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="titre-recherche">
 					</div>
 				</div>
 		
 				<!-- Select Trié par -->
 				<div class="col-md-3 col-lg-3">
 					<div class="input-group">
-						<label class="input-group-text" for="trier-par">Trié par</label>
+						<label class="input-group-text" for="trier-par">Trié par <?= $trierPar?></label>
 						<select class="form-select" id="trier-par">
-							<option value="modiff_tache">Date de modification</option>
-							<option value="echeance"      >Echéance</option>
-							<option value="retard"        >Retard</option>
-							<option value="priorite"      >Priorité</option>
+							<option value="modiff_tache" <?php if (strcmp($trierPar, "modiff_tache")==0) echo "selected" ?>>Date de modification</option>
+							<option value="echeance"     <?php if (strcmp($trierPar, "echeance"    )==0) echo "selected" ?>>Echéance</option>
+							<option value="retard"       <?php if (strcmp($trierPar, "retard"      )==0) echo "selected" ?>>Retard</option>
+							<option value="priorite"     <?php if (strcmp($trierPar, "priorite"    )==0) echo "selected" ?>>Priorité</option>
 						</select>
 					</div>
 				</div>
@@ -37,8 +37,8 @@
 					<div class="input-group">
 						<label class="input-group-text" for="ordre">Ordre</label>
 						<select class="form-select" id="ordre">
-							<option value="asc" >Croissant</option>
-							<option value="desc">Décroissant</option>
+							<option value="asc"  <?php if (strcmp($ordre, "asc" )==0) echo "selected" ?>>Croissant</option>
+							<option value="desc" <?php if (strcmp($ordre, "desc")==0) echo "selected" ?>>Décroissant</option>
 						</select>
 					</div>
 				</div>
