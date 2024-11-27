@@ -65,7 +65,7 @@
 							'required'
 						]); ?>
 
-						<?= validation_show_error('mdp') ?>
+						<?= validation_show_error('mdpConf') ?>
 					</div>
 					
 					<br>

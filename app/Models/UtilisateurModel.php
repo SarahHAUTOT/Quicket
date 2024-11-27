@@ -21,7 +21,7 @@ class UtilisateurModel extends Model
     ];
 	
 	protected $useTimestamps = false;
-	protected $useSoftDeletes = true;
+	protected $useSoftDeletes = false;
 	
 	// Règles de validation
 	protected $validationRules = [
@@ -49,6 +49,4 @@ class UtilisateurModel extends Model
 			'valid_email' => 'Entrer un émail valid.',
 		]
 	];
-
-
 }

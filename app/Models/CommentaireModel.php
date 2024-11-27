@@ -34,9 +34,9 @@ class CommentaireModel extends Model
 	 * @param int $idTache L'ID de la tâche pour laquelle récupérer les commentaires.
 	 * @return array|null Une liste d'entités `Commentaire` ou `null` si aucun commentaire trouvé.
 	 */
-	public function getCommentaireTache(int $idTache): ?array
+	public function getCommentaireTache(int $idTache, int $perPage = 5): ?array
 	{
 		return $this->where('id_tache', $idTache)
-					->findAll(); // Récupère tous les enregistrements correspondants
+					->paginate($perPage);
 	}
 }
