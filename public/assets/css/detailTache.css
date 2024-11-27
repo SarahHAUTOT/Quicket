@@ -173,12 +173,20 @@ form
 	gap: 10%;
 }
 
+.boutonEnre
+{
+	display: flex;
+	justify-content: center; /* Centre horizontalement */
+	margin-top: 3vh;
+	margin-bottom: 3vh;
+}
+
 .dateComm
 {
 	margin-right: 10px;
 }
 
-.boutonModif, .boutonSupp
+.boutonModif, .boutonModif2, .boutonSupp, .boutonInfo
 {
 	text-align: center;
 	padding: 10px;
@@ -187,6 +195,14 @@ form
 	color: black;
 	letter-spacing: 1px;
 	transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.boutonModif2
+{
+	background-color: rgb(174, 207, 188);	
+	border: rgb(125, 156, 138) solid 1px;
+	margin-top: 1vh;
+	text-align: center;
 }
 
 .boutonModif
@@ -201,7 +217,7 @@ form
 	border: rgb(209, 92, 88) solid 1px;
 }
 
-.boutonModif:hover
+.boutonModif:hover, .boutonModif2:hover
 {
 	background-color: rgb(125, 156, 138); /* Plus foncé */
     border-color: rgb(95, 125, 110);
@@ -211,4 +227,16 @@ form
 {
 	background-color: rgb(182, 67, 63); /* Plus foncé */
     border-color: rgb(150, 40, 40);
+}
+
+.boutonInfo
+{
+	background-color: rgb(177, 204, 207);
+	border: rgb(126, 162, 167) solid 1px;
+}
+
+.boutonInfo:hover
+{
+	background-color: rgb(137, 176, 180);
+	border: rgb(92, 126, 131) solid 1px;
 }

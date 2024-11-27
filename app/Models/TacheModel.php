@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Entities\Tache;
 
 class TacheModel extends Model
 {
@@ -81,8 +82,14 @@ class TacheModel extends Model
         return $tacheModele;
     }
 
-    public function getTacheById(int $idTache): ?\App\Entities\Tache
+    public function getTacheById(int $idTache): Tache
     {
         return $this->find($idTache); // Utilisation de la méthode native find()
+    }
+
+    public function getCommentaires(Tache $tache): array
+    {
+        $commentaireModele = new CommentaireModel();
+        return $commentaireModele->where('id_tache', $tache->getIdTache())->get()->getResult('App\Entities\Commentaire');
     }
 }

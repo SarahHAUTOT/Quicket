@@ -103,7 +103,4 @@ class Commentaire extends Entity
 		$commentaireModel = new CommentaireModel();
         return $commentaireModel->getUtilisateur($this);
     }
-	
-
-    
 }

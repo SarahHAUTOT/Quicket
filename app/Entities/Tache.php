@@ -1,6 +1,7 @@
 <?php
 namespace App\Entities;
 
+use App\Models\TacheModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\I18n\TimeDifference;
@@ -131,5 +132,14 @@ class Tache extends Entity
     {
         $time = $this->getEcheance();
         return $time->difference(Time::now('Europe/Paris', 'fr_FR'));
+    }
+
+    /**
+	 * Getter l'utilisateur
+	 */
+    public function getCommentaires(): array
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getCommentaires($this);
     }
 }
