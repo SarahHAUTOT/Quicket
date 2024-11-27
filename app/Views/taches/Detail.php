@@ -1,7 +1,7 @@
 <!--
 	@author   : Alizéa Lebaron
 	@since    : 26/11/2024
-	@version  : 1.0.1 - 26/11/2024
+	@version  : 2.0.0 - 27/11/2024
 -->
 
 <!--
@@ -27,15 +27,24 @@ $commentaires = listes des commentaires de cette tâche
 
 		<div class="temps">
 			<img src="<?=base_url()."assets/img/horloge.png";?>" alt="Horloge" class="small-image">
-			<p class="annotation">${TempsRestant} jour(s)</p>
+			<p class="annotation">
+				<?php if ($tache->getTempsRestant()->getDays() > 0) : ?>
+					<?= $tache->getTempsRestant()->getDays(); ?> jour(s) 
+					<?= $tache->getTempsRestant()->getHours() - $tache->getTempsRestant()->getDays() *24; ?> minute(s)
+				<?php else : ?>
+					retard de 
+					<?= abs($tache->getTempsRestant()->getDays()); ?> jour(s) 
+					<?= abs($tache->getTempsRestant()->getHours()) - abs($tache->getTempsRestant()->getDays() *24); ?> minute(s)
+				<?php endif ?>
+			</p>
 		</div>
 
 		<div class="temps">
 			<img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image">
-			<p class="annotation"><?= $tache->getModiffTache()->format('Y-m-d'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></p>
+			<p class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></p>
 
 			<img src="<?=base_url()."assets/img/modif.png";?>" alt="Horloge" class="small-image">
-			<p class="annotation"><?= $tache->getModiffTache()->format('Y-m-d'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?> </p>
+			<p class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?> </p>
 		</div>
 		
 		<hr>
@@ -52,7 +61,7 @@ $commentaires = listes des commentaires de cette tâche
 						<!-- TODO : Calculer retard et mettre la classe "table-danger" sur le tr si dépassé -->
 						<tr class="infoComm">
 							<td class="user"><?= $commentaire->getIdUtilisateur() ?></td>
-							<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation"><?= $commentaire->getCreationCommentaire()->format('Y-m-d'); ?> à <?= $commentaire->getCreationCommentaire()->format('H:i'); ?></p></td>
+							<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation"><?= $commentaire->getCreationCommentaire()->format('d/m/Y'); ?> à <?= $commentaire->getCreationCommentaire()->format('H:i'); ?></p></td>
 						</tr>
 
 						<tr>
@@ -67,33 +76,9 @@ $commentaires = listes des commentaires de cette tâche
 
         <?php else : ?>
 
-			<!-- A supprimer plus tard et décommenter l'autre ligne dessous -->
-			<table class="tabComm">
-				<tbody>
-					<tr class="infoComm">
-						<td class="user">User_253694</td>
-						<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation">26/11/2024 18:55</p></td>
-					</tr>
-
-					<tr>
-						<td class="commentaire" colspan="2">Lorem Ipsum Dolores Sit Ames</td>
-					</tr>
-
-					<tr class="infoComm">
-						<td class="user">User_253694</td>
-						<td class="date"><img class="small-image" src="<?=base_url()."assets/img/calendrier.png";?>"><p class="annotation">28/11/2024 13:45</p></td>
-					</tr>
-
-					<tr>
-						<td class="commentaire" colspan="2">Les ornithorynque sont des mammifères ☝️🤓</td>
-					</tr>
-
-
-				</tbody>
-			</table>
-				 <!-- <p>Aucun commentaire pour le moment !</p>     -->
+				 <p>Aucun commentaire pour le moment !</p>
 		
-			<?php endif; ?>
+		<?php endif; ?>
 
 
 			<?php echo form_open('/detailtache/ajoutComm'); ?>
