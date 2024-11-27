@@ -103,6 +103,30 @@ class Tache extends Entity
         return intval($this->attributes['id_utilisateur']);
     }
 
+    public function getPrioriteString(): ?string
+    {
+        switch ($this->attributes['priorite']) 
+        {
+            case 1:
+                return "Crucial";
+                break;
+            
+            case 2:
+                return "Important";
+                break;
+            
+            case 3:
+                return "Neutre";
+                break;
+
+            case 4:
+                return "Négligeable";
+                break;
+        }
+
+        return $this->attributes['priorite'];
+    }
+
     public function getTempsRestant(): TimeDifference
     {
         $time = $this->getEcheance();

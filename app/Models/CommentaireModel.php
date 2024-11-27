@@ -2,6 +2,9 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Entities\Utilisateur;
+use App\Models\UtilisateurModel;
+use App\Entities\Commentaire;
 
 class CommentaireModel extends Model
 {
@@ -38,5 +41,11 @@ class CommentaireModel extends Model
 	{
 		return $this->where('id_tache', $idTache)
 					->findAll(); // Récupère tous les enregistrements correspondants
+	}
+
+	public function getUtilisateur(Commentaire $commentaire): Utilisateur
+	{
+		$utilisateurModele = new UtilisateurModel();
+		return $utilisateurModele->find($commentaire->getIdUtilisateur());
 	}
 }
