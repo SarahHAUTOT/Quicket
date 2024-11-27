@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 use App\Entities\Utilisateur;
+use App\Models\CommentaireModel;
+use App\Models\TacheModel;
 use CodeIgniter\Controller;
 use App\Models\User;
 
@@ -196,6 +198,55 @@ class ControllerUtilisateur extends BaseController
 
 
 
+
+
+
+	public function traitement_delete()
+	{
+		
+		$session = session();
+		$utilisateurModel = new UtilisateurModel();
+
+		// Récupérer les données du formulaire
+		$mdp   = $this->request->getVar('mdp');
+
+
+
+
+		// Rechercher l'utilisateur par email
+		$utilisateur = $utilisateurModel->find($session->get('id_utilisateur'));
+
+		// Comparer le mot de passe
+		// if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
+		if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
+			
+			//Supprimer
+			$tableModele = new TacheModel();
+			$commentaireModele = new CommentaireModel();
+			$taches = $utilisateur->getTaches();
+			
+			foreach ($taches as $tache)
+			{
+				$commentaires = $tache->getCommentaires();
+				foreach ($commentaires as $commentaire)
+				{
+					$commentaireModele->delete($commentaire->getIdCommentaire());
+				}
+
+				$tableModele->delete($tache->getIdTache());
+			}
+
+			$utilisateurModel->delete($utilisateur->getIdUtilisateur());
+			
+			// Deconnexion
+			return redirect()->to('/deconnect'); 
+
+		} else {
+
+			// Mot de passe incorrect
+			return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
+		}
+	}
 
 
 

@@ -44,7 +44,7 @@
 				</div>
 
 				<div class="col-md-3 col-lg-2">
-					<a href="#" id="lien-recherche" class="btn btn-troisieme" onclick="redirection_recherche()">
+					<a href="" id="lien-recherche" class="btn btn-troisieme" onclick="redirection_recherche(); this.style.pointerEvents='none'; this.style.opacity='0.5';">
 						Rechercher <i class="bi bi-search"></i>
 					</a>
 				</div>
@@ -58,20 +58,19 @@
 
 
 		<div class="table-responsive mx-5">
-			<!-- TODO : DECOMMENTER LIGNE -->
-			<?php if (!empty($taches)) : ?>
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">Titre</th>
-							<th scope="col">Date de modification</th>
-							<th scope="col">Echéance</th>
-							<th scope="col">Actions</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<!-- Génération des lignes selon les données  -->
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Titre</th>
+						<th scope="col">Date de modification</th>
+						<th scope="col">Echéance</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<?php if (!empty($taches)) : ?>
+					<!-- Génération des lignes selon les données  -->
 						<?php foreach ($taches as $tache) : ?>
 							<!-- TODO : Calculer retard et mettre la classe "table-danger" sur le tr si dépassé -->
 							<tr>
@@ -79,20 +78,22 @@
 								<td class="align-middle"><?= $tache->getModiffTache()->format('d/m/Y'); ?></td>
 								<td class="align-middle"><?= $tache->getEcheance()->format('d/m/Y'); ?></td>
 								<td class="align-middle"> 
-									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme"><i class="bi bi-eye"></i></a> 
-									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire">
+									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
+									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
 									   <i class="bi bi-trash3"></i>
 									</a> 
 								</td>
 							</tr>
 						<?php endforeach; ?>
+					<?php else : ?>
+						<tr>
+							<td colspan="4" class="text-center py-3"> Aucune tache crée.</td> 
+						</tr>
+					<?php endif; ?>
+
 					</tbody>
 				</table>
 			</div>
-
-			<?php else : ?>
-				<p class="mx-5"> Aucune tache crée. </p>    
-			<?php endif; ?>
 
 			<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
 				Ajouter une tache
@@ -119,7 +120,7 @@
 				</div>
 
 				<div class="modal-body">
-					<?php echo form_open('/taches/create'); ?>
+					<?php echo form_open('/taches/create',['id'=>'formCreate']); ?>
 
 					<div class="form-group mb-2">
 						<?php echo form_label('Titre', 'titre'); ?>
@@ -141,9 +142,9 @@
 						
 						<?php 
 							$options = [
-								'1'=> 'A faire',
+								'3'=> 'A faire',
 								'2'=> 'Important',
-								'3'=> 'Cruciale',
+								'1'=> 'Cruciale',
 							];
 							echo form_dropdown([
 								'name'    => 'priorite',
@@ -192,9 +193,11 @@
 					</div>
 
 					<br>
+					
 					<div class="d-flex justify-content-center align-items-center">
-						<?php echo form_submit('submit', 'Ajouter la tache',"class='btn w-50 btn-principale'"); ?>
+						<?php echo form_submit('submit', 'Ajouter la tache', "class='btn w-50 btn-principale' onclick=\"this.classList.add('disabled')\""); ?>
 					</div>
+
 
 					<?php echo form_close(); ?>
 				</div>
@@ -213,5 +216,9 @@
 			const modal = new bootstrap.Modal(document.getElementById('add'));
 			modal.show();
 		}
+
+		document.getElementById('formCreate').onsubmit = function() {
+            document.getElementById("formCreate").disabled = true;
+        }
 	});
 </script>

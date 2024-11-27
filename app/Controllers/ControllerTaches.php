@@ -97,6 +97,7 @@ class ControllerTaches extends BaseController
 		$data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR');
 		$tache->fill($data);
 		$tache->setCreationTache();
+		$tache->setIdUtilisateur(session()->get('id_utilisateur'));
 		$tache->setModiffTache();
 
 		$tacheModel->insert($tache);

@@ -58,7 +58,12 @@
 		</div>
 	</div>
 
-	<div class="modal fade <?= validation_errors() ? 'show' : '' ?>" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="<?= validation_errors() ? 'false' : 'true' ?>">
+
+
+
+
+	
+	<div class="modal fade <?= session('error') ? 'show' : '' ?>" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="<?= session('error') ? 'false' : 'true' ?>">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -90,12 +95,13 @@
 							'required'
 						]); ?>
 
-						<p class="text-danger"><?= validation_show_error('mdp') ?></p>
+						<p class="text-danger"><?= session('error') ?></p>
 					</div>
 
 					<br>
+
 					<div class="d-flex justify-content-center align-items-center mt-0 mb-3">
-						<?php echo form_submit('submit', 'Ajouter la tache',"class='btn w-50 btn-principale'"); ?>
+						<?php echo form_submit('submit', 'Supprimer mon compte',"class='btn w-50 btn-principale'"); ?>
 					</div>
 
 					<?php echo form_close(); ?>
