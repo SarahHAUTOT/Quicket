@@ -13,19 +13,14 @@
 
 
 				<!-- Barre de recherche -->
-				<div class="col-md-6 col-lg-4">
+				<div class="col-md-6 col-lg-3">
 					<div class="input-group">
 						<input type="text" class="form-control" id="titre-recherche" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="titre-recherche">
-						<label class="input-group-text" id="titre-recherche">
-							<a href="#" id="lien-recherche" onclick="redirection_recherche()">
-								<i class="bi bi-search"></i>
-							</a>
-						</label>
 					</div>
 				</div>
 		
 				<!-- Select Trié par -->
-				<div class="col-md-3 col-lg-4">
+				<div class="col-md-3 col-lg-3">
 					<div class="input-group">
 						<label class="input-group-text" for="trier-par">Trié par</label>
 						<select class="form-select" id="trier-par">
@@ -38,7 +33,7 @@
 				</div>
 		
 				<!-- Select Ordre -->
-				<div class="col-md-3 col-lg-4">
+				<div class="col-md-3 col-lg-3">
 					<div class="input-group">
 						<label class="input-group-text" for="ordre">Ordre</label>
 						<select class="form-select" id="ordre">
@@ -46,6 +41,12 @@
 							<option value="desc">Décroissant</option>
 						</select>
 					</div>
+				</div>
+
+				<div class="col-md-3 col-lg-2">
+					<a href="#" id="lien-recherche" class="btn btn-troisieme" onclick="redirection_recherche()">
+						Rechercher <i class="bi bi-search"></i>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -78,11 +79,10 @@
 								<td class="align-middle"><?= $tache->getModiffTache()->toDateString(); ?></td>
 								<td class="align-middle"><?= $tache->getEcheance()->toDateString(); ?></td>
 								<td class="align-middle"> 
-									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" 
-									   class="btn btn-primaire">
+									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme"><i class="bi bi-eye"></i></a> 
+									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire">
 									   <i class="bi bi-trash3"></i>
 									</a> 
-									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-primaire"><i class="bi bi-eye"></i></a> 
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -201,3 +201,4 @@
 
 <!-- Include Bootstrap 5 Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo base_url('/assets/js/redirection_filtre.js') ?>"></script>

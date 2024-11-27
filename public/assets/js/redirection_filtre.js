@@ -1,5 +1,6 @@
 function redirection_recherche()
 {
+	
 	trierPar = document.getElementById('trier-par').value;	
 	ordre    = document.getElementById('ordre').value;	
 	titre    = document.getElementById('titre-recherche').value;
