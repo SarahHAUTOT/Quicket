@@ -34,6 +34,20 @@ class Utilisateur extends Entity
 
         return $this;
     }
+
+    public function setEmail(string $email): Utilisateur
+    {
+        $this->attributes['email'] = $email;
+
+        return $this;
+    }
+
+    public function setPseudo(string $pseudo): Utilisateur
+    {
+        $this->attributes['pseudo'] = $pseudo;
+
+        return $this;
+    }
     
     public function setMdp(string $mdp): Utilisateur
     {

@@ -38,11 +38,15 @@
 							
 							
 							<li class="nav-item">
-								<a class="nav-link" id="a-propos" href="/taches">Taches</a>
+								<a class="nav-link" id="taches" href="/taches">Taches</a>
 							</li>
 							
 							<li class="nav-item">
-								<a class="nav-link" id="faq" href="/deconnect">Se déconnecter</a>
+								<a class="nav-link" id="account" href="/account">Mon compte</a>
+							</li> 
+							
+							<li class="nav-item">
+								<a class="nav-link" id="deconnect" href="/deconnect">Se déconnecter</a>
 							</li> 
 						</ul>
 					</div>

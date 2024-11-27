@@ -38,6 +38,15 @@ class ControllerUtilisateur extends BaseController
 		echo view('commun/Footer'); 
 	}
 
+	public function redirection_compte()
+	{
+		// TODO : Afficher seulement si le token est bon
+
+		echo view('commun/Navbar'); 
+		echo view('compte/Compte'); 
+		echo view('commun/Footer'); 
+	}
+
 	public function mail_Modification()
 	{
 		// TODO : Envoie du mail de modification de mots de passe
@@ -133,7 +142,63 @@ class ControllerUtilisateur extends BaseController
 
 
 
-	
+	public function traitement_modifDonne()
+	{
+		$validation = \Config\Services::validation();
+		$utilisateurModel = new UtilisateurModel();
+		$session = session();
+
+		$data = $this->request->getPost();
+
+		// Règles de validation uniquement pour email et pseudo
+		$regleValidation = [];
+
+		if (strcmp($data['email'], $session->get('email')) == 0) {
+			$regleValidation = [
+				'pseudo' => $utilisateurModel->getValidationRules()['pseudo']
+			];
+		} else {
+			$regleValidation = [
+				'email'  => $utilisateurModel->getValidationRules()['email'],
+				'pseudo' => $utilisateurModel->getValidationRules()['pseudo']
+			];
+		}
+
+		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
+
+		if (!$isValid) {
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+
+		// Récupération des données de la session
+		$idUtilisateur = $session->get('id_utilisateur');
+
+		/**
+		 * @var Utilisateur
+		 */
+		$utilisateur = $utilisateurModel->find($idUtilisateur);
+
+		// Mise à jour des propriétés
+		$utilisateur->setEmail ($data['email']  ?? $utilisateur->getEmail());
+		$utilisateur->setPseudo($data['pseudo'] ?? $utilisateur->getPseudo());
+
+				// Enregistrer les modifications
+		$utilisateurModel->save($utilisateur);
+
+		// Mettre à jour la session
+		$session->set([
+			'email'  => $utilisateur->email,
+			'pseudo' => $utilisateur->pseudo,
+		]);
+
+		return redirect()->to('/account')->with('success', 'Vos données ont été mises à jour.');
+	}
+
+
+
+
+
+
 	public function traitement_inscription()
 	{
 		$utilisateurModel = new UtilisateurModel();
