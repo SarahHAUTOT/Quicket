@@ -5,7 +5,7 @@ namespace Config;
 use CodeIgniter\Database\Config;
 
 /**
- * Database Configurations
+ * Database Configuration
  */
 class Database extends Config
 {
@@ -25,11 +25,11 @@ class Database extends Config
      * @var array<string, mixed>
      */
     public array $default = [
-        'DSN' => 'Postgre://na222180:DUCAL873@woody.iut.univ-lehavre.fr:5432',
+        'DSN' => 'Postgre://bj220781:29372004@woody.iut.univ-lehavre.fr:5432',
         'hostname' => 'woody.iut.univ-lehavre.fr',
-        'username' => 'na222180',
-        'password' => 'DUCAL873',
-        'database' => 'na222180',
+        'username' => 'bj220781',
+        'password' => '29372004',
+        'database' => 'bj220781',
         'DBDriver' => 'Postgre',
         'DBPrefix' => '',
         'pConnect' => false,

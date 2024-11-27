@@ -3,6 +3,7 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
+use CodeIgniter\I18n\TimeDifference;
 
 class Tache extends Entity
 {
@@ -63,9 +64,9 @@ class Tache extends Entity
         return $this;
     }
     
-    public function setPriorite(int $nb): Tache
+    public function setPriorite(string $str): Tache
     {
-        $this->attributes['priorite'] = $nb;
+        $this->attributes['priorite'] = intval($str);
 
         return $this;
     }
@@ -79,9 +80,8 @@ class Tache extends Entity
 
     public function getModiffTache(): ?Time
     {
-        return $this->attributes['modiff_tache'];
+        return new Time($this->attributes['modiff_tache']);
     }
-
     
     public function getTitre(): ?string
     {
@@ -95,11 +95,17 @@ class Tache extends Entity
 
     public function getEcheance(): ?Time
     {
-        return $this->attributes['echeance'];
+        return new Time($this->attributes['echeance']);
     }
 
     public function getIdUtilisateur(): int
     {
         return intval($this->attributes['id_utilisateur']);
+    }
+
+    public function getTempsRestant(): TimeDifference
+    {
+        $time = $this->getEcheance();
+        return $time->difference(Time::now('Europe/Paris', 'fr_FR'));
     }
 }

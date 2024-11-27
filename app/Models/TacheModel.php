@@ -23,13 +23,13 @@ class TacheModel extends Model
     protected $createdField = 'creation_tache';
     protected $updatedField = 'modiff_tache';
 
-	protected $useSoftDeletes = true;
+	protected $useSoftDeletes = false;
 	
 	// Règles de validation
 	protected $validationRules = [
 		'titre'       => 'required|max_length[50]|min_length[5]',
 		'description' => 'required|max_length[255]',
-		'priorite'    => 'required|greater_than[0]',
+		'priorite'    => 'required|greater_than[0]|in_list[1,2,3]',
 		'echeance'    => 'required',
 	];
 
@@ -54,4 +54,35 @@ class TacheModel extends Model
             'greater_than' => 'La priorité doit être supérieure à zéro.',
         ],
 	];
+
+    // Fonctions
+    public function getPagination(int $parPage)
+    {
+        $this->paginate($parPage);
+    }
+    
+    public function getFiltre(?string $titreRech = null, string $attributOrdre, string $ordre): TacheModel
+    {
+        $tacheModele = $this->select();
+
+        if ($titreRech)
+            $tacheModele->like('titre', $titreRech);
+
+        if (strcmp($attributOrdre, 'retard') == 0)
+        {
+            $tacheModele->where('echeance <', date('Y-m-d H:i:s'));
+            $tacheModele->orderBy('echeance', $ordre);
+        }
+        else
+        {
+            $tacheModele->orderBy($attributOrdre, $ordre);
+        }
+        
+        return $tacheModele;
+    }
+
+    public function getTacheById(int $idTache): ?\App\Entities\Tache
+    {
+        return $this->find($idTache); // Utilisation de la méthode native find()
+    }
 }

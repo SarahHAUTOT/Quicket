@@ -6,8 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-/*	v_ ==> Vue (dans le dossier Views)
- *	c_ ==> Controller (dans le dossier Controllers)
+/*    v_ ==> Vue (dans le dossier Views)
+ *    c_ ==> Controller (dans le dossier Controllers)
  */
 
 
@@ -35,9 +35,12 @@ $routes->match(['get', 'post'], '/connexion/activation/(:any)'		, 'ControllerUti
 $routes->match(['get', 'post'], '/connexion/emailmdp/change'		, 'ControllerUtilisateur::traitement_emailMDPoublie'); // (c_ControllerUtilisateur : traitement_inscription())
 $routes->match(['get', 'post'], '/connexion/emailmdp/change/(:any)'	, 'ControllerUtilisateur::traitement_emailMDPoublie'); // (c_ControllerUtilisateur : traitement_inscription())
 
+$routes->match(['get', 'post'], '/connexion/mdp'              , 'ControllerUtilisateur::traitement_modificationMDP'); // (c_ControllerUtilisateur : traitement_inscription())
+$routes->match(['get', 'post'], '/connexion/activation/(:any)', 'ControllerUtilisateur::traitement_activation/$1'  ); // (c_ControllerUtilisateur : traitement_inscription())
 
 // Redirection vers la liste des taches
 $routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_ControllerTaches --> v_taches/Taches.php)
+$routes->get('/taches/(:num)', 'ControllerTaches::grosse_tache/$1'); // (c_ControllerTaches --> v_??? )
 
-// Redirection vers une tâche précise
-$routes->get('/Detailtache/(:num)', 'ControllerTaches::grosse_tache/$1');
+$routes->get('/taches/supp/(:num)', 'ControllerTaches::traitement_suppression_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
+$routes->match(['get', 'post'], '/taches/create'     , 'ControllerTaches::traitement_creation_tache'      ); // (c_ControllerTaches  --> v_taches/Taches.php)
