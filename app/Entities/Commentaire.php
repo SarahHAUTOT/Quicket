@@ -1,6 +1,7 @@
 <?php
 namespace App\Entities;
 
+use App\Models\CommentaireModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 
@@ -29,7 +30,6 @@ class Commentaire extends Entity
 		return $this;
 	}
 
-
 	/**
 	 * Setter pour id_utilisateur
 	 * @param int $idUtilisateur change l'utilisateur qui à écrit le commentaire
@@ -54,12 +54,21 @@ class Commentaire extends Entity
 	/* ---------------- Getter ---------------- */
 	/* ---------------------------------------- */
 
+
 	/**
 	 * Getter pour id_commentaire
 	 */
 	public function getIdCommentaire(): ?int
 	{
 		return $this->attributes['id_commentaire'];
+	}
+
+    /**
+	 * Getter pour id_utilisateur
+	 */
+	public function getIdUtilisateur(): ?int
+	{
+		return $this->attributes['id_utilisateur'];
 	}
 
 	/**
@@ -70,8 +79,6 @@ class Commentaire extends Entity
 		return $this->attributes['texte_commentaire'];
 	}
 
-
-
 	/**
 	 * Getter pour texte_commentaire
 	 */
@@ -79,4 +86,21 @@ class Commentaire extends Entity
 	{
 		return $this->attributes['id_tache'];
 	}
+
+    /**
+	 * Getter pour texte_commentaire
+	 */
+    public function getCreationCommentaire(): ?Time
+    {
+        return new Time($this->attributes['creation_commentaire']);
+    }
+
+    /**
+	 * Getter l'utilisateur
+	 */
+    public function getUtilisateur(): Utilisateur
+    {
+		$commentaireModel = new CommentaireModel();
+        return $commentaireModel->getUtilisateur($this);
+    }
 }

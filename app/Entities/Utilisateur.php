@@ -2,6 +2,7 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
+use App\Models\UtilisateurModel;
 use CodeIgniter\I18n\Time;
 
 class Utilisateur extends Entity
@@ -24,11 +25,27 @@ class Utilisateur extends Entity
 
     protected $dates = ['creation_token_mdp', 'creation_token_inscription'];
 
-    // Setteurs
+    /* ---------------------------------------- */
+	/* ---------------- Setter ---------------- */
+	/* ---------------------------------------- */
     
     public function setRole(string $role): Utilisateur
     {
         $this->attributes['role'] = $role;
+
+        return $this;
+    }
+
+    public function setEmail(string $email): Utilisateur
+    {
+        $this->attributes['email'] = $email;
+
+        return $this;
+    }
+
+    public function setPseudo(string $pseudo): Utilisateur
+    {
+        $this->attributes['pseudo'] = $pseudo;
 
         return $this;
     }
@@ -43,7 +60,7 @@ class Utilisateur extends Entity
     public function setTokenMdp(string $token): Utilisateur
     {
         $this->attributes['token_mdp'] = $token;
-        $this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
+        // $this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
 
         return $this;
     }
@@ -51,11 +68,13 @@ class Utilisateur extends Entity
     public function setTokenInscription(string $token): Utilisateur
     {
         $this->attributes['token_inscription'] = $token;
-        $this->attributes['creation_token_inscription'] = Time::now('Europe/Paris', 'fr_FR');
+        // $this->attributes['creation_token_inscription'] = Time::now('Europe/Paris', 'fr_FR');
         return $this;
     }
 
-    // Getteurs
+    /* ---------------------------------------- */
+	/* ---------------- Getter ---------------- */
+	/* ---------------------------------------- */
 
     public function getIdUtilisateur(): int
     {
@@ -100,5 +119,11 @@ class Utilisateur extends Entity
     public function getCreationTokenInscription(): ?string
     {
         return $this->attributes['creation_token_inscription'];
+    }
+
+    public function getTaches(): array
+    {
+        $utilisateurModel = new UtilisateurModel();
+        return $utilisateurModel->getTaches($this);
     }
 }

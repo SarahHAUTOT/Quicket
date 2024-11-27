@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Entities\Utilisateur;
 use CodeIgniter\Model;
 
 class UtilisateurModel extends Model
@@ -21,7 +22,7 @@ class UtilisateurModel extends Model
     ];
 	
 	protected $useTimestamps = false;
-	protected $useSoftDeletes = true;
+	protected $useSoftDeletes = false;
 	
 	// Règles de validation
 	protected $validationRules = [
@@ -50,5 +51,10 @@ class UtilisateurModel extends Model
 		]
 	];
 
-
+	// Fonctions
+    public function getTaches(Utilisateur $utilisateur): array
+    {
+        $tacheModele = new TacheModel();
+        return $tacheModele->where('id_utilisateur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Tache');
+    }
 }

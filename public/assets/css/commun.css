@@ -27,6 +27,17 @@
 	background-color: #FF3354 !important;
 }
 
+.btn-troisieme,.btn-troisieme:hover
+{
+	background-color: #049a80;
+	color: white !important;
+}
+
+.btn-troisieme:focus
+{
+	background-color: #00E6C0 !important;
+}
+
 footer
 {
 	background-color: #049a80 !important;

@@ -9,6 +9,11 @@
 
 				<?php echo form_open('/connexion/connect'); ?>
 
+					<?php if (session()->has('error')) : ?>
+						<p class="text-danger">
+							<?= session('error') ?>
+						</p>
+					<?php endif; ?>
 
 					<div class="form-group mb-2">
 						<?php echo form_label('Email', 'email'); ?>
@@ -31,13 +36,13 @@
 						<?php echo form_input([
 							'name'        => 'mdp',
 							'id'          => 'mdp',
+							'type'        => 'password',
 							'class'       => 'form-control',
 							'value'       => set_value('mdp'),
 							'required'
 						]); ?>
-
-						<?= validation_show_error('mdp') ?>
 					</div>
+
 					
 					<br>
 					<div class="d-flex justify-content-center align-items-center">
@@ -52,7 +57,7 @@
 				</div>
 
 				<div class="d-flex justify-content-center align-items-center">
-					<a href="connexion/mdp" class="btn btn-link"> Mot de passe oublié ?</a>
+					<a href="connexion/EmailMDP" class="btn btn-link"> Mot de passe oublié ?</a>
 				</div>
 			</div>
 		</div>

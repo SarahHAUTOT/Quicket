@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Entities\Tache;
 
 class TacheModel extends Model
 {
@@ -23,13 +24,13 @@ class TacheModel extends Model
     protected $createdField = 'creation_tache';
     protected $updatedField = 'modiff_tache';
 
-	protected $useSoftDeletes = true;
+	protected $useSoftDeletes = false;
 	
 	// Règles de validation
 	protected $validationRules = [
 		'titre'       => 'required|max_length[50]|min_length[5]',
 		'description' => 'required|max_length[255]',
-		'priorite'    => 'required|greater_than[0]',
+		'priorite'    => 'required|greater_than[0]|in_list[1,2,3,4]',
 		'echeance'    => 'required',
 	];
 
@@ -54,4 +55,41 @@ class TacheModel extends Model
             'greater_than' => 'La priorité doit être supérieure à zéro.',
         ],
 	];
+
+    // Fonctions
+    public function getPagination(int $parPage)
+    {
+        $this->paginate($parPage);
+    }
+    
+    public function getFiltre(string $attributOrdre, string $ordre, ?string $titreRech = null): TacheModel
+    {
+        $tacheModele = $this->select();
+
+        if ($titreRech)
+            $tacheModele->like('titre', $titreRech);
+
+        if (strcmp($attributOrdre, 'retard') == 0)
+        {
+            $tacheModele->where('echeance <', date('Y-m-d H:i:s'));
+            $tacheModele->orderBy('echeance', $ordre);
+        }
+        else
+        {
+            $tacheModele->orderBy($attributOrdre, $ordre);
+        }
+        
+        return $tacheModele;
+    }
+
+    public function getTacheById(int $idTache): Tache
+    {
+        return $this->find($idTache); // Utilisation de la méthode native find()
+    }
+
+    public function getCommentaires(Tache $tache): array
+    {
+        $commentaireModele = new CommentaireModel();
+        return $commentaireModele->where('id_tache', $tache->getIdTache())->get()->getResult('App\Entities\Commentaire');
+    }
 }

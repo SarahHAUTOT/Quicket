@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,8 @@
 
     <link rel="stylesheet" href="<?=base_url()."assets/css/commun.css";?>">
     <link rel="stylesheet" href="<?=base_url()."assets/css/navbar.css";?>">
+
+	<link rel="shortcut icon" type="image/png" href="<?=base_url()."assets/img/Logoicone.png";?>">
 </head>
 <body>
 	  
@@ -27,30 +29,32 @@
 				</a>
 			
 				<!-- Liens à droite avec redirection -->
-				<!-- TODO : AFFICHER LA PARTIE EN COMMENTAIRE SI CONNECTER SINON AFFICHER LE TRUC LAISSER -->
-				 
-			
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-
-				<!-- <div class="collapse navbar-collapse justify-content-start text-start" id="navbarNav">
-					<ul class="navbar-nav ms-auto">
-
-
-						 <li class="nav-item">
-							<a class="nav-link" id="a-propos" href="/taches">Taches</a>
-						</li>
-
-						<li class="nav-item">
-							<a class="nav-link" id="faq" href="/compte">Mon compte</a>
-						</li> 
-					</ul>
-				</div>  -->
-
-				<div class="justify-content-start text-start">
-					<a class="nav-link btn btn-principale px-3 py-2" href="/connexion">Se connecter</a>
-				</div>
+    			<?php if (session()->get('isLoggedIn')): ?>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse justify-content-start text-start" id="navbarNav">
+						<ul class="navbar-nav ms-auto">
+							
+							
+							<li class="nav-item">
+								<a class="nav-link" id="taches" href="/taches">Taches</a>
+							</li>
+							
+							<li class="nav-item">
+								<a class="nav-link" id="account" href="/account">Mon compte</a>
+							</li> 
+							
+							<li class="nav-item">
+								<a class="nav-link" id="deconnect" href="/deconnect">Se déconnecter</a>
+							</li> 
+						</ul>
+					</div>
+				<?php else: ?>
+					<div class="justify-content-start text-start">
+						<a class="nav-link btn btn-principale px-3 py-2" href="/connexion">Se connecter</a>
+					</div>
+				<?php endif; ?>
 			</div>
 		</nav>
 	</div>
