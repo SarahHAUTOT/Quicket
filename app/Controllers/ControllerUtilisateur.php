@@ -39,20 +39,24 @@ class ControllerUtilisateur extends BaseController
 		echo view('connexion/Inscription'); 
 		echo view('commun/Footer'); 
 	}
+    
+    public function redirection_modificationMDP(string $tokenMdp)
+    {
+        // TODO : Afficher seulement si le token est bon
+        $utilisateurModel = new UtilisateurModel();
+        $utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
 
-    /**
-     * redirectionne vers le formulaire changer mdp
-     * @param string $tokenMdp
-     * @return void redirectionne vers le formulaire changer mdp
-     */
-	public function redirection_modificationMDP(String $tokenMdp)
-	{
-		// TODO : Afficher seulement si le token est bon
+        if (!$utilisateur)
+        {
+            return redirect()->to('/connexion/EmailMDP')->with('error', 'Cet email ne correspond pas un utilisateur');
+        }
 
-		echo view('commun/Navbar'); 
-		echo view('connexion/ModifMDP'); 
-		echo view('commun/Footer'); 
-	}
+        echo view('commun/Navbar'); 
+        echo view('connexion/ModifMDP', [
+            'token' => $tokenMdp
+        ]);
+        echo view('commun/Footer'); 
+    }
 
     /**
      * redirectionne vers la page compte
@@ -348,12 +352,18 @@ class ControllerUtilisateur extends BaseController
 		}
 	}
 
+    public function traitement_modificationMDP(string $tokenMdp)
+    {
+        // TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
+        $utilisateurModel = new UtilisateurModel();
+        $utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
 
-	public function traitement_modificationMDP($tokenMDP)
-	{
-		// TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
-		
-	}
+        $data = $this->request->getPost();
+        $utilisateur->setMdp($data['mdp']);
+
+        $utilisateurModel->save($utilisateur);
+        return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
+    }
 
 	/**
 	 * Génère un token robuste, pour inscription et oubli mdp
