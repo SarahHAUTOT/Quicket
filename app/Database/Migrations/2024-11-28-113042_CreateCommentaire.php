@@ -6,12 +6,11 @@ use CodeIgniter\Database\Migration;
 
 class CreateCommentaire extends Migration
 {
-	public function up()
+    public function up()
 	{
 		$this->forge->addField([
 			'id_commentaire' => [
 				'type'           => 'SERIAL',
-				'constraint'     => 11,
 				'unsigned'       => true,
 				'auto_increment' => true,
 			],
@@ -29,14 +28,12 @@ class CreateCommentaire extends Migration
 
 			'id_utilisateur' => [
 				'type'       => 'INT',
-				'constraint' => 11,
 				'unsigned'   => true,
 				'null'       => false,
 			],
 			
 			'id_tache' => [
 				'type'       => 'INT',
-				'constraint' => 11,
 				'unsigned'   => true,
 				'null'       => false,
 			],

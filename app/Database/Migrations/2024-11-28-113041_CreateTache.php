@@ -4,14 +4,13 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateTacheTable extends Migration
+class CreateTache extends Migration
 {
 	public function up()
 	{
 		$this->forge->addField([
 			'id_tache' => [
-				'type'           => 'INT',
-				'constraint'     => 11,
+				'type'           => 'SERIAL',
 				'unsigned'       => true,
 				'auto_increment' => true,
 			],
@@ -40,7 +39,6 @@ class CreateTacheTable extends Migration
 
 			'priorite' => [
 				'type'       => 'INT',
-				'constraint' => 11,
 				'null'       => false,
 			],
 
@@ -51,7 +49,6 @@ class CreateTacheTable extends Migration
 			
 			'id_utilisateur' => [
 				'type'       => 'INT',
-				'constraint' => 11,
 				'unsigned'   => true,
 				'null'       => false,
 			],
