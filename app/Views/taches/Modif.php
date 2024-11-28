@@ -35,7 +35,7 @@
 							'required'
 						]); ?>
 						</h2>
-						<p class="text-danger"><?= validation_show_error('titre') ?></p>
+						<p><?= validation_show_error('titre') ?></p>
 				</td>
 				<td class="img"><img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image" title="Date de création"></td>
 				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
@@ -62,7 +62,7 @@
 							]);
 						?>
 
-					<p class="text-danger"><?= validation_show_error('priorite') ?></p>
+					<p><?= validation_show_error('priorite') ?></p>
 				</td>
 				<td class="img"><img src="<?=base_url()."assets/img/warning.png";?>" alt="Horloge" class="small-image" title="Date de l'échéance"></td>
 							
@@ -78,7 +78,7 @@
 								]); ?>
 
 							
-						<p class="text-danger"><?= validation_show_error('echeance') ?></p>
+						<p><?= validation_show_error('echeance') ?></p>
 				</td>
 			</tr>
 			<tr>
@@ -90,15 +90,17 @@
 		<hr>
 		
 		<?php 
-		$value = htmlspecialchars_decode(set_value('desc', $tache->getDescription()));
+		$value = htmlspecialchars_decode(set_value('description', $tache->getDescription()));
 
 		echo form_textarea([
-					'name'        => 'desc',
-					'class'       => 'desc',
+					'name'        => 'description',
+					'class'       => 'description',
 					'value'       => $value,  
 					'required'
 				]); 
 		?>
+
+		<p><?= validation_show_error('description') ?></p>
 
 
 		<div class="boutonEnre">
