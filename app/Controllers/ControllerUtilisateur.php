@@ -88,7 +88,7 @@ class ControllerUtilisateur extends BaseController
 		if ($utilisateur) {
 
 			//Si le compte est actif
-			if($utilisateur->getRole() == Utilisateur::$ROLE_INACTIF) {
+			if($utilisateur->getRole() != Utilisateur::$ROLE_INACTIF) {
 				
 				// Comparer le mot de passe
 				if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
