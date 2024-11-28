@@ -114,9 +114,7 @@ class ControllerUtilisateur extends BaseController
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');
-			echo view('commun/Navbar'); 
-			echo view('connexion/Connexion'); 
-			echo view('commun/Footer'); 
+            return redirect()->to('/connexion')->with('msg', 'Pas de compte lier a cette email !');
 		}
 	}
 
@@ -240,9 +238,9 @@ class ControllerUtilisateur extends BaseController
 		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
 		
 		if (!$isValid) {
-			return view('connexion/Connexion',[
-				'validation' => \Config\Services::validation()
-			]);
+            session()->setFlashdata('validation', \Config\Services::validation()->getErrors());
+            // Rediriger vers la page d'inscription
+            return redirect()->to('/inscription');
 		} else {
 			$data = $this->request->getPost();
 			$utilisateur = new Utilisateur();
@@ -256,10 +254,8 @@ class ControllerUtilisateur extends BaseController
 
 			// TODO appel fonction mail avec param et $utilisateur->getEmail() $tokenInsc
 			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
-			
-			echo view('commun/Navbar'); 
-			echo view('connexion/Connexion'); 
-			echo view('commun/Footer'); 
+
+            return redirect()->to('/connexion')->with('msg', 'Votre compte a été créer avec succès, maintenant il faut l\'activer avec votre mail !');
 		}
 	}
 
@@ -293,14 +289,14 @@ class ControllerUtilisateur extends BaseController
 			'email'          => $utilisateur->getEmail(),
 			'pseudo'         => $utilisateur->getPseudo(),
 			'role'           => $utilisateur->getRole(),
-			'isLoggedIn'     => true,
+			'isLoggedIn'     => false,
 		]);
 
 		echo '<pre>';
 		var_dump($utilisateur->toArray());
 		echo '</pre>';
 
-		return redirect()->to('/taches')->with('msg', 'Votre compte a été activé avec succès !');
+		return redirect()->to('/connexion')->with('msg', 'Votre compte a été activé avec succès !');
 	}
 
 
