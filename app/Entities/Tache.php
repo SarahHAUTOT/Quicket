@@ -104,6 +104,12 @@ class Tache extends Entity
         return intval($this->attributes['id_utilisateur']);
     }
 
+
+    public function getPriorite(): ?int
+    {
+        return $this->attributes['priorite'];
+    }
+
     public function getPrioriteString(): ?string
     {
         switch ($this->attributes['priorite']) 

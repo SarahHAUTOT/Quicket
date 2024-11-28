@@ -105,6 +105,7 @@ class TacheModel extends Model
         return  $tacheModele->where('echeance <=', $timeSoir)
                             ->where('echeance >=', $timeMatin)
                             ->where('id_utilisateur', $idUtilisateur)
+                            ->orderBy('echeance', 'asc')
                             ->get()->getResult('App\Entities\Tache');
     }
 }
