@@ -39,7 +39,7 @@ class ControllerUtilisateur extends BaseController
 		echo view('connexion/Inscription'); 
 		echo view('commun/Footer'); 
 	}
-    
+
     public function redirection_modificationMDP(string $tokenMdp)
     {
         // TODO : Afficher seulement si le token est bon
@@ -344,11 +344,11 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenMdp($tokenMDP);
 			$utilisateurModel->save($utilisateur);
             mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
-            return redirect()->to('/connexion/mdp')->with('msg', 'Un email a été envoyer !');
+            return redirect()->to('/connexion/mdp');
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');
-			return redirect()->to('/emailmdp')->with('msg', 'Email inexistant !');
+			return redirect()->to('/connexion/EmailMDP')->with('error', 'Email inexistant !');
 		}
 	}
 
