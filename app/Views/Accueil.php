@@ -3,19 +3,16 @@
 @since    : 25/11/2024
 @version  : 1.1.0 - 26/11/2024
 -->
-
 <div class="bg">
-	<div class="vh-100 d-flex justify-content-center align-items-center">
-		<div class="infoaccueil border text-align-center m-5 p-5 w-50  rounded">
-
-			<div class="d-flex flex-column align-items-center">
-				<h2 class="mb-5 fs-1"> Bienvenue sur Quicket ! </h2>
-
-				<p class="mt-3 fs-4">Quicket est un logiciel de gestion de tâche.</p>
-				<p class="mt-3 fs-4">Pour accéder à vos tâches, n'hésitez pas à vous <a href="/connexion" class="text-success">connecter</a> !</p>
-				<p class="fs-4" >Vous êtes nouveau par ici ? Vous pouvez vous inscrire en <a href="/inscription" class="text-success">cliquant ici</a> !</p>
-			</div>
-
-		</div>
-	</div>
+    <div class="vh-100 d-flex align-items-center">
+        <!-- Conteneur principal -->
+        <div class="container">
+            <div class="row justify-content-md-start justify-content-center">
+                <div class="col-md-6 col-12 text-md-start text-center" style=" color :#FF3354">
+                    <h1 style="font-size:10vw; margin-bottom:-30px;-webkit-text-stroke: 2px white;"><b>Quicket</h1> <br>
+                    <p class="px-3">Organiser rapidement vos tâches, sans prise de têtes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
