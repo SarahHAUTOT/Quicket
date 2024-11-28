@@ -4,7 +4,7 @@ namespace App\Entities;
 use App\Models\ProjetModel;
 use CodeIgniter\Entity\Entity;
 
-class Commentaire extends Entity
+class Projet extends Entity
 {
 	protected $attributes = [
 		'id_projet'	  => null,

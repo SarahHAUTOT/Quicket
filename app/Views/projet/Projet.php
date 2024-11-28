@@ -86,7 +86,7 @@
 					<br>
 					
 					<div class="d-flex justify-content-center align-items-center">
-						<?php echo form_submit('submit', 'Ajouter la tâche', "class='btn w-50 btn-principale' id='btnSub'"); ?>
+						<?php echo form_submit('submit', 'Créer le projet', "class='btn w-50 btn-principale' id='btnSub'"); ?>
 					</div>
 
 

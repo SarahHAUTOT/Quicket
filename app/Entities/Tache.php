@@ -17,7 +17,8 @@ class Tache extends Entity
         'priorite' => null,
         'echeance' => null,
         'id_utilisateur' => null,
-        'categorie' => null
+        'categorie' => null,
+        'id_projet' => null
     ];
 
     protected $dates = ['creation_tache', 'modiff_tache'];

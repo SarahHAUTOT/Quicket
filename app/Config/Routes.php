@@ -60,11 +60,12 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 	$routes->get('/account', 'ControllerUtilisateur::redirection_compte');
 	$routes->match(['get', 'post'], '/account/update', 'ControllerUtilisateur::traitement_modifDonne'); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/account/delete', 'ControllerUtilisateur::traitement_delete'    ); // (c_ControllerTaches  --> v_taches/Taches.php)
-
+	
 	$routes->get('/planning/', 'ControllerPlanning::redirection_vueGlobale');
 	$routes->get('/planning/(:any)', 'ControllerPlanning::redirection_vueGlobale/$1');
-
+	
 	$routes->get('/projets', 'ControllerProjet::redirection_projets');
+	$routes->match(['get', 'post'], '/projets/create', 'ControllerProjet::traitement_creation'    ); // (c_ControllerTaches  --> v_taches/Taches.php)
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
 
