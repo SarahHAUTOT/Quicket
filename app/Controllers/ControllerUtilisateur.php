@@ -242,6 +242,10 @@ class ControllerUtilisateur extends BaseController
             // Rediriger vers la page d'inscription
             return redirect()->to('/inscription');
 		} else {
+			echo view('commun/Navbar'); 
+			echo view('connexion/Activation'); 
+			echo view('commun/Footer'); 
+
 			$data = $this->request->getPost();
 			$utilisateur = new Utilisateur();
 			$utilisateur->fill($data);
@@ -254,8 +258,6 @@ class ControllerUtilisateur extends BaseController
 
 			// TODO appel fonction mail avec param et $utilisateur->getEmail() $tokenInsc
 			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
-
-            return redirect()->to('/connexion')->with('msg', 'Votre compte a été créer avec succès, maintenant il faut l\'activer avec votre mail !');
 		}
 	}
 
@@ -291,10 +293,6 @@ class ControllerUtilisateur extends BaseController
 			'role'           => $utilisateur->getRole(),
 			'isLoggedIn'     => false,
 		]);
-
-		echo '<pre>';
-		var_dump($utilisateur->toArray());
-		echo '</pre>';
 
 		return redirect()->to('/connexion')->with('msg', 'Votre compte a été activé avec succès !');
 	}
