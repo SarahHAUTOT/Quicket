@@ -264,9 +264,6 @@ class ControllerUtilisateur extends BaseController
             // Rediriger vers la page d'inscription
             return redirect()->to('/inscription');
 		} else {
-			echo view('commun/Navbar'); 
-			echo view('connexion/Activation'); 
-			echo view('commun/Footer'); 
 
 			$data = $this->request->getPost();
 			$utilisateur = new Utilisateur();
@@ -277,7 +274,9 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenInscription($tokenInsc);
 			$utilisateurModel->insert($utilisateur);
 			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
-            return redirect()->to('/connexion')->with('msg', 'Votre compte a été créer avec succès, maintenant il faut l\'activer avec votre mail !');
+			echo view('commun/Navbar'); 
+			echo view('connexion/Activation'); 
+			echo view('commun/Footer'); 
 		}
 	}
 
