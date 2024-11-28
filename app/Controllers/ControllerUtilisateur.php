@@ -226,7 +226,7 @@ class ControllerUtilisateur extends BaseController
 		//if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
 			
 			//Supprimer
-			$tableModele = new TacheModel();
+			$tacheModele = new TacheModel();
 			$commentaireModele = new CommentaireModel();
 			$taches = $utilisateur->getTaches();
 			
@@ -237,7 +237,7 @@ class ControllerUtilisateur extends BaseController
 				{
 					$commentaireModele->delete($commentaire->getIdCommentaire());
 				}
-				$tableModele->delete($tache->getIdTache());
+				$tacheModele->delete($tache->getIdTache());
 			}
 
 			$utilisateurModel->delete($utilisateur->getIdUtilisateur());

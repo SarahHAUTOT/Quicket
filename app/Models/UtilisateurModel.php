@@ -57,4 +57,24 @@ class UtilisateurModel extends Model
         $tacheModele = new TacheModel();
         return $tacheModele->where('id_utilisateur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Tache');
     }
+
+    public function deleteCascade(int $idUtilisateur): bool
+    {
+        $tacheModele = new TacheModel();
+        $taches = $this->getTaches($this->find($idUtilisateur));
+        
+        foreach ($taches as $tache)
+        {
+            $tacheModele->deleteCascade($tache->getIdTache());
+            /*
+            $commentaires = $tache->getCommentaires();
+            foreach ($commentaires as $commentaire)
+            {
+                $commentaireModele->delete($commentaire->getIdCommentaire());
+            }
+            $tacheModele->delete($tache->getIdTache());*/
+        }
+
+		return $this->delete($idUtilisateur);
+    }
 }
