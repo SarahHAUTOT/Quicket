@@ -9,13 +9,19 @@ use App\Models\UtilisateurModel;
 
 class ControllerUtilisateur extends BaseController
 {
-
+    /**
+     * helper 
+     */
 	public function __construct()
 	{
 		//Chargement du helper Form
 		helper(['form']);
 	}
 
+    /**
+     * redirectionne vers la page de connexion
+     * @return void redirectionne vers la page de connexion
+     */
 	public function redirection_connexion()
 	{
 		echo view('commun/Navbar'); 
@@ -23,6 +29,10 @@ class ControllerUtilisateur extends BaseController
 		echo view('commun/Footer'); 
 	}
 
+    /**
+     * redirectionne vers la page inscription
+     * @return void redirectionne vers la page inscription
+     */
 	public function redirection_inscription()
 	{
 		echo view('commun/Navbar'); 
@@ -30,7 +40,12 @@ class ControllerUtilisateur extends BaseController
 		echo view('commun/Footer'); 
 	}
 
-	public function redirection_modificationMDP($tokenMdp)
+    /**
+     * redirectionne vers le formulaire changer mdp
+     * @param string $tokenMdp
+     * @return void redirectionne vers le formulaire changer mdp
+     */
+	public function redirection_modificationMDP(String $tokenMdp)
 	{
 		// TODO : Afficher seulement si le token est bon
 
@@ -39,19 +54,23 @@ class ControllerUtilisateur extends BaseController
 		echo view('commun/Footer'); 
 	}
 
+    /**
+     * redirectionne vers la page compte
+     * @return void redirectionne vers la page compte
+     */
 	public function redirection_compte()
 	{
-		// TODO : Afficher seulement si le token est bon
-
 		echo view('commun/Navbar'); 
 		echo view('compte/Compte'); 
 		echo view('commun/Footer'); 
 	}
 
+    /**
+     * redirectionne vers la page de confirmation d'envoir mail pour changer le mdp
+     * @return void redirectionne vers la page de confirmation d'envoir mail pour changer le mdp
+     */
 	public function mail_Modification()
 	{
-		// TODO : Envoie du mail de modification de mots de passe
-
 		echo view('commun/Navbar'); 
 		echo view('connexion/Modif'); 
 		echo view('commun/Footer'); 
@@ -100,14 +119,11 @@ class ControllerUtilisateur extends BaseController
 						'role' => $utilisateur->getRole(),  // Utiliser la méthode getRole()
 						'isLoggedIn' => true
 					]);
-
 					// Rediriger vers la page d'accueil
 					return redirect()->to('/taches'); 
-
 				} else {
 					return redirect()->back()->withInput()->with('error','Mots de passe incorrect.');
 				}
-
 			} else {
 				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif. Consultez vos mails pour l\'activer !');
 			}
@@ -118,17 +134,21 @@ class ControllerUtilisateur extends BaseController
 		}
 	}
 
-
-
-
+    /**
+     * Déconnecte l'utilisateur, redirectionne vers connexion
+     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne vers connexion
+     */
 	public function traitement_deconnexion()
 	{
 		session()->destroy();
 		return redirect()->to('/connexion');
 	}
 
-
-
+    /**
+     * Modifie les donné du compte, pseudo et email
+     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne a ala page d'avant
+     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne vers compte
+     */
 	public function traitement_modifDonne()
 	{
 		$validation = \Config\Services::validation();
@@ -181,7 +201,11 @@ class ControllerUtilisateur extends BaseController
 		return redirect()->to('/account')->with('success', 'Vos données ont été mises à jour.');
 	}
 
-
+    /**
+     * Supprime l'utilisateur
+     * @return \CodeIgniter\HTTP\RedirectResponse déconnecte l'utilisateur
+     * @return \CodeIgniter\HTTP\RedirectResponse reviens page d'avant si erreur
+     */
 	public function traitement_delete()
 	{
 		
@@ -195,8 +219,8 @@ class ControllerUtilisateur extends BaseController
 		$utilisateur = $utilisateurModel->find($session->get('id_utilisateur'));
 
 		// Comparer le mot de passe
-		// if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
-		if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
+		 if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
+		//if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
 			
 			//Supprimer
 			$tableModele = new TacheModel();
@@ -222,7 +246,11 @@ class ControllerUtilisateur extends BaseController
 			return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
 		}
 	}
-  
+
+    /**
+     * traitement pour inscrire un utilisateur role a inactif
+     * @return \CodeIgniter\HTTP\RedirectResponse redirige vers connexion
+     */
 	public function traitement_inscription()
 	{
 		$utilisateurModel = new UtilisateurModel();
@@ -253,7 +281,11 @@ class ControllerUtilisateur extends BaseController
 		}
 	}
 
-
+    /**
+     * traitement pour activer un compte
+     * @param string $tokenActivation vtoken généré a inscription et récup par email
+     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne a connexion
+     */
 	public function traitement_activation(string $tokenActivation)
 	{
 		$session = session();
@@ -286,7 +318,10 @@ class ControllerUtilisateur extends BaseController
 		return redirect()->to('/connexion')->with('msg', 'Votre compte a été activé avec succès !');
 	}
 
-
+    /**
+     * traitement du formualire demande d'email pour oublie mdp
+     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne vers connexion
+     */
 	public function traitement_emailMDPoublie()
 	{
 		// TODO : Traitement de l'inscription
@@ -322,7 +357,7 @@ class ControllerUtilisateur extends BaseController
 
 	/**
 	 * Génère un token robuste, pour inscription et oubli mdp
-	 * @return string
+	 * @return string token de 16 caractère
 	 */
 	private function generateValidToken(): string
 	{
