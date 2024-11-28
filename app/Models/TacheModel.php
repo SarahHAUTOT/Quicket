@@ -92,4 +92,18 @@ class TacheModel extends Model
         $commentaireModele = new CommentaireModel();
         return $commentaireModele->where('id_tache', $tache->getIdTache())->get()->getResult('App\Entities\Commentaire');
     }
+
+    public function getTacheJour(int $utilisateur, \DateTime $datetime): array
+    {
+        $dateMatin = clone $datetime;
+        $dateMatin->setTime(0, 0, 1);
+
+        $dateSoir = clone $datetime;
+        $dateSoir ->setTime(23, 59, 59);
+
+        $tacheModele = new TacheModel();
+        return  $tacheModele->where('creation_tache <=', $dateSoir)
+                    ->where('creation_tache >=', $dateMatin)
+                    ->get()->getResult('App\Entities\Tache');
+    }
 }
