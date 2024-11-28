@@ -37,14 +37,28 @@ class ProjetModel extends Model
 		],
 	];
 	
-	public function getUtilisateurs(int $idProjet): ?array
+	public function getUtilisateurs(Projet $projet): ?array
 	{
 		$builder = $this->builder();
-		$builder->select(select: 'utilisateur.*')
-				->join('utilisateur', 'utilisateur.id_projet = ProjetUtilisateur.id_projet', 'left')
-				->where('ProjetTache.id_projet', $idProjet);
+		$builder->select(select: 'utilisateur.*')->from('utilisateur')
+				->join('ProjetUtilisateur', 'utilisateur.id_utilisateur = ProjetUtilisateur.id_utilisateur', 'left')
+				->where('ProjetUtilisateur.id_projet', $projet->getIdProjet());
 			
-		return $builder->get()->getResult('App\Entities\Utilisateur');
+		$utilisateurs = $builder->get()->getResult('App\Entities\Utilisateur');
+		array_push($utilisateurs, $projet->getCreateur());
+		return $utilisateurs;
+	}
+	
+	public function getTaches(Projet $projet): ?array
+	{
+		$builder = $this->builder();
+		$builder->select(select: 'tache.*')
+				->join('projet', 'tache.id_projet = projet.id_projet', 'left')
+				->where('projet.id_projet', $projet->getIdProjet());
+			
+		$utilisateurs = $builder->get()->getResult('App\Entities\Utilisateur');
+		array_push($utilisateurs, $projet->getCreateur());
+		return $utilisateurs;
 	}
 
 	public function insererProjetUtilisateur(int $idProjet, int $idUtilisateur): bool
@@ -87,6 +101,6 @@ class ProjetModel extends Model
 	public function getCreateur(Projet $projet): Utilisateur
 	{
 		$utilisateurModele = new UtilisateurModel();
-		return $utilisateurModele->find($projet->getIdUtilisateur());
+		return $utilisateurModele->find($projet->getIdCreateur());
 	}
 }

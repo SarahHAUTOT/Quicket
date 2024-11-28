@@ -124,6 +124,14 @@
 				<div class="modal-body">
 					<?php echo form_open('/taches/create',['id'=>'formCreate']); ?>
 
+						<?php echo form_input([
+							'name'        => 'id_projet',
+							'id'          => 'id_projet',
+							'type'        => 'hidden',
+							'value'       => set_value('id_projet'),
+							'required'
+						]); ?>
+
 					<div class="form-group mb-2">
 						<?php echo form_label('Titre', 'titre'); ?>
 						

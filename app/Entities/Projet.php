@@ -44,10 +44,23 @@ class Projet extends Entity
 		return intval($this->attributes['id_projet']);
 	}
 
-	public function getIdCreateur(): ?int
-	{
-		return intval($this->attributes['id_createur']);
-	}
+    public function getCreateur(): Utilisateur
+    {
+		$projetModel = new ProjetModel();
+        return $projetModel->getCreateur($this);
+    }
+
+    public function getUtilisateurs(): array
+    {
+		$projetModel = new ProjetModel();
+        return $projetModel->getUtilisateurs($this);
+    }
+
+    public function getTaches(): array
+    {
+		$projetModel = new ProjetModel();
+        return $projetModel->getTaches($this);
+    }
 
 	public function getNomProjet(): ?string
 	{

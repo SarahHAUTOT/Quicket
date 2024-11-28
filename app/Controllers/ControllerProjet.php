@@ -15,8 +15,16 @@ class ControllerProjet extends BaseController
 	
 	public function redirection_projets()
 	{
+		$projetModele = new ProjetModel();
+		$projets = $projetModele->where('id_createur', session()->get('id_utilisateur'))->get()->getResult('App\Entities\Projet');
+		
+		
+
     	echo view('commun/Navbar'); 
-    	echo view('projet/Projet');
+    	echo view('projet/Projets', [
+				'projets'     => $projets,
+			]
+		);
     	echo view('commun/Footer'); 
 	}
 	

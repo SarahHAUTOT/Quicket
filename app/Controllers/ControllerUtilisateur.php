@@ -96,7 +96,6 @@ class ControllerUtilisateur extends BaseController
 	 */
 	public function traitement_connexion()
 	{
-		// TODO : Traitement de connexion
 		$session = session();
 		$utilisateurModel = new UtilisateurModel();
 
@@ -124,7 +123,7 @@ class ControllerUtilisateur extends BaseController
 						'isLoggedIn' => true
 					]);
 					// Rediriger vers la page d'accueil
-					return redirect()->to('/taches'); 
+					return redirect()->to('/projets'); 
 				} else {
 					return redirect()->back()->withInput()->with('error','Mots de passe incorrect.');
 				}
@@ -133,7 +132,7 @@ class ControllerUtilisateur extends BaseController
 			}
 		} else {
 			// Email non trouvé
-            return redirect()->to('/connexion')->with('error', 'Pas de compte lier a cette email !');
+            return redirect()->to('/connexion')->with('error', 'Pas de compte lié à cette email !');
 		}
 	}
 

@@ -58,6 +58,12 @@ class UtilisateurModel extends Model
         return $tacheModele->where('id_utilisateur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Tache');
     }
 
+    public function getProjets(Utilisateur $utilisateur): array
+    {
+        $projetModele = new ProjetModel();
+        return $projetModele->where('id_createur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Projet');
+    }
+
     public function deleteCascade(int $idUtilisateur): bool
     {
         $tacheModele = new TacheModel();

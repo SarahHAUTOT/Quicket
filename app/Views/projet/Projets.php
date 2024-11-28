@@ -21,13 +21,20 @@
 					<?php if (!empty($projets)) : ?>
 						<?php foreach ($projets as $projet):?>
 							<div class="col-md-4 my-4">
-								<a href="/produits/bague" class="text-decoration-none">
+								<a href="#" class="text-decoration-none">
 									<div class="card h-100">
 										<div class="card-body text-center">
-											<h5 class="card-title">Projet Nom</h5>
+											<h5 class="card-title"><?= $projet->getNomProjet() ?></h5>
 											<p class="card-text">
-												Nb Taches <br>
-												Nb Participants
+												<?php 
+													$nb = count($projet->getTaches());
+													echo $nb . " tache" . ($nb > 1?"s":"") ." <i class=\"bi bi-ui-checks\"></i>";
+												?>
+												<br>
+												<?php 
+													$nb = count($projet->getUtilisateurs());
+													echo $nb . " participant" . ($nb > 1?"s":"") ." <i class=\"bi bi-people-fill\"></i>";
+												?>
 											</p>
 										</div>
 									</div>
