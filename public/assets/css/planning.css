@@ -1,0 +1,28 @@
+.card-head
+{
+	background-color: #E60026 !important;
+	border-color: #E60026 !important;
+	color: antiquewhite;
+}
+
+.card
+{
+	border: none;
+}
+
+.lstTache:nth-child(odd)
+{
+	background-color: white !important;
+}
+
+
+.lstTache:nth-child(even)
+{
+	background-color: #DCDCDC !important;
+}
+
+
+.card-body
+{
+	background-color: #A9A9A9;
+}

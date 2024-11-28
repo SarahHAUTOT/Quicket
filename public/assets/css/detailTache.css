@@ -1,0 +1,250 @@
+/*
+@author   : Alizéa Lebaron
+@since    : 26/11/2024
+@version  : 1.0.1 - 26/11/2024
+*/
+
+.bg2 {
+    background-image: url('../img/bg.png');
+    background-repeat: no-repeat;
+	background-attachment: fixed;
+
+	position: fixed;
+	top: 0;
+	min-height: 95vh;
+
+    background-size: cover;
+    width: 100%;
+    position: relative; /* Nécessaire pour les éléments positionnés */
+}
+
+.infoTache
+{
+	/* Fond */
+	background-color: aliceblue;
+	border: 1px gray solid;
+
+	/* Position de la boîte */
+	margin: 0 auto;
+	margin-top: 1vh;
+
+	/* Taille de la boîte */
+	width: 80%;
+
+	/* Intérieur */
+	padding: 2vh;	
+}
+
+h2
+{
+	float: left;
+	width: 50%;
+}
+
+.head
+{
+	width: 100%;
+}
+
+.annotation
+{
+	text-align: right;
+}
+
+.left
+{
+	width: 82%;
+}
+
+p
+{
+	margin: 0;
+}
+
+hr
+{
+	clear: both;
+}
+
+.small-image
+{
+	height: 25px;
+	width: 25px;
+}
+
+.desc
+{
+	width: 100%;
+	height: 20vh;
+	margin: 0 auto;
+	background-color: rgb(150, 180, 169);
+	color: black;
+	border-radius: 5px;
+}
+
+.tabComm
+{
+	width: 100%;
+	margin-top: 2vh;
+}
+
+.infoTache img, .infoTache p 
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+td
+{
+	padding: 5px;
+}
+
+.user
+{
+	font-weight: 500;
+}
+
+.date
+{
+	float: right;
+}
+
+.commentaire
+{
+	background-color: rgb(180, 204, 195);
+	color: rgb(0, 0, 0);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.ajout
+{
+	padding: 0px;
+	width: 100%;
+}
+
+.ajoutComm
+{
+	padding: 0px;
+	width: 95%;
+}
+
+.valid
+{
+	width: 5%;
+}
+
+.bouton
+{
+	padding: 5px;
+	background-color: rgb(174, 207, 188);
+	border: rgb(125, 156, 138) solid 1px;
+	border-radius: 5px;
+
+	float: right;
+}
+
+input
+{
+	background-color: rgb(43, 43, 43);
+}
+
+.prio
+{
+	font-size: large;
+}
+
+.boutonOption
+{
+	margin: 0 auto;
+	margin-top: 10vh;
+	margin-bottom: 3vh;
+	display: flex;
+	justify-content: center; /* Centre horizontalement */
+	gap: 10%;
+}
+
+.boutonEnre
+{
+	display: flex;
+	justify-content: center; /* Centre horizontalement */
+	margin-top: 3vh;
+	margin-bottom: 3vh;
+}
+
+.dateComm
+{
+	margin-right: 10px;
+}
+
+.boutonModif, .boutonModif2, .boutonSupp, .boutonInfo
+{
+	text-align: center;
+	padding: 10px;
+	border-radius: 5px;
+	text-decoration: none;
+	color: black;
+	letter-spacing: 1px;
+	transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.boutonModif2
+{
+	background-color: rgb(174, 207, 188);	
+	border: rgb(125, 156, 138) solid 1px;
+	margin-top: 1vh;
+	text-align: center;
+}
+
+.boutonModif
+{
+	background-color: rgb(174, 207, 188);	
+	border: rgb(125, 156, 138) solid 1px;
+}
+
+.boutonSupp
+{
+	background-color: rgb(230, 134, 131);
+	border: rgb(209, 92, 88) solid 1px;
+}
+
+.boutonModif:hover, .boutonModif2:hover
+{
+	background-color: rgb(125, 156, 138); /* Plus foncé */
+    border-color: rgb(95, 125, 110);
+}
+
+.boutonSupp:hover
+{
+	background-color: rgb(182, 67, 63); /* Plus foncé */
+    border-color: rgb(150, 40, 40);
+}
+
+.boutonInfo
+{
+	background-color: rgb(177, 204, 207);
+	border: rgb(126, 162, 167) solid 1px;
+}
+
+.boutonInfo:hover
+{
+	background-color: rgb(137, 176, 180);
+	border: rgb(92, 126, 131) solid 1px;
+}
+
+.error 
+{
+    color: rgb(185, 50, 50);
+    margin-top: 10px; /* Espacement entre le formulaire et le message d'erreur */
+    text-align: center; /* Centrer le message d'erreur */
+}
+
+form {
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column; /* Organise les éléments du formulaire en colonne */
+    justify-content: center;
+    align-items: center;
+    padding: 2vh;
+}
