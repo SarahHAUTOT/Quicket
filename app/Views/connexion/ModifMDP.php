@@ -7,8 +7,7 @@
 					<h2> Modification du mots de passe </h2>
 				</div>
 
-				<?php echo form_open('/connexion/mdp'); ?>
-
+                <?php echo form_open('/connexion/mdp/change/'.$token); ?>
 					<div class="form-group mb-2">
 						<?php echo form_label('Mots de passe', 'mdp'); ?>
 						

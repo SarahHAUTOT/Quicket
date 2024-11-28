@@ -9,6 +9,11 @@
 
 				<?php echo form_open('/connexion/emailmdp/change'); ?>
 
+                    <?php if (session()->has('error')) : ?>
+						<p class="text-danger">
+							<?= session('error') ?>
+						</p>
+					<?php endif; ?>
 
 					<div class="form-group mb-2">
 						<?php echo form_label('Email', 'email'); ?>
