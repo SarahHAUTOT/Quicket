@@ -82,7 +82,7 @@
 					
 					<br>
 					<div class="d-flex justify-content-center align-items-center">
-						<?php echo form_submit('submit', 'S\'inscrire',"class='btn w-50 btn-principale'"); ?>
+						<?php echo form_submit('submit', 'S\'inscrire',"class='btn w-50 btn-principale' onclick=\"this.classList.add('disabled')\""); ?>
 					</div>
 
 				<?php echo form_close(); ?>
