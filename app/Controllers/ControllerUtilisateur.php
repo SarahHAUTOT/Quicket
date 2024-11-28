@@ -277,7 +277,7 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenInscription($tokenInsc);
 			$utilisateurModel->insert($utilisateur);
 			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
-      return redirect()->to('/connexion')->with('msg', 'Votre compte a été créer avec succès, maintenant il faut l\'activer avec votre mail !');
+            return redirect()->to('/connexion')->with('msg', 'Votre compte a été créer avec succès, maintenant il faut l\'activer avec votre mail !');
 		}
 	}
 
