@@ -86,19 +86,28 @@ class ControllerUtilisateur extends BaseController
 
 		// Vérifier si un utilisateur a été trouvé
 		if ($utilisateur) {
-			// Comparer le mot de passe
-			if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
-				// Créer les données de session
-				$session->set([
-					'id_utilisateur' => $utilisateur->getIdUtilisateur(),  // Utiliser la méthode getIdUtilisateur()
-					'email' => $utilisateur->getEmail(),  // Utiliser la méthode getEmail()
-					'pseudo' => $utilisateur->getPseudo(),  // Utiliser la méthode getPseudo()
-					'role' => $utilisateur->getRole(),  // Utiliser la méthode getRole()
-					'isLoggedIn' => true
-				]);
 
-				// Rediriger vers la page d'accueil
-				return redirect()->to('/taches'); 
+			//Si le compte est actif
+			if($utilisateur->getRole() == Utilisateur::$ROLE_INACTIF) {
+				
+				// Comparer le mot de passe
+				if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
+					// Créer les données de session
+					$session->set([
+						'id_utilisateur' => $utilisateur->getIdUtilisateur(),  // Utiliser la méthode getIdUtilisateur()
+						'email' => $utilisateur->getEmail(),  // Utiliser la méthode getEmail()
+						'pseudo' => $utilisateur->getPseudo(),  // Utiliser la méthode getPseudo()
+						'role' => $utilisateur->getRole(),  // Utiliser la méthode getRole()
+						'isLoggedIn' => true
+					]);
+
+					// Rediriger vers la page d'accueil
+					return redirect()->to('/taches'); 
+
+				} else {
+					return redirect()->back()->withInput()->with('error','Mots de passe incorrect.');
+				}
+
 			} else {
 				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif. Consultez vos mails pour l\'activer !');
 			}
