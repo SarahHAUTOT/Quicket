@@ -1,9 +1,10 @@
 <?php
 namespace App\Entities;
 
+use App\Models\TacheModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
-use Exception;
+use CodeIgniter\I18n\TimeDifference;
 
 class Tache extends Entity
 {
@@ -69,9 +70,9 @@ class Tache extends Entity
 		return new Time($this->attributes['creation_tache']);
 	}
     
-    public function setPriorite(int $nb): Tache
+    public function setPriorite(string $str): Tache
     {
-        $this->attributes['priorite'] = $nb;
+        $this->attributes['priorite'] = intval($str);
 
         return $this;
     }
@@ -90,7 +91,6 @@ class Tache extends Entity
     {
         return new Time($this->attributes['modiff_tache']);
     }
-
     
     public function getTitre(): ?string
     {
@@ -113,5 +113,49 @@ class Tache extends Entity
     public function getIdUtilisateur(): int
     {
         return intval($this->attributes['id_utilisateur']);
+    }
+
+    public function getPriorite(): ?int
+    {
+        return $this->attributes['priorite'];
+    }
+
+    public function getPrioriteString(): ?string
+    {
+        switch ($this->attributes['priorite']) 
+        {
+            case 1:
+                return "Crucial";
+                break;
+            
+            case 2:
+                return "Important";
+                break;
+            
+            case 3:
+                return "Neutre";
+                break;
+
+            case 4:
+                return "Négligeable";
+                break;
+        }
+
+        return $this->attributes['priorite'];
+    }
+
+    public function getTempsRestant(): TimeDifference
+    {
+        $time = $this->getEcheance();
+        return $time->difference(Time::now('Europe/Paris', 'fr_FR'));
+    }
+
+    /**
+	 * Getter l'utilisateur
+	 */
+    public function getCommentaires(): array
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getCommentaires($this);
     }
 }
