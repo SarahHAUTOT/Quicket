@@ -1,5 +1,7 @@
 <?php
 namespace App\Controllers;
+use App\Models\CommentaireModel;
+use App\Models\TacheModel;
 use CodeIgniter\Controller;
 use App\Entities\Utilisateur;
 
@@ -34,6 +36,15 @@ class ControllerUtilisateur extends BaseController
 
 		echo view('commun/Navbar'); 
 		echo view('connexion/ModifMDP'); 
+		echo view('commun/Footer'); 
+	}
+
+	public function redirection_compte()
+	{
+		// TODO : Afficher seulement si le token est bon
+
+		echo view('commun/Navbar'); 
+		echo view('compte/Compte'); 
 		echo view('commun/Footer'); 
 	}
 
@@ -89,11 +100,7 @@ class ControllerUtilisateur extends BaseController
 				// Rediriger vers la page d'accueil
 				return redirect()->to('/taches'); 
 			} else {
-				// Mot de passe incorrect
-				$session->setFlashdata('msg', 'Mot de passe incorrect.');
-				echo view('commun/Navbar'); 
-				echo view('connexion/Connexion'); 
-				echo view('commun/Footer'); 
+				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif. Consultez vos mails pour l\'activer !');
 			}
 		} else {
 			// Email non trouvé
@@ -104,6 +111,117 @@ class ControllerUtilisateur extends BaseController
 		}
 	}
 
+
+
+
+	public function traitement_deconnexion()
+	{
+		session()->destroy();
+		return redirect()->to('/connexion');
+	}
+
+
+
+	public function traitement_modifDonne()
+	{
+		$validation = \Config\Services::validation();
+		$utilisateurModel = new UtilisateurModel();
+		$session = session();
+
+		$data = $this->request->getPost();
+
+		// Règles de validation uniquement pour email et pseudo
+		$regleValidation = [];
+
+		if (strcmp($data['email'], $session->get('email')) == 0) {
+			$regleValidation = [
+				'pseudo' => $utilisateurModel->getValidationRules()['pseudo']
+			];
+		} else {
+			$regleValidation = [
+				'email'  => $utilisateurModel->getValidationRules()['email'],
+				'pseudo' => $utilisateurModel->getValidationRules()['pseudo']
+			];
+		}
+
+		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
+
+		if (!$isValid) {
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+
+		// Récupération des données de la session
+		$idUtilisateur = $session->get('id_utilisateur');
+
+		/**
+		 * @var Utilisateur
+		 */
+		$utilisateur = $utilisateurModel->find($idUtilisateur);
+
+		// Mise à jour des propriétés
+		$utilisateur->setEmail ($data['email']  ?? $utilisateur->getEmail());
+		$utilisateur->setPseudo($data['pseudo'] ?? $utilisateur->getPseudo());
+
+				// Enregistrer les modifications
+		$utilisateurModel->save($utilisateur);
+
+		// Mettre à jour la session
+		$session->set([
+			'email'  => $utilisateur->email,
+			'pseudo' => $utilisateur->pseudo,
+		]);
+
+		return redirect()->to('/account')->with('success', 'Vos données ont été mises à jour.');
+	}
+
+
+	public function traitement_delete()
+	{
+		
+		$session = session();
+		$utilisateurModel = new UtilisateurModel();
+
+		// Récupérer les données du formulaire
+		$mdp   = $this->request->getVar('mdp');
+
+
+
+
+		// Rechercher l'utilisateur par email
+		$utilisateur = $utilisateurModel->find($session->get('id_utilisateur'));
+
+		// Comparer le mot de passe
+		// if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
+		if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
+			
+			//Supprimer
+			$tableModele = new TacheModel();
+			$commentaireModele = new CommentaireModel();
+			$taches = $utilisateur->getTaches();
+			
+			foreach ($taches as $tache)
+			{
+				$commentaires = $tache->getCommentaires();
+				foreach ($commentaires as $commentaire)
+				{
+					$commentaireModele->delete($commentaire->getIdCommentaire());
+				}
+
+				$tableModele->delete($tache->getIdTache());
+			}
+
+			$utilisateurModel->delete($utilisateur->getIdUtilisateur());
+			
+			// Deconnexion
+			return redirect()->to('/deconnect'); 
+
+		} else {
+
+			// Mot de passe incorrect
+			return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
+		}
+	}
+  
 	public function traitement_inscription()
 	{
 		$utilisateurModel = new UtilisateurModel();

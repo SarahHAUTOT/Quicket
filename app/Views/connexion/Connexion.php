@@ -36,6 +36,7 @@
 						<?php echo form_input([
 							'name'        => 'mdp',
 							'id'          => 'mdp',
+							'type'        => 'password',
 							'class'       => 'form-control',
 							'value'       => set_value('mdp'),
 							'required'

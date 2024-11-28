@@ -2,6 +2,7 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
+use App\Models\UtilisateurModel;
 use CodeIgniter\I18n\Time;
 
 class Utilisateur extends Entity
@@ -31,6 +32,20 @@ class Utilisateur extends Entity
     public function setRole(string $role): Utilisateur
     {
         $this->attributes['role'] = $role;
+
+        return $this;
+    }
+
+    public function setEmail(string $email): Utilisateur
+    {
+        $this->attributes['email'] = $email;
+
+        return $this;
+    }
+
+    public function setPseudo(string $pseudo): Utilisateur
+    {
+        $this->attributes['pseudo'] = $pseudo;
 
         return $this;
     }
@@ -103,5 +118,11 @@ class Utilisateur extends Entity
     public function getCreationTokenInscription(): ?string
     {
         return $this->attributes['creation_token_inscription'];
+    }
+
+    public function getTaches(): array
+    {
+        $utilisateurModel = new UtilisateurModel();
+        return $utilisateurModel->getTaches($this);
     }
 }

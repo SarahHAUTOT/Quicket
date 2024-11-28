@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Entities\Utilisateur;
 use CodeIgniter\Model;
 
 class UtilisateurModel extends Model
@@ -49,4 +50,11 @@ class UtilisateurModel extends Model
 			'valid_email' => 'Entrer un émail valid.',
 		]
 	];
+
+	// Fonctions
+    public function getTaches(Utilisateur $utilisateur): array
+    {
+        $tacheModele = new TacheModel();
+        return $tacheModele->where('id_utilisateur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Tache');
+    }
 }

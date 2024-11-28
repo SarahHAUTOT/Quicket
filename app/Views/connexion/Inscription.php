@@ -45,6 +45,7 @@
 						<?php echo form_input([
 							'name'        => 'mdp',
 							'id'          => 'mdp',
+							'type'        => 'password',
 							'class'       => 'form-control',
 							'value'       => set_value('mdp'),
 							'required'
@@ -60,6 +61,7 @@
 						<?php echo form_input([
 							'name'        => 'mdpConf',
 							'id'          => 'mdpConf',
+							'type'        => 'password',
 							'class'       => 'form-control',
 							'value'       => set_value('mdpConf'),
 							'required'
@@ -76,7 +78,7 @@
 				<?php echo form_close(); ?>
 					
 				<div class="d-flex justify-content-center align-items-center">
-					<a href="/connexion" class="btn btn-link"> Déja inscris ?Connectez vous !</a> 
+					<a href="/connexion" class="btn btn-link"> Déja inscris ? Connectez vous !</a> 
 				</div>
 			</div>
 		</div>
