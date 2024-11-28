@@ -142,9 +142,10 @@
 						
 						<?php 
 							$options = [
-								'3'=> 'A faire',
+								'4'=> 'Négligeable',
+								'3'=> 'Neutre',
 								'2'=> 'Important',
-								'1'=> 'Cruciale',
+								'1'=> 'Crucial',
 							];
 							echo form_dropdown([
 								'name'    => 'priorite',

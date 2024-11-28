@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 use App\Entities\Tache;
+use App\Entities\Commentaire;
 use App\Models\TacheModel;
 use App\Models\CommentaireModel;
 use CodeIgniter\Controller;
@@ -105,6 +106,38 @@ class ControllerTaches extends BaseController
 		$tacheModele = new TacheModel();
 		var_dump($tacheModel);
 		return redirect()->to('/taches'); // TODO Page courante après insertion
+	}
+
+	public function traitement_creation_comm()
+	{
+		$validation = \Config\Services::validation();
+	
+		$commModel = new CommentaireModel();
+		
+		if (!$this->validate($commModel->getValidationRules(), $commModel->getValidationMessages())) 
+		{
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+	
+		$data = $this->request->getPost();
+
+		$data['id_tache'] = intval($data['id_tache']);
+		$comm = new Commentaire();
+		$comm->fill($data);
+
+		// Je récupère la date actuelle
+		$date = new \DateTime();
+		$date->format('Y-m-d H:i:s');
+
+		$data['creation_commentaire'] = $date;
+
+		$comm->fill($data);
+		$comm->setIdUtilisateur(session()->get('id_utilisateur'));
+
+		$commModel->insert($comm);
+
+		var_dump($commModel);
+		return redirect()->to('/taches/'.$data['id_tache']);
 	}
 
 	public function grosse_tache($idTache)
