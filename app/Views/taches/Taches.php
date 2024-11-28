@@ -80,7 +80,7 @@
 								<td class="align-middle"> 
 									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
 									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
-									   <i class="bi bi-trash3"></i>
+									<i class="bi bi-trash3"></i>
 									</a> 
 								</td>
 							</tr>
@@ -110,7 +110,7 @@
 
 	</div>
 
-	<div class="modal fade <?= validation_errors() ? 'show' : '' ?>" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="<?= validation_errors() ? 'false' : 'true' ?>">
+	<div class="modal fade <?= validation_errors() || isset(session('errors')['echeance']) ? 'show' : '' ?>" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="<?= validation_errors() || isset(session('errors')['echeance']) ? 'false' : 'true' ?>">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -190,13 +190,13 @@
 							'required'
 						]); ?>
 
-						<p class="text-danger"><?= validation_show_error('echeance') ?></p>
+						<p class="text-danger"><?php if (isset(session('errors')['echeance'])) echo session('errors')['echeance']; ?></p>
 					</div>
 
 					<br>
 					
 					<div class="d-flex justify-content-center align-items-center">
-						<?php echo form_submit('submit', 'Ajouter la tache', "class='btn w-50 btn-principale' onclick=\"this.classList.add('disabled')\""); ?>
+						<?php echo form_submit('submit', 'Ajouter la tâche', "class='btn w-50 btn-principale' id='btnSub'"); ?>
 					</div>
 
 
@@ -219,7 +219,24 @@
 		}
 
 		document.getElementById('formCreate').onsubmit = function() {
-            document.getElementById("formCreate").disabled = true;
-        }
+			document.getElementById("formCreate").disabled = true;
+		}
 	});
+
+
+	document.getElementById('formCreate').addEventListener('submit', function(event) {
+		const submitButton = document.getElementById("btnSub"); // Correction ici
+		if (this.checkValidity()) {
+			// Disable the button only if the form is valid
+			console.log("nnnnn")
+			submitButton.classList.add('disabled');
+			submitButton.style.pointerEvents = 'none';
+			submitButton.innerHTML="<i class=\"bi bi-arrow-repeat\"></i>"
+		} else {
+			// Prevent submission and show validation errors
+			event.preventDefault();
+		}
+	});
+
 </script>
+

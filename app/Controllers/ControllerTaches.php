@@ -20,6 +20,7 @@ class ControllerTaches extends BaseController
 	{
 		//Chargement du helper Form
 		helper(['form']);
+        $this->validation = \Config\Services::validation();
 	}
 
 	public function redirection_taches()
@@ -91,22 +92,44 @@ class ControllerTaches extends BaseController
 		if (!$this->validate($tacheModel->getValidationRules(), $tacheModel->getValidationMessages())) {
 			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
 		}
+
+		if (!ControllerTaches::date_check($this->request->getPost('echeance'))) {
+			// Ajouter une erreur structurée dans le tableau associatif
+			return redirect()->back()->withInput()->with('errors', ['echeance' => 'Le format de la date est invalide ou la date est dans le passé.']);
+		}
+		
+		/// Verifier la
 	
 		$data = $this->request->getPost();
 		$tache = new Tache();
 
 		$data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR');
+		echo $data['echeance'];
 		$tache->fill($data);
+
 		$tache->setCreationTache();
 		$tache->setIdUtilisateur(session()->get('id_utilisateur'));
 		$tache->setModiffTache();
 
 		$tacheModel->insert($tache);
 
-		$tacheModele = new TacheModel();
-		var_dump($tacheModel);
-		return redirect()->to('/taches'); // TODO Page courante après insertion
+		var_dump($tacheModel->errors());
+		return redirect()->to('/taches'); 
 	}
+
+	
+    public static function date_check(string $str): bool
+    {
+        $date = \DateTime::createFromFormat('Y-m-d\TH:i', $str);
+
+        if (!$date || $date->format('Y-m-d\TH:i') !== $str) {
+            return false;
+        }
+
+        $current_date = new \DateTime('now', new \DateTimeZone('Europe/Paris') );
+		$bool = $date >= $current_date;
+        return $bool;
+    }
 
 	public function traitement_creation_comm()
 	{
