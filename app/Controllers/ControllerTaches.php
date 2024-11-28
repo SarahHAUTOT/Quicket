@@ -158,7 +158,6 @@ class ControllerTaches extends BaseController
 
 		$tacheModel->insert($tache);
 
-		var_dump($tacheModel->errors());
 		return redirect()->to('/taches'); 
 	}
 
