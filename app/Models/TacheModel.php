@@ -40,7 +40,7 @@ class TacheModel extends Model
 	protected $validationMessages = [
 		'titre' => [
             'required'    => 'Champ requis.',
-            'alpha_space' => 'Les ponctuation ne sont pas accéptées',
+            'alpha_space' => 'Les ponctuations ne sont pas accéptées',
 			'max_length'  => 'Votre titre dépasse les de 50 caractères.',
 			'min_length'  => 'Votre titre doit faire plus de 5 caractères.',
 		],
@@ -61,7 +61,7 @@ class TacheModel extends Model
 
 		'categorie' => [
             'required'     => 'Champ requis.',
-            'alpha_space'  => 'Les ponctuation ne sont pas accéptées',
+            'alpha_space'  => 'Les ponctuations ne sont pas accéptées',
             'greater_than' => 'La priorité doit être supérieure à zéro.',
         ],
 	];
