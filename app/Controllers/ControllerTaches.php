@@ -64,6 +64,14 @@ class ControllerTaches extends BaseController
 		echo view('commun/Footer');
 	}
 
+	public function traitement_etat(int $idTache)
+	{
+		//TODO : Changer l'état de la tache pour son contraire
+
+		
+		return redirect()->back();
+	}
+
 	public function traitement_suppression_tache(int $idTache)
 	{
 		$tacheModele = new TacheModel();
