@@ -18,6 +18,7 @@ class Tache extends Entity
         'echeance' => null,
         'id_utilisateur' => null,
         'categorie' => null,
+        'est_termine' => null,
         'id_projet' => null
     ];
 
@@ -28,6 +29,13 @@ class Tache extends Entity
     public function setTitre(string $titre): Tache
     {
         $this->attributes['titre'] = $titre;
+
+        return $this;
+    }
+
+    public function setEstTermine(bool $bool): Tache
+    {
+        $this->attributes['est_termine'] = $bool;
 
         return $this;
     }
@@ -91,6 +99,11 @@ class Tache extends Entity
     public function getIdTache(): int
     {
         return intval($this->attributes['id_tache']);
+    }
+
+    public function getEstTermine(): bool
+    {
+        return $this->attributes['est_termine'];
     }
 
     public function getModiffTache(): ?Time

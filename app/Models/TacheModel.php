@@ -19,7 +19,8 @@ class TacheModel extends Model
 		'echeance',
 		'id_utilisateur',
 		'priorite',
-		'categorie'
+		'categorie',
+		'est_termine'
 	];
 	
 	protected $useTimestamps = true;

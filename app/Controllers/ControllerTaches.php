@@ -66,9 +66,12 @@ class ControllerTaches extends BaseController
 
 	public function traitement_etat(int $idTache)
 	{
-		//TODO : Changer l'état de la tache pour son contraire
+		$tacheModele = new TacheModel();
+		$tache = $tacheModele->find($idTache);
+		$tache->setEstTermine(!$tache->getEstTermine());
 
-		
+		$tacheModele->save($tache);
+
 		return redirect()->back();
 	}
 
@@ -153,10 +156,10 @@ class ControllerTaches extends BaseController
 		$tache = new Tache();
 
 		$data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR');
-		echo $data['echeance'];
 		$tache->fill($data);
 
 		$tache->setCreationTache();
+		$tache->setEstTermine(false);
 		$tache->setIdUtilisateur(session()->get('id_utilisateur'));
 		$tache->setModiffTache();
 
