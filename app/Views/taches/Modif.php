@@ -5,6 +5,7 @@
 -->
 
 <link rel="stylesheet" href="<?=base_url()."assets/css/detailTache.css";?>">
+<link rel="stylesheet" href="<?=base_url()."assets/css/modifTache.css";?>">
 
 <div class="bg2">
 
@@ -19,7 +20,17 @@
 
 		<table class="head">
 			<tr>
-				<td rowspan=2 class="left"><h2><?= $tache->getTitre() ?></h2></td>
+				<td rowspan=2 class="left"><h2>
+						
+						<?php echo form_input([
+							'name'        => 'titre',
+							'id'          => 'titre',
+							'class'       => 'form-control',
+							'value'       => set_value('titre', $tache->getTitre()),
+							'required'
+						]); ?>
+						</h2>
+				</td>
 				<td class="img"><img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image" title="Date de création"></td>
 				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
 			</tr>
@@ -28,28 +39,45 @@
 				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
 			</tr>
 			<tr>
-				<td rowspan=2 class="left"><p class="prio">Priorité : <?= $tache->getPrioriteString() ?></p></td>
+				<td rowspan=2 class="left"><p class="prio">Priorité : 
+						
+						<?php 
+							$options = 
+							[
+								'4'=> 'Négligeable',
+								'3'=> 'Neutre',
+								'2'=> 'Important',
+								'1'=> 'Crucial',
+							];
+							echo form_dropdown('priorite', $options, set_value('priorite', $tache->getPriorite()), [
+								'id'    => 'priorite',
+								'class' => 'priorite',
+								'required' => 'required'
+							]);
+						?>
+
+						<p class="text-danger"><?= validation_show_error('priorite') ?></p>
+				</td>
 				<td class="img"><img src="<?=base_url()."assets/img/warning.png";?>" alt="Horloge" class="small-image" title="Date de l'échéance"></td>
-				<td class="annotation"><?= $tache->getEcheance()->format('d/m/Y'); ?> à <?= $tache->getEcheance()->format('H:i'); ?></td>
+							
+							
+				<td class="annotation">
+					<?php echo form_input([
+									'name'        => 'echeance',
+									'id'          => 'echeance',
+									'type'        => 'datetime-local',
+									'class'       => 'echeance',
+									'value'       => set_value('echeance', $tache->getEcheance()),
+									'required'
+								]); ?>
+
+							
+						<p class="text-danger"><?= validation_show_error('echeance') ?></p>
+				</td>
 			</tr>
 			<tr>
-				<td class="img"><img src="<?=base_url()."assets/img/horloge.png";?>" alt="Horloge" class="small-image" title="Nombre de jour avant l'échéance"></td>
-				<td class="annotation">
-					<?php 
-						$tempsRestant = $tache->getTempsRestant();
-						$joursRestants = $tempsRestant->getDays();
-						$heuresRestantes = $tempsRestant->getHours() % 24;
-
-						if ($joursRestants > 0) : ?>
-							Retard de 
-							<?= $joursRestants; ?> jour(s) 
-							<?= $heuresRestantes; ?> heure(s)
-						<?php else : ?>
-							Il reste
-							<?= abs($joursRestants); ?> jour(s) et 
-							<?= abs($heuresRestantes); ?> heure(s)
-						<?php endif; ?>
-				</td>
+				<td class="img">&nbsp;</td>
+				<td class="annotation">&nbsp;</td>
 			</tr>
 		</table>
 		
