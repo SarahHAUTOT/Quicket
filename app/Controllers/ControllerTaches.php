@@ -83,6 +83,51 @@ class ControllerTaches extends BaseController
 		return redirect()->to('/taches?page='.$page);
 	}
 
+	public function traitement_modification(int $idTache)
+	{
+		$validation = \Config\Services::validation();
+		$tacheModel = new TacheModel();
+		
+		//echo "Il est passé par ici";
+
+		$data = $this->request->getPost();
+
+		// Modification de certaines données
+
+		$data['priorite'] = intval($data['priorite']); //Cast en int 
+
+		$date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
+		$date->format('Y-m-d H:i:s');
+
+		$data['modiff_tache'] = $date; // On récupère la date d'aujourd'hui
+
+		$data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR'); //On recast l'échéance
+	
+		if (!$this->validate($tacheModel->getValidationRules(), $tacheModel->getValidationMessages())) 
+		{
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+
+		//echo "Il repassera par là";
+
+		/**
+		 * @var Tache
+		 */
+		$tache = $tacheModel->find($idTache);
+
+		// Mise à jour des propriétés
+		$tache->setTitre      ($data['titre']         ?? $tache->getTitre()       );
+		$tache->setPriorite   ($data['priorite']        ?? $tache->getPriorite()    );
+		$tache->setEcheance   ($data['echeance']       ?? $tache->getEcheance()    );
+		$tache->setDescription($data['description']   ?? $tache->getDescription()  );
+		$tache->setModiffTache($data['modiff_tache'] ?? $tache->getModiffTache());
+
+		// Enregistrer les modifications
+		$tacheModel->save($tache);
+
+		return redirect()->to('/taches/'. $tache->getIdTache())->with('success', 'Vos données ont été mises à jour.');
+	}
+
 	public function traitement_creation_tache()
 	{
 		$validation = \Config\Services::validation();
@@ -149,7 +194,7 @@ class ControllerTaches extends BaseController
 		$comm->fill($data);
 
 		// Je récupère la date actuelle
-		$date = new \DateTime();
+		$date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
 		$date->format('Y-m-d H:i:s');
 
 		$data['creation_commentaire'] = $date;
