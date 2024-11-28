@@ -1,10 +1,9 @@
 <?php
 namespace App\Controllers;
-use App\Entities\Utilisateur;
 use App\Models\CommentaireModel;
 use App\Models\TacheModel;
 use CodeIgniter\Controller;
-use App\Models\User;
+use App\Entities\Utilisateur;
 
 use App\Models\UtilisateurModel;
 
@@ -74,64 +73,43 @@ class ControllerUtilisateur extends BaseController
 	 */
 	public function traitement_connexion()
 	{
+		// TODO : Traitement de connexion
 		$session = session();
 		$utilisateurModel = new UtilisateurModel();
 
-
 		// Récupérer les données du formulaire
 		$email = $this->request->getVar('email');
-		$mdp   = $this->request->getVar('mdp');
-
-
-
+		$mdp = $this->request->getVar('mdp');
 
 		// Rechercher l'utilisateur par email
 		$utilisateur = $utilisateurModel->where('email', $email)->first();
 
 		// Vérifier si un utilisateur a été trouvé
 		if ($utilisateur) {
+			// Comparer le mot de passe
+			if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
+				// Créer les données de session
+				$session->set([
+					'id_utilisateur' => $utilisateur->getIdUtilisateur(),  // Utiliser la méthode getIdUtilisateur()
+					'email' => $utilisateur->getEmail(),  // Utiliser la méthode getEmail()
+					'pseudo' => $utilisateur->getPseudo(),  // Utiliser la méthode getPseudo()
+					'role' => $utilisateur->getRole(),  // Utiliser la méthode getRole()
+					'isLoggedIn' => true
+				]);
 
-			// Si le ccompte est inactif
-			if ($utilisateur->getRole() != Utilisateur::$ROLE_INACTIF) {
-
-
-				// Comparer le mot de passe
-				// if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
-				if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
-
-
-					// Créer les données de session
-					$session->set([
-						'id_utilisateur' => $utilisateur->getIdUtilisateur(),  // Utiliser la méthode getIdUtilisateur()
-						'email'          => $utilisateur->getEmail(),          // Utiliser la méthode getEmail()
-						'pseudo'         => $utilisateur->getPseudo(),         // Utiliser la méthode getPseudo()
-						'role'           => $utilisateur->getRole(),           // Utiliser la méthode getRole()
-						'isLoggedIn'     => true
-					]);
-
-
-					// Rediriger vers la page d'accueil
-					return redirect()->to('/taches'); 
-
-
-				} else {
-
-					// Mot de passe incorrect
-					return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
-				}
+				// Rediriger vers la page d'accueil
+				return redirect()->to('/taches'); 
 			} else {
 				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif. Consultez vos mails pour l\'activer !');
 			}
-
-
 		} else {
-			// Email non trouvéreturn redirect()->back()->withInput()->with('error', 'Email inutilisé');
-			return redirect()->back()->withInput()->with('error', 'Email inutilisé');
+			// Email non trouvé
+			$session->setFlashdata('msg', 'Email inexistant.');
+			echo view('commun/Navbar'); 
+			echo view('connexion/Connexion'); 
+			echo view('commun/Footer'); 
 		}
 	}
-
-
-
 
 
 
@@ -197,10 +175,6 @@ class ControllerUtilisateur extends BaseController
 	}
 
 
-
-
-
-
 	public function traitement_delete()
 	{
 		
@@ -247,9 +221,7 @@ class ControllerUtilisateur extends BaseController
 			return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
 		}
 	}
-
-
-
+  
 	public function traitement_inscription()
 	{
 		$utilisateurModel = new UtilisateurModel();
@@ -259,18 +231,23 @@ class ControllerUtilisateur extends BaseController
 		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
 		
 		if (!$isValid) {
-			return view('formConnexion',[
+			return view('connexion/Connexion',[
 				'validation' => \Config\Services::validation()
 			]);
 		} else {
 			$data = $this->request->getPost();
-			$utilisateur = new \App\Entities\Utilisateur();
+			$utilisateur = new Utilisateur();
 			$utilisateur->fill($data);
-			$utilisateur->setRole(\App\Entities\Utilisateur::$ROLE_INACTIF);
-			$tokenInsc= bin2hex(random_bytes(16));
+			$utilisateur->setRole(Utilisateur::$ROLE_INACTIF);
+
+			$tokenInsc = $this->generateValidToken();
+			log_message('debug', 'Token généré pour l\'inscription : ' . $tokenInsc);
 			$utilisateur->setTokenInscription($tokenInsc);
-			// TODO appel fonction mail avec param et $utilisateur->getEmail() $tokenInsc
 			$utilisateurModel->insert($utilisateur);
+
+			// TODO appel fonction mail avec param et $utilisateur->getEmail() $tokenInsc
+			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
+			
 			echo view('commun/Navbar'); 
 			echo view('connexion/Connexion'); 
 			echo view('commun/Footer'); 
@@ -278,41 +255,45 @@ class ControllerUtilisateur extends BaseController
 	}
 
 
-	public function traitement_activation($tokenActivation)
+	public function traitement_activation(string $tokenActivation)
 	{
-	    $session = session();
-	    $utilisateurModel = new UtilisateurModel();
+		$session = session();
+		$utilisateurModel = new UtilisateurModel();
 
-	
-	    // Rechercher l'utilisateur avec ce token
-	    $utilisateur = $utilisateurModel->where('token_inscription', $tokenActivation)->first();
-	
-	    if ($utilisateur) {
-	        // Activer le compte (supprimer le token et mettre à jour le rôle si nécessaire)
-            $utilisateur->setRole(\App\Entities\Utilisateur::$ROLE_UTILISATEUR);
-	        $utilisateur->token_inscription = null; // Supprimer le token
-	        $utilisateur->creation_token_inscription = null; // Supprimer la date du token
-	        $utilisateurModel->save($utilisateur);
-	
-	        // Créer une session de connexion
-	        $session->set([
-	            'id_utilisateur' => $utilisateur->id_utilisateur,
-	            'email' => $utilisateur->email,
-	            'pseudo' => $utilisateur->pseudo,
-	            'role' => $utilisateur->role,
-	            'isLoggedIn' => true
-	        ]);
-	
-	        // Redirection vers la page d'accueil connecté
-	        return redirect()->to('/taches'); 
-	    } else {
-	        // Token invalide, rediriger vers la page d'inscription
-	        $session->setFlashdata('msg', 'Lien d\'activation invalide ou expiré. Veuillez vous inscrire à nouveau.');
-	        echo view('commun/Navbar'); 
-			echo view('connexion/Connexion'); 
-			echo view('commun/Footer'); 
-	    }
+		// Recherche de l'utilisateur avec le token
+
+		$utilisateur = $utilisateurModel->where('token_inscription', $tokenActivation)->first();
+
+		if (!$utilisateur) {
+			// Token invalide
+			return redirect()->to('/inscription')->with('msg', 'Lien d\'activation invalide ou expiré.');
+		}
+
+		// Activation de l'utilisateur
+		echo '<pre>';
+		var_dump($utilisateur->toArray());
+		echo '</pre>';
+		
+		$utilisateur->setRole(Utilisateur::$ROLE_UTILISATEUR);
+		$utilisateur->setTokenInscription(""); // Suppression du token
+		$utilisateurModel->save($utilisateur);
+
+		// Création de la session
+		$session->set([
+			'id_utilisateur' => $utilisateur->getIdUtilisateur(),
+			'email'          => $utilisateur->getEmail(),
+			'pseudo'         => $utilisateur->getPseudo(),
+			'role'           => $utilisateur->getRole(),
+			'isLoggedIn'     => true,
+		]);
+
+		echo '<pre>';
+		var_dump($utilisateur->toArray());
+		echo '</pre>';
+
+		return redirect()->to('/taches')->with('msg', 'Votre compte a été activé avec succès !');
 	}
+
 
 	public function traitement_emailMDPoublie()
 	{
@@ -347,5 +328,18 @@ class ControllerUtilisateur extends BaseController
 	{
 		// TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
 		
+	}
+
+	/**
+	 * Génère un token robuste, pour inscription et oubli mdp
+	 * @return string
+	 */
+	private function generateValidToken(): string
+	{
+		do {
+			$token = bin2hex(random_bytes(16)); // Génère un token de 32 caractères
+		} while (!is_string($token) || empty($token));
+
+		return $token;
 	}
 }
