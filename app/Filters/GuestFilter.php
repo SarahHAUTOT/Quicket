@@ -12,7 +12,7 @@ class GuestFilter implements FilterInterface
     {
         $session = session();
         if ($session->get('isLoggedIn')) {
-            return redirect()->to('/connexion');
+            return redirect()->to('/');
         }
     }
 
