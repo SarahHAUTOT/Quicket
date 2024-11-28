@@ -32,24 +32,24 @@ class UtilisateurModel extends Model
 	];
 
 	protected $validationMessages = [
-		'pseudo' => [
+        'pseudo' => [
             'required'    => 'Champ requis.',
-			'max_length'  => 'Votre pseudo dépasse les de 50 caractères.',
-		],
+            'max_length'  => 'Votre pseudo fait plus de 50 caractères.',
+        ],
 
-		'mdp' => [
+        'mdp' => [
             'required'    => 'Champ requis.',
-			'max_length'  => 'Votre mot de passe dépasse les 255 caractères.',
-			'min_length'  => 'Votre mot de passe est inférieur à 8 caractères.',
-		],
+            'max_length'  => 'Votre mot de passe doit faire moins de 255 caractères.',
+            'min_length'  => 'Votre mot de passe doit faire plus de 8 caractères.',
+        ],
 
-		'email' => [
+        'email' => [
             'required'    => 'Champ requis.',
-			'is_unique'   => 'Cet émail est déjà utilisé.',
-			'max_length'  => 'Votre émail dépasse les 255 caractères.',
-			'valid_email' => 'Entrer un émail valid.',
-		]
-	];
+            'is_unique'   => 'Cet email est déjà utilisé.',
+            'max_length'  => 'Votre email dépasse les 255 caractères.',
+            'valid_email' => 'Entrez un email valide.',
+        ]
+    ];
 
 	// Fonctions
     public function getTaches(Utilisateur $utilisateur): array
