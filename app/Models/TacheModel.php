@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 class TacheModel extends Model
 {
 	protected $table      = 'tache';
-    protected $autoIncrement = true;
+    protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_tache';
 	protected $returnType = 'App\Entities\Tache';
 	protected $allowedFields = [
@@ -23,7 +23,7 @@ class TacheModel extends Model
     protected $createdField = 'creation_tache';
     protected $updatedField = 'modiff_tache';
 
-	protected $useSoftDeletes = true;
+	protected $useSoftDeletes = false;
 	
 	// Règles de validation
 	protected $validationRules = [
@@ -54,4 +54,9 @@ class TacheModel extends Model
             'greater_than' => 'La priorité doit être supérieure à zéro.',
         ],
 	];
+	
+	public function getTasks(): array {
+		return $this->doFindAll();
+	}
+	
 }

@@ -3,6 +3,7 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
+use Exception;
 
 class Tache extends Entity
 {
@@ -62,6 +63,11 @@ class Tache extends Entity
 
         return $this;
     }
+	
+	public function getCreationTache(): Time
+	{
+		return new Time($this->attributes['creation_tache']);
+	}
     
     public function setPriorite(int $nb): Tache
     {
@@ -76,10 +82,13 @@ class Tache extends Entity
     {
         return intval($this->attributes['id_tache']);
     }
-
-    public function getModiffTache(): ?Time
+	
+	/**
+	 * @throws Exception
+	 */
+	public function getModiffTache(): ?Time
     {
-        return $this->attributes['modiff_tache'];
+        return new Time($this->attributes['modiff_tache']);
     }
 
     
@@ -92,10 +101,13 @@ class Tache extends Entity
     {
         return $this->attributes['description'];
     }
-
-    public function getEcheance(): ?Time
+	
+	/**
+	 * @throws Exception
+	 */
+	public function getEcheance(): ?Time
     {
-        return $this->attributes['echeance'];
+        return new Time($this->attributes['echeance']);
     }
 
     public function getIdUtilisateur(): int

@@ -1,12 +1,13 @@
 <?php
 namespace App\Models;
 
+use App\Entities\Utilisateur;
 use CodeIgniter\Model;
 
 class UtilisateurModel extends Model
 {
 	protected $table      = 'utilisateur';
-    protected $autoIncrement = true;
+    protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_utilisateur';
 	protected $returnType = 'App\Entities\Utilisateur';
 	protected $allowedFields = [
@@ -21,7 +22,7 @@ class UtilisateurModel extends Model
     ];
 	
 	protected $useTimestamps = false;
-	protected $useSoftDeletes = true;
+	protected $useSoftDeletes = false;
 	
 	// Règles de validation
 	protected $validationRules = [
@@ -49,6 +50,9 @@ class UtilisateurModel extends Model
 			'valid_email' => 'Entrer un émail valid.',
 		]
 	];
-
+	
+	public function getUserById(int $id): mixed {
+		return $this->find($id);
+	}
 
 }
