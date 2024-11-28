@@ -12,7 +12,7 @@ class CommentaireModel extends Model
 	protected $autoIncrement = true;
 	protected $primaryKey = 'id_commentaire';
 	protected $returnType = 'App\Entities\Commentaire';
-	protected $allowedFields = ['texte_commentaire', 'creation_tache', 'id_utilisateur', 'id_tache' ];
+	protected $allowedFields = ['texte_commentaire', 'creation_tache', 'creation_commentaire', 'id_utilisateur', 'id_tache' ];
 	
 	protected $useTimestamps = false;
 	protected $createdField = 'creation_commentaire';
