@@ -80,7 +80,7 @@
 								<td class="align-middle"><?= $tache->getEcheance()->format('d/m/Y'); ?></td>
 								<td class="align-middle"> <input type="checkbox" name="est_termine" checked id="est_termine" onclick="window.location.href = '<?php echo "/taches/etat/" . $tache->getIdTache() ?>';"> </td>
 								<td class="align-middle"> 
-									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
+									<a href="<?php echo "/taches/detail/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
 									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
 									<i class="bi bi-trash3"></i>
 									</a> 
@@ -89,7 +89,7 @@
 						<?php endforeach; ?>
 					<?php else : ?>
 						<tr>
-							<td colspan="4" class="text-center py-3"> Aucune tache crée.</td> 
+							<td colspan="5" class="text-center py-3"> Aucune tache.</td> 
 						</tr>
 					<?php endif; ?>
 

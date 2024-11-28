@@ -47,7 +47,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 
 	// Redirection vers la liste des taches
 	$routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_ControllerTaches --> v_taches/Taches.php)
-	$routes->get('/taches/(:num)', 'ControllerTaches::grosse_tache/$1'); // (c_ControllerTaches --> v_??? )
+	$routes->get('/taches/detail/(:num)', 'ControllerTaches::grosse_tache/$1'); // (c_ControllerTaches --> v_??? )
 
 	$routes->get('/taches/supp/(:num)', 'ControllerTaches::traitement_suppression_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
     $routes->get('/taches/modif/(:num)', 'ControllerTaches::pis_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
@@ -63,6 +63,8 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 
 	$routes->get('/planning/', 'ControllerPlanning::redirection_vueGlobale');
 	$routes->get('/planning/(:any)', 'ControllerPlanning::redirection_vueGlobale/$1');
+
+	$routes->get('/projets', 'ControllerProjet::redirection_projets');
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
 

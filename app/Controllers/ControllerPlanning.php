@@ -6,6 +6,7 @@ use App\Models\User;
 
 class ControllerPlanning extends BaseController
 {
+
 	public function redirection_vueGlobale(?string $date = null)
 	{
 		if ($date === null) $date = new \DateTime();

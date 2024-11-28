@@ -133,8 +133,7 @@ class ControllerUtilisateur extends BaseController
 			}
 		} else {
 			// Email non trouvé
-			$session->setFlashdata('msg', 'Email inexistant.');
-            return redirect()->to('/connexion')->with('msg', 'Pas de compte lier a cette email !');
+            return redirect()->to('/connexion')->with('error', 'Pas de compte lier a cette email !');
 		}
 	}
 
@@ -299,8 +298,7 @@ class ControllerUtilisateur extends BaseController
 		$utilisateur = $utilisateurModel->where('token_inscription', $tokenActivation)->first();
 
 		if (!$utilisateur) {
-			// Token invalide
-			return redirect()->to('/inscription')->with('msg', 'Lien d\'activation invalide ou expiré.');
+			return view('commun/Navbar') . view('connexion/Perime') . view('commun/Footer'); 
 		}
 
 		// Activation de l'utilisateur
@@ -343,7 +341,7 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenMdp($tokenMDP);
 			$utilisateurModel->save($utilisateur);
             mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
-            return redirect()->to('/connexion/mdp');
+			return view('commun/Navbar') . view('connexion/Perime') . view('commun/Footer'); 
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');

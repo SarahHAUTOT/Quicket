@@ -38,7 +38,7 @@
 							
 							
 							<li class="nav-item border-end px-3">
-								<a class="nav-link" id="taches" href="/taches"><i class="bi bi-stickies me-2"></i>Taches </a>
+								<a class="nav-link" id="taches" href="/projets"><i class="bi bi-stickies me-2"></i>Projets </a>
 							</li>
 							
 							<li class="nav-item border-end px-3">
