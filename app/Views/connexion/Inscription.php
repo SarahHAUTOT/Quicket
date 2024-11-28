@@ -7,6 +7,16 @@
 					<h2>Créer un nouveau compte </h2>
 				</div>
 
+				<?php if (session()->getFlashdata('validation')): ?>
+					<div class="alert alert-danger">
+						<ul>
+							<?php foreach (session()->getFlashdata('validation') as $error): ?>
+								<li><?= esc($error) ?></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+				<?php endif; ?>
+
 				<?php echo form_open('/inscription/create'); ?>
 
 					<div class="form-group mb-2">
@@ -72,13 +82,13 @@
 					
 					<br>
 					<div class="d-flex justify-content-center align-items-center">
-						<?php echo form_submit('submit', 'S\'inscrire',"class='btn w-50 btn-principale'"); ?>
+						<?php echo form_submit('submit', 'S\'inscrire',"class='btn w-50 btn-principale' onclick=\"this.classList.add('disabled')\""); ?>
 					</div>
 
 				<?php echo form_close(); ?>
 					
 				<div class="d-flex justify-content-center align-items-center">
-					<a href="/connexion" class="btn btn-link"> Déja inscris ?Connectez vous !</a> 
+					<a href="/connexion" class="btn btn-link"> Déja inscris ? Connectez vous !</a> 
 				</div>
 			</div>
 		</div>

@@ -15,6 +15,12 @@
 						</p>
 					<?php endif; ?>
 
+					<?php if (session()->has('msg')) : ?>
+						<p class="text-success">
+							<?= session('msg') ?>
+						</p>
+					<?php endif; ?>
+
 					<div class="form-group mb-2">
 						<?php echo form_label('Email', 'email'); ?>
 						
@@ -46,7 +52,7 @@
 					
 					<br>
 					<div class="d-flex justify-content-center align-items-center">
-						<?php echo form_submit('submit', 'Se connecter',"class='btn w-50 btn-principale'"); ?>
+						<?php echo form_submit('submit', 'Se connecter',"class='btn w-50 btn-principale' onclick=\"this.classList.add('disabled')\""); ?>
 					</div>
 
 				<?php echo form_close(); ?>

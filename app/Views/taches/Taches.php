@@ -44,7 +44,7 @@
 				</div>
 
 				<div class="col-md-3 col-lg-2">
-					<a href="" id="lien-recherche" class="btn btn-troisieme" onclick="redirection_recherche(); this.style.pointerEvents='none'; this.style.opacity='0.5';">
+					<a href="#" id="lien-recherche" class="btn btn-troisieme" onclick="redirection_recherche(); this.style.pointerEvents='none'; this.style.opacity='0.5';">
 						Rechercher <i class="bi bi-search"></i>
 					</a>
 				</div>
