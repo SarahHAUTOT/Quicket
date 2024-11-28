@@ -8,9 +8,9 @@
         <!-- Conteneur principal -->
         <div class="container">
             <div class="row justify-content-md-start justify-content-center">
-                <div class="col-md-6 col-12 text-md-start text-center" style=" color :#FF3354">
+                <div class="col-md-6 col-12 text-md-start text-center" style=" color :#D10A2F">
                     <h1 style="font-size:10vw; margin-bottom:-30px;-webkit-text-stroke: 2px white;"><b>Quicket</h1> <br>
-                    <p class="px-3">Organiser rapidement vos tâches, sans prise de têtes.</p>
+                    <p class="px-3 gros">Organiser rapidement vos tâches, sans prise de têtes.</p>
                 </div>
             </div>
         </div>
