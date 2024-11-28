@@ -7,7 +7,7 @@
 
 						<!-- Previous button -->
 						<div class="d-flex justify-content-center align-items-center flex-shrink-0">
-							<a href="/planning/<?= $date->modify('-1 day')->format('Y-M-d');?>" class="btn btn-principale">←</a>
+							<a href="/planning/<?php $date2 = clone $date; echo $date2->modify('-1 day')->format('Y-M-d');?>" class="btn btn-principale">←</a>
 						</div>
 
 						<!-- Card for the current day -->
@@ -15,13 +15,47 @@
 							<div class="card h-100 rounded-0">
 
 								<div class="border">
-									<h5 class="card-title py-2" id="current-day-name"><?= $date->format('d M Y') ?></h5>
+									<h3 class="card-title py-2" id="current-day-name"><?= $date->format('d M Y') ?></h3>
 								</div>
 
-								<div class="card-body overflow-auto">
-									<div id="current-day-content text-left" >
-										d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block d-lg-none d-block 
-									</div>
+								<div class="card-body lstTache overflow-auto p-0">
+
+									<?php foreach ($taches as $tache) :?>
+										<div class="d-flex justify-content-between align-items-center bg-secondary p-2 px-3">
+											<!-- Titre à gauche -->
+											<div class="text-start">
+												<?= $tache->getTitre() ?>
+											</div>
+
+											<!-- Temps restant à droite -->
+											<div class="text-end">
+												<?php
+													// Calcule du temps restant
+													$now = new \DateTime();
+													$deadline = $tache->getEcheance();
+													
+													if ($deadline < $now) {
+														echo "Retard de ";
+													}
+
+													$interval = $deadline->diff($now);
+													if ($interval->days > 0) {
+														echo $interval->days . ' jour' . ($interval->days > 1 ? 's ' : ' ');
+													} else {
+														echo $interval->h . 'heure'.($interval->h > 1 ? 's' : '').' et ' . $interval->i . ' minute'.($interval->i > 1 ? 's' : '');
+													}
+
+													
+													
+													if ($deadline < $now) {
+														echo '<i class="bi bi-hourglass-bottom"></i>';
+													}else{
+														echo '<i class="bi bi-hourglass-split"></i>';
+													}
+												?>
+											</div>
+										</div>
+									<?php endforeach; ?>
 								</div>
 							</div>
 						</div>

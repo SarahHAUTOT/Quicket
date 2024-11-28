@@ -3,6 +3,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 use App\Entities\Tache;
+use CodeIgniter\I18n\Time;
 
 class TacheModel extends Model
 {
@@ -93,17 +94,17 @@ class TacheModel extends Model
         return $commentaireModele->where('id_tache', $tache->getIdTache())->get()->getResult('App\Entities\Commentaire');
     }
 
-    public function getTacheJour(int $utilisateur, \DateTime $datetime): array
+    public function getTacheJour(int $idUtilisateur, \DateTime $datetime): array
     {
-        $dateMatin = clone $datetime;
-        $dateMatin->setTime(0, 0, 1);
-
-        $dateSoir = clone $datetime;
-        $dateSoir ->setTime(23, 59, 59);
+        $datetime->setTime(0, 0, 1);
+        $timeMatin = new Time($datetime->format('d M Y H:i:s'));
+        $datetime->setTime(23, 59, 59);
+        $timeSoir = new Time($datetime->format('d M Y H:i:s'));
 
         $tacheModele = new TacheModel();
-        return  $tacheModele->where('creation_tache <=', $dateSoir)
-                    ->where('creation_tache >=', $dateMatin)
-                    ->get()->getResult('App\Entities\Tache');
+        return  $tacheModele->where('echeance <=', $timeSoir)
+                            ->where('echeance >=', $timeMatin)
+                            ->where('id_utilisateur', $idUtilisateur)
+                            ->get()->getResult('App\Entities\Tache');
     }
 }
