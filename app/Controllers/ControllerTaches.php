@@ -82,6 +82,39 @@ class ControllerTaches extends BaseController
 		return redirect()->to('/taches?page='.$page);
 	}
 
+	public function traitement_modification(int $idTache)
+	{
+		$validation = \Config\Services::validation();
+		$tacheModel = new TacheModel();
+		
+		//echo "Il est passé par ici";
+
+		$data = $this->request->getPost();
+	
+		if (!$this->validate($tacheModel->getValidationRules(), $tacheModel->getValidationMessages())) 
+		{
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+
+		//echo "Il repassera par là";
+
+		/**
+		 * @var Tache
+		 */
+		$tache = $tacheModel->find($idTache);
+
+		// Mise à jour des propriétés
+		$tache->setTitre      ($data['titre']         ?? $tache->getTitre()       );
+		$tache->setPriorite   ($data['priorite']        ?? $tache->getPriorite()    );
+		$tache->setEcheance   ($data['echeance']       ?? $tache->getEcheance()    );
+		$tache->setDescription($data['description']   ?? $tache->getDescription()  );
+
+		// Enregistrer les modifications
+		$tacheModel->save($tache);
+
+		// return redirect()->to('/taches/'. $tache->getIdTache())->with('success', 'Vos données ont été mises à jour.');
+	}
+
 	public function traitement_creation_tache()
 	{
 		$validation = \Config\Services::validation();

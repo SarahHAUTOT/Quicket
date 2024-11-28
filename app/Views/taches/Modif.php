@@ -14,7 +14,12 @@
 		<a href="<?php echo "/taches/supp/".$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
 	</div>
 
-	<?php echo form_open('/TEXT'); ?>
+
+
+	<?php
+		$id = $tache->getIdTache();
+		echo form_open("/taches/modifier/$id"); 
+	?>
 
 	<div class="infoTache">
 
@@ -30,6 +35,7 @@
 							'required'
 						]); ?>
 						</h2>
+						<p class="text-danger"><?= validation_show_error('titre') ?></p>
 				</td>
 				<td class="img"><img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image" title="Date de création"></td>
 				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
@@ -56,7 +62,7 @@
 							]);
 						?>
 
-						<p class="text-danger"><?= validation_show_error('priorite') ?></p>
+					<p class="text-danger"><?= validation_show_error('priorite') ?></p>
 				</td>
 				<td class="img"><img src="<?=base_url()."assets/img/warning.png";?>" alt="Horloge" class="small-image" title="Date de l'échéance"></td>
 							
@@ -82,8 +88,18 @@
 		</table>
 		
 		<hr>
+		
+		<?php 
+		$value = htmlspecialchars_decode(set_value('desc', $tache->getDescription()));
 
-		<textarea class="desc" name="desc"><?= $tache->getDescription() ?></textarea>
+		echo form_textarea([
+					'name'        => 'desc',
+					'class'       => 'desc',
+					'value'       => $value,  
+					'required'
+				]); 
+		?>
+
 
 		<div class="boutonEnre">
 			<?php echo form_submit('submit', 'Enregistrer les modifications',"class='boutonModif2'"); ?>

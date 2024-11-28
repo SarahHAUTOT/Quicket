@@ -54,6 +54,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('/taches/modif/(:num)', 'ControllerTaches::pis_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/taches/create'             , 'ControllerTaches::traitement_creation_tache'      ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/detailtache/ajoutComm'     , 'ControllerTaches::traitement_creation_comm'       );
+	$routes->match(['get', 'post'], '/taches/modifier/(:num)'    , 'ControllerTaches::traitement_modification/$1'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	
 	
 	$routes->get('/account', 'ControllerUtilisateur::redirection_compte');
