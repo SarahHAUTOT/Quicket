@@ -88,7 +88,7 @@ class ControllerUtilisateur extends BaseController
 		if ($utilisateur) {
 
 			//Si le compte est actif
-			if($utilisateur->getRole() == Utilisateur::$ROLE_INACTIF) {
+			if($utilisateur->getRole() != Utilisateur::$ROLE_INACTIF) {
 				
 				// Comparer le mot de passe
 				if (password_verify($mdp, $utilisateur->getMdp())) {  // Utiliser la méthode getMdp()
@@ -169,7 +169,7 @@ class ControllerUtilisateur extends BaseController
 		$utilisateur->setEmail ($data['email']  ?? $utilisateur->getEmail());
 		$utilisateur->setPseudo($data['pseudo'] ?? $utilisateur->getPseudo());
 
-				// Enregistrer les modifications
+		// Enregistrer les modifications
 		$utilisateurModel->save($utilisateur);
 
 		// Mettre à jour la session
@@ -191,9 +191,6 @@ class ControllerUtilisateur extends BaseController
 		// Récupérer les données du formulaire
 		$mdp   = $this->request->getVar('mdp');
 
-
-
-
 		// Rechercher l'utilisateur par email
 		$utilisateur = $utilisateurModel->find($session->get('id_utilisateur'));
 
@@ -213,7 +210,6 @@ class ControllerUtilisateur extends BaseController
 				{
 					$commentaireModele->delete($commentaire->getIdCommentaire());
 				}
-
 				$tableModele->delete($tache->getIdTache());
 			}
 
@@ -221,9 +217,7 @@ class ControllerUtilisateur extends BaseController
 			
 			// Deconnexion
 			return redirect()->to('/deconnect'); 
-
 		} else {
-
 			// Mot de passe incorrect
 			return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
 		}
@@ -248,13 +242,9 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setRole(Utilisateur::$ROLE_INACTIF);
 
 			$tokenInsc = $this->generateValidToken();
-			log_message('debug', 'Token généré pour l\'inscription : ' . $tokenInsc);
 			$utilisateur->setTokenInscription($tokenInsc);
 			$utilisateurModel->insert($utilisateur);
-
-			// TODO appel fonction mail avec param et $utilisateur->getEmail() $tokenInsc
 			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
-
             return redirect()->to('/connexion')->with('msg', 'Votre compte a été créer avec succès, maintenant il faut l\'activer avec votre mail !');
 		}
 	}
@@ -275,9 +265,6 @@ class ControllerUtilisateur extends BaseController
 		}
 
 		// Activation de l'utilisateur
-		echo '<pre>';
-		var_dump($utilisateur->toArray());
-		echo '</pre>';
 		
 		$utilisateur->setRole(Utilisateur::$ROLE_UTILISATEUR);
 		$utilisateur->setTokenInscription(""); // Suppression du token
@@ -308,28 +295,26 @@ class ControllerUtilisateur extends BaseController
 
 		// Récupérer les données du formulaire
 		$email = $this->request->getVar('email');
-		$mdp = $this->request->getVar('mdp');
 
 		// Rechercher l'utilisateur par email
 		$utilisateur = $utilisateurModel->where('email', $email)->first();
 
 		// Vérifier si un utilisateur a été trouvé
 		if ($utilisateur) {
-			// Comparer le mot de passe
-			echo view('commun/Navbar'); 
-			echo view('connexion/Modif'); 
-			echo view('commun/Footer'); 
+            $tokenMDP = $this->generateValidToken();
+			$utilisateur->setTokenMdp($tokenMDP);
+			$utilisateurModel->save($utilisateur);
+            mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
+            return redirect()->to('/connexion/mdp')->with('msg', 'Un email a été envoyer !');
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');
-			echo view('commun/Navbar'); 
-			echo view('connexion/Modif'); 
-			echo view('commun/Footer'); 
+			return redirect()->to('/emailmdp')->with('msg', 'Email inexistant !');
 		}
 	}
 
 
-	public function traitement_modificationMDP()
+	public function traitement_modificationMDP($tokenMDP)
 	{
 		// TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
 		
