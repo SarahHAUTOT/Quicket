@@ -120,7 +120,7 @@ class ControllerUtilisateur extends BaseController
 					return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
 				}
 			} else {
-				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif.');
+				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif. Consultez vos mails pour l\'activer !');
 			}
 
 
