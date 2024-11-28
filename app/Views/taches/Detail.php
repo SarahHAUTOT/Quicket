@@ -1,7 +1,7 @@
 <!--
 	@author   : Alizéa Lebaron
 	@since    : 26/11/2024
-	@version  : 2.1.1 - 27/11/2024
+	@version  : 2.2.0 - 28/11/2024
 -->
 
 <link rel="stylesheet" href="<?=base_url()."assets/css/detailTache.css";?>">
@@ -102,27 +102,36 @@
 						<td class="ajoutComm"> 
 								
 								<?php echo form_input([
-									'name'        => 'comm',
-									'id'          => 'comm',
+									'name'        => 'texte_commentaire',
+									'id'          => 'texte_commentaire',
 									'class'       => 'form-control',
 									'value'       => set_value('Entrez votre commentaire ici...'),
-									'required'
+									'required',
 								]); 
+								
 							?>
-
-							<?= validation_show_error('pseudo') ?>
 						</td>
+
+						<input type="hidden" id="id_tache" name="id_tache" value=<?php echo $tache->getIdTache()?> />
 
 						<td class="valid">
 							<?php echo form_submit('submit', 'Enregistrer',"class='bouton'"); ?>
 						</td>
+
+						
 					</tr>
 
-					<?php echo form_close(); ?>
+					
+
+					
 
 				</tbody>
 
 			</table>
+
+			<p class="error"><?= validation_show_error('texte_commentaire') ?></p>
+
+			<?php echo form_close(); ?>
 
 	</div>
 

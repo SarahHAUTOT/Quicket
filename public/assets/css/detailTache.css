@@ -149,15 +149,6 @@ input
 	background-color: rgb(43, 43, 43);
 }
 
-form
-{
-	margin : 0 auto;
-	width: 80%;
-	display: flex;
-	justify-content: center;
-	padding: 2vh;
-}
-
 .prio
 {
 	font-size: large;
@@ -239,4 +230,21 @@ form
 {
 	background-color: rgb(137, 176, 180);
 	border: rgb(92, 126, 131) solid 1px;
+}
+
+.error 
+{
+    color: rgb(185, 50, 50);
+    margin-top: 10px; /* Espacement entre le formulaire et le message d'erreur */
+    text-align: center; /* Centrer le message d'erreur */
+}
+
+form {
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column; /* Organise les éléments du formulaire en colonne */
+    justify-content: center;
+    align-items: center;
+    padding: 2vh;
 }

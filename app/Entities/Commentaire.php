@@ -10,6 +10,7 @@ class Commentaire extends Entity
 	protected $attributes = [
 		'id_commentaire'		=> null,
 		'texte_commentaire'		=> null,
+		'creation_commentaire'  => null,
 		'id_utilisateur'		=> null,
 		'id_tache'				=> null,
 	];
@@ -84,7 +85,7 @@ class Commentaire extends Entity
 	 */
 	public function getIdTache(): ?int
 	{
-		return $this->attributes['id_tache'];
+		return intval($this->attributes['id_tache']);
 	}
 
     /**
