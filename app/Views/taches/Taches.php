@@ -28,7 +28,7 @@
 				<!-- Select Trié par -->
 				<div class="col-md-3 col-lg-3">
 					<div class="input-group">
-						<label class="input-group-text" for="trier-par">Trié par</label>
+						<label class="input-group-text" for="trier-par">Trier par</label>
 						<select class="form-select" id="trier-par">
 							<option value="modiff_tache" <?php if (strcmp($trierPar, "modiff_tache")==0) echo "selected" ?>>Date de modification</option>
 							<option value="echeance"     <?php if (strcmp($trierPar, "echeance"    )==0) echo "selected" ?>>Echéance</option>
