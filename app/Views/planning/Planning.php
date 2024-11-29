@@ -33,7 +33,9 @@
 												<div class="text-end">
 													<?php
 														// Calcule du temps restant
+														date_default_timezone_set('Europe/Paris');
 														$now = new \DateTime();
+
 														$deadline = $tache->getEcheance();
 														
 														if ($deadline < $now) {

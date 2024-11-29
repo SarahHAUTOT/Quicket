@@ -63,6 +63,12 @@
 		</nav>
 	</div>
 
+
+	<?php if (session()->has('alert')) : ?>
+		<script>
+			alert(<?= session('alert') ?>)
+		</script>
+	<?php endif; ?>
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="<?=base_url()."assets/js/navbar_color_scroll.js";?>"></script>
