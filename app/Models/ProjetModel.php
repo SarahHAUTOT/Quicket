@@ -56,7 +56,7 @@ class ProjetModel extends Model
 				->where('tache.id_projet', $projet->getIdProjet());
 			
 		$taches = $builder->get()->getResult('App\Entities\Tache');
-		return $taches;
+		return $taches ? $taches : [];
 	}
 
 	public function insererProjetUtilisateur(int $idProjet, int $idUtilisateur): bool
