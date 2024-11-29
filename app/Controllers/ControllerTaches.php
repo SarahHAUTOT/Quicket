@@ -23,7 +23,7 @@ class ControllerTaches extends BaseController
         $this->validation = \Config\Services::validation();
 	}
 
-	public function redirection_taches()
+	public function redirection_taches(int $idProjet)
 	{
 		$session = session();
 		$idUtilisateur = $session->get('id_utilisateur');
@@ -47,14 +47,15 @@ class ControllerTaches extends BaseController
 		// Recherches des données (filtre + pagination)
 		$tacheModele = new TacheModel();
 
-		$taches = $tacheModele->getFiltre($trierPar, $ordre, $titreRech)->where('id_utilisateur', $idUtilisateur)->paginate(5);
+		$taches = $tacheModele->getFiltre($trierPar, $ordre, $titreRech)->where('id_utilisateur', $idUtilisateur)->where('id_projet', $idProjet)->paginate(5);
 		
 		$data = [
 			'taches'     => $taches,
 			'pagerTache' => $tacheModele->pager,
 			'titre'      => $titreRech,
 			'trierPar'   => $trierPar,
-			'ordre'      => $ordre
+			'ordre'      => $ordre,
+			'idProjet'   => $idProjet
 		];
 
 

@@ -128,7 +128,7 @@
 							'name'        => 'id_projet',
 							'id'          => 'id_projet',
 							'type'        => 'hidden',
-							'value'       => set_value('id_projet'),
+							'value'       => set_value($idProjet),
 							'required'
 						]); ?>
 
