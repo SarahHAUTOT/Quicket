@@ -4,7 +4,7 @@
 
 				
 				<div class="d-flex justify-content-center align-items-center">
-					<h2> Modification du mots de passe </h2>
+					<h2> Modification du mot de passe </h2>
 				</div>
 
                 <?php echo form_open('/connexion/mdp/change/'.$token); ?>
@@ -24,7 +24,7 @@
 
 
 					<div class="form-group mb-2">
-						<?php echo form_label('Confirmation de mots de passe', 'mdpConf'); ?>
+						<?php echo form_label('Confirmation de mot de passe', 'mdpConf'); ?>
 						
 						<?php echo form_input([
 							'name'        => 'mdpConf',
