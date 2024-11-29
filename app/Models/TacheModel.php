@@ -32,8 +32,8 @@ class TacheModel extends Model
 	
 	// Règles de validation
 	protected $validationRules = [
-		'titre'       => 'required|alpha_space|max_length[50]|min_length[1]',
-		'description' => 'required|alpha_numeric_punct|max_length[255]',
+		'titre'       => 'required|max_length[50]|min_length[1]',
+		'description' => 'required|max_length[255]',
 		'priorite'    => 'required|greater_than[0]|in_list[1,2,3,4]',
 		'echeance'    => 'required',
 	];
@@ -41,7 +41,6 @@ class TacheModel extends Model
 	protected $validationMessages = [
 		'titre' => [
 			'required'    => 'Champ requis.',
-			'alpha_space' => 'Les ponctuations ne sont pas accéptées',
 			'max_length'  => 'Votre titre dépasse les de 50 caractères.',
 			'min_length'  => 'Votre titre doit faire plus d\'un caractère.',
 		],
@@ -95,7 +94,8 @@ class TacheModel extends Model
 	public function getCommentaires(Tache $tache): array
 	{
 		$commentaireModele = new CommentaireModel();
-		return $commentaireModele->where('id_tache', $tache->getIdTache())->get()->getResult('App\Entities\Commentaire');
+		$commentaires = $commentaireModele->where('id_tache', $tache->getIdTache())->get()->getResult('App\Entities\Commentaire');
+		return $commentaires ? $commentaires : [];
 	}
 
 	public function getProjet(Tache $tache): Projet
@@ -118,17 +118,34 @@ class TacheModel extends Model
 
 	public function getTacheJour(int $idUtilisateur, \DateTime $datetime): array
 	{
+		$utilisateurModel = new UtilisateurModel();
+		$utilisateurCourant = $utilisateurModel->find($idUtilisateur);
+		$projets = $utilisateurCourant->getProjetsCreer();
+		$projets = array_merge($projets, $utilisateurCourant->getProjetsParticipant());
+
+		$tacheModele = new TacheModel();
+
 		$datetime->setTime(0, 0, 1);
 		$timeMatin = new Time($datetime->format('d M Y H:i:s'));
 		$datetime->setTime(23, 59, 59);
 		$timeSoir = new Time($datetime->format('d M Y H:i:s'));
 
-		$tacheModele = new TacheModel();
-		return  $tacheModele->where('echeance <=', $timeSoir)
-							->where('echeance >=', $timeMatin)
-							->where('id_utilisateur', $idUtilisateur)
-							->orderBy('echeance', 'asc')
-							->get()->getResult('App\Entities\Tache');
+
+		$tachesJour = [];
+		foreach ($projets as $projet)
+		{
+			$taches = $projet->getTaches();
+			foreach($taches as $tache)
+			{
+				$jour = $tache->getEcheance();
+				if ($jour > $timeMatin && $jour < $timeSoir)
+					array_push($tachesJour, $tache);
+			}
+
+		}
+
+
+		return  $tachesJour;
 	}
 
 
