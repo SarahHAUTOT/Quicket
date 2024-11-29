@@ -45,7 +45,6 @@ class ProjetModel extends Model
 				->where('projetutilisateur.id_projet', $projet->getIdProjet());
 			
 		$utilisateurs = $builder->get()->getResult('App\Entities\Utilisateur');
-		array_push($utilisateurs, $projet->getCreateur());
 		return $utilisateurs;
 	}
 	

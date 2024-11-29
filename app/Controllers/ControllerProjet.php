@@ -82,9 +82,8 @@ class ControllerProjet extends BaseController
 		$participants = $projetModel->getUtilisateurs($projetModel->find($idProjet));
 
 		$data = [
-			'participants'     => $participants,
-			// 'pagerParticipant'       => $tacheModele->pager,
-			'projet'         => $projetModel->find($idProjet)
+			'participants' => $participants,
+			'projet'       => $projetModel->find($idProjet)
 		];
 
 		// Affichages
@@ -113,7 +112,8 @@ class ControllerProjet extends BaseController
 
 		$projet->setIdCreateur(session()->get('id_utilisateur'));
 
-		$projetModel->insert($projet);
+		$idProjet = $projetModel->insert($projet);
+		$projetModel->insererProjetUtilisateur($idProjet, session()->get('id_utilisateur'));
 
 		return redirect()->back();
 	}
