@@ -14,6 +14,12 @@
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
 
+/**
+ * @param int $var
+ * @param int $min
+ * @param int $max
+ * @return bool
+ */
 function est_dans_intervalle(int $var, int $min, int $max): bool {
 	return $var >= $min && $var <= $max;
 }
