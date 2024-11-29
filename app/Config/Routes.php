@@ -68,6 +68,5 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 	$routes->match(['get', 'post'], '/projets/create', 'ControllerProjet::traitement_creation'    ); // (c_ControllerTaches  --> v_taches/Taches.php)
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
-
 });
 
