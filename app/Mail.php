@@ -16,9 +16,7 @@ const __EMAIL0 = new Email([
 
 __EMAIL0->setFrom('quicket.noreply@gmail.com', 'Quicket');
 
-function envoyer_mail(string $mail, string $sujet, string $corps, string $titre, string $lien_btn, string $sous_titre =
-"", string $msg_bouton = "Afficher"):
-bool {
+function envoyer_mail(string $mail, string $sujet, string $corps, string $titre, string $lien_btn, string $sous_titre = "", string $msg_bouton = "Afficher"): bool {
 	__EMAIL0->setTo($mail);
 	__EMAIL0->setSubject($sujet);
 	__EMAIL0->setMessage(
@@ -60,6 +58,7 @@ function mail_certif_compte(string $mail, string $jeton): bool {
 	return envoyer_mail($mail, "Vérification du compte Quicket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Vérification", $lien);
 }
 
-function mail_modifier_mdp(string $mail, string $url): bool {
-	return envoyer_mail($mail, "Réinitialisation du mot de passe Quicket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", "Réinitialisation de votre mot de passe", $url);
+function mail_modifier_mdp(string $mail, string $jeton): bool {
+    $lien = site_url("connexion/activation/$jeton");
+	return envoyer_mail($mail, "Réinitialisation du mot de passe Quicket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", "Réinitialisation de votre mot de passe", $lien);
 }

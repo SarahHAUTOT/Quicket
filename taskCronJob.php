@@ -21,23 +21,8 @@ echo "Starting cron job...\n";
 
 while (true) {
 	sleep($delay);
-	send_task_remainders();
-	
-}
-
-function send_task_remainders(): void {
-	global $delay;
-	echo "Sending available notifications to scheduled tasks on ", date("d-m-Y H:i:s"), PHP_EOL;
-	$out = shell_exec("php ".realpath(__DIR__."/public/index.php")." tasks $delay");
-	if (is_string($out) && strlen($out) > 0) {
-		_LOGGER->log('notice', $out);
-	}
-}
-
-function delete_outdated_tokens(): void {
-	global $delay;
-	echo "Deleting outdated sign up tokens on ", date("d-m-Y H:i:s"), PHP_EOL;
-	$out = shell_exec("php ".realpath(__DIR__."/public/index.php")." tokens $delay");
+	echo "Performing cron job on ", date("d-m-Y H:i:s"), PHP_EOL;
+	$out = shell_exec("php ".realpath(__DIR__."/public/index.php")." cron $delay");
 	if (is_string($out) && strlen($out) > 0) {
 		_LOGGER->log('notice', $out);
 	}
