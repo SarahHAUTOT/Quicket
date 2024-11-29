@@ -40,19 +40,23 @@ class ControllerUtilisateur extends BaseController
 		echo view('commun/Footer'); 
 	}
 
-    /**
-     * redirectionne vers le formulaire changer mdp
-     * @param string $tokenMdp
-     * @return void redirectionne vers le formulaire changer mdp
-     */
-	public function redirection_modificationMDP(String $tokenMdp)
-	{
-		// TODO : Afficher seulement si le token est bon
+    public function redirection_modificationMDP(string $tokenMdp)
+    {
+        // TODO : Afficher seulement si le token est bon
+        $utilisateurModel = new UtilisateurModel();
+        $utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
 
-		echo view('commun/Navbar'); 
-		echo view('connexion/ModifMDP'); 
-		echo view('commun/Footer'); 
-	}
+        if (!$utilisateur)
+        {
+            return redirect()->to('/connexion/EmailMDP')->with('error', 'Cet email ne correspond pas un utilisateur');
+        }
+
+        echo view('commun/Navbar'); 
+        echo view('connexion/ModifMDP', [
+            'token' => $tokenMdp
+        ]);
+        echo view('commun/Footer'); 
+    }
 
     /**
      * redirectionne vers la page compte
@@ -264,9 +268,6 @@ class ControllerUtilisateur extends BaseController
             // Rediriger vers la page d'inscription
             return redirect()->to('/inscription');
 		} else {
-			echo view('commun/Navbar'); 
-			echo view('connexion/Activation'); 
-			echo view('commun/Footer'); 
 
 			$data = $this->request->getPost();
 			$utilisateur = new Utilisateur();
@@ -277,7 +278,9 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenInscription($tokenInsc);
 			$utilisateurModel->insert($utilisateur);
 			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
-            return redirect()->to('/connexion')->with('msg', 'Votre compte a été créer avec succès, maintenant il faut l\'activer avec votre mail !');
+			echo view('commun/Navbar'); 
+			echo view('connexion/Activation'); 
+			echo view('commun/Footer'); 
 		}
 	}
 
@@ -340,20 +343,26 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenMdp($tokenMDP);
 			$utilisateurModel->save($utilisateur);
             mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
-            return redirect()->to('/connexion/mdp')->with('msg', 'Un email a été envoyer !');
+            return redirect()->to('/connexion/mdp');
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');
-			return redirect()->to('/emailmdp')->with('msg', 'Email inexistant !');
+			return redirect()->to('/connexion/EmailMDP')->with('error', 'Email inexistant !');
 		}
 	}
 
+    public function traitement_modificationMDP(string $tokenMdp)
+    {
+        // TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
+        $utilisateurModel = new UtilisateurModel();
+        $utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
 
-	public function traitement_modificationMDP($tokenMDP)
-	{
-		// TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
-		
-	}
+        $data = $this->request->getPost();
+        $utilisateur->setMdp($data['mdp']);
+
+        $utilisateurModel->save($utilisateur);
+        return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
+    }
 
 	/**
 	 * Génère un token robuste, pour inscription et oubli mdp

@@ -64,6 +64,14 @@ class ControllerTaches extends BaseController
 		echo view('commun/Footer');
 	}
 
+	public function traitement_etat(int $idTache)
+	{
+		//TODO : Changer l'état de la tache pour son contraire
+
+		
+		return redirect()->back();
+	}
+
 	public function traitement_suppression_tache(int $idTache)
 	{
 		$tacheModele = new TacheModel();
@@ -96,11 +104,6 @@ class ControllerTaches extends BaseController
 
 		$data['priorite'] = intval($data['priorite']); //Cast en int 
 
-		$date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
-		$date->format('Y-m-d H:i:s');
-
-		$data['modiff_tache'] = $date; // On récupère la date d'aujourd'hui
-
 		$data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR'); //On recast l'échéance
 	
 		if (!$this->validate($tacheModel->getValidationRules(), $tacheModel->getValidationMessages())) 
@@ -120,7 +123,8 @@ class ControllerTaches extends BaseController
 		$tache->setPriorite   ($data['priorite']        ?? $tache->getPriorite()    );
 		$tache->setEcheance   ($data['echeance']       ?? $tache->getEcheance()    );
 		$tache->setDescription($data['description']   ?? $tache->getDescription()  );
-		$tache->setModiffTache($data['modiff_tache'] ?? $tache->getModiffTache());
+		$tache->setCategorie($data['categorie']   ?? $tache->getCategorie()  );
+		$tache->setModiffTache();
 
 		// Enregistrer les modifications
 		$tacheModel->save($tache);
@@ -158,7 +162,6 @@ class ControllerTaches extends BaseController
 
 		$tacheModel->insert($tache);
 
-		var_dump($tacheModel->errors());
 		return redirect()->to('/taches'); 
 	}
 

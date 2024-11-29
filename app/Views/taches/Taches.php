@@ -64,6 +64,7 @@
 						<th scope="col">Titre</th>
 						<th scope="col">Date de modification</th>
 						<th scope="col">Echéance</th>
+						<th scope="col">Terminé</th>
 						<th scope="col">Actions</th>
 					</tr>
 				</thead>
@@ -77,6 +78,7 @@
 								<td class="align-middle"><?= $tache->getTitre(); ?></td>
 								<td class="align-middle"><?= $tache->getModiffTache()->format('d/m/Y'); ?></td>
 								<td class="align-middle"><?= $tache->getEcheance()->format('d/m/Y'); ?></td>
+								<td class="align-middle"> <input type="checkbox" name="est_termine" checked id="est_termine" onclick="window.location.href = '<?php echo "/taches/etat/" . $tache->getIdTache() ?>';"> </td>
 								<td class="align-middle"> 
 									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
 									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
@@ -130,6 +132,21 @@
 							'id'          => 'titre',
 							'class'       => 'form-control',
 							'value'       => set_value('titre'),
+							'required'
+						]); ?>
+
+						<p class="text-danger"><?= validation_show_error('titre') ?></p>
+					</div>
+					
+
+					<div class="form-group mb-2">
+						<?php echo form_label('Categorie', 'categorie'); ?>
+						
+						<?php echo form_input([
+							'name'        => 'categorie',
+							'id'          => 'categorie',
+							'class'       => 'form-control',
+							'value'       => set_value('categorie'),
 							'required'
 						]); ?>
 

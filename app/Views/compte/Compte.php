@@ -4,7 +4,7 @@
 
 				
 				<div class="d-flex justify-content-center align-items-center text-center mb-4">
-					<h2> Bienvenue <?= session()->get('pseudo') ?> </h2>
+					<h2> Detail de votre compte </h2>
 				</div>
 
 				
