@@ -160,11 +160,6 @@
 					</div>
 					
 
-					<div class="form-group mb-2">
-
-						<p class="text-danger"><?= validation_show_error('titre') ?></p>
-					</div>
-
 
 					<div class="form-group mb-2">
 						<?php echo form_label('Priorité', 'priorite'); ?>
