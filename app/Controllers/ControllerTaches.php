@@ -64,7 +64,7 @@ class ControllerTaches extends BaseController
 		echo view('commun/Footer');
 	}
 
-	public function traitement_etat(int $idTache)
+	public function traitement_etat(int $idProjet, int $idTache)
 	{
 		$tacheModele = new TacheModel();
 		$tache = $tacheModele->find($idTache);

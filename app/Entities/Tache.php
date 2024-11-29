@@ -1,6 +1,7 @@
 <?php
 namespace App\Entities;
 
+use App\Entities\Projet;
 use App\Models\TacheModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
@@ -17,7 +18,6 @@ class Tache extends Entity
         'priorite' => null,
         'echeance' => null,
         'id_utilisateur' => null,
-        'categorie' => null,
         'est_termine' => null,
         'id_projet' => null
     ];
@@ -36,13 +36,6 @@ class Tache extends Entity
     public function setEstTermine(bool $bool): Tache
     {
         $this->attributes['est_termine'] = $bool;
-
-        return $this;
-    }
-    
-    public function setCategorie(string $categorie): Tache
-    {
-        $this->attributes['categorie'] = $categorie;
 
         return $this;
     }
@@ -97,11 +90,6 @@ class Tache extends Entity
     }
 
     // Getteurs
-    
-    public function getCategorie(): string
-    {
-        return $this->attributes['categorie'];
-    }
 
     public function getIdTache(): int
     {
@@ -186,6 +174,12 @@ class Tache extends Entity
     {
 		$tacheModele = new TacheModel();
         return $tacheModele->getCommentaires($this);
+    }
+
+    public function getProjet(): Projet
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getProjet($this);
     }
 
 
