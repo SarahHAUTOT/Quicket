@@ -4,6 +4,7 @@ namespace App\Entities;
 use CodeIgniter\Entity\Entity;
 use App\Models\UtilisateurModel;
 use CodeIgniter\I18n\Time;
+use Exception;
 
 class Utilisateur extends Entity
 {
@@ -114,10 +115,13 @@ class Utilisateur extends Entity
     {
         return $this->attributes['token_inscription'];
     }
-
-    public function getCreationTokenInscription(): ?string
+	
+	/**
+	 * @throws Exception
+	 */
+	public function getCreationTokenInscription(): Time
     {
-        return $this->attributes['creation_token_inscription'];
+        return new Time($this->attributes['creation_token_inscription']);
     }
 
     public function getTaches(): array

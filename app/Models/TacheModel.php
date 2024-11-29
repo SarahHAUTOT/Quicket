@@ -67,10 +67,6 @@ class TacheModel extends Model
 	];
 
     // Fonctions
-	public function getTasks(): array {
-		return $this->doFindAll();
-	}
-	
     public function getPagination(int $parPage)
     {
         $this->paginate($parPage);
