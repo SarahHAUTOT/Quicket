@@ -1,7 +1,8 @@
 <?php
 
 use CodeIgniter\Test\TestLogger;
-use Config\Logger;
+use CodeIgniter\Log\Logger as Logger;
+use Config\Logger as ConfigLogger;
 
 if (php_sapi_name() !== 'cli') {
 	echo "This script may only be run from the command line.", PHP_EOL;
@@ -12,8 +13,9 @@ set_time_limit(0);
 
 require_once __DIR__ . '/system/Test/TestLogger.php';
 require_once __DIR__ . '/system/Log/Logger.php';
+require_once __DIR__ . '/app/Config/Logger.php';
 
-const _LOGGER = new TestLogger(new Logger());
+const _LOGGER = new TestLogger(new ConfigLogger());
 
 $delay = 5 * 60;
 
