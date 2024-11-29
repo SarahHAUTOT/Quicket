@@ -45,9 +45,9 @@
 				Ajouter des participants
 			</button>
 
-			<button href="/taches/<?= $idProjet ?>" type="button" class="btn btn-principale mx-5 my-2">
+			<a href="/taches/<?= $idProjet ?>" class="btn btn-principale mx-5 my-2">
 				Taches
-			</button>
+			</a>
 
 
 
