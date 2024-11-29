@@ -12,13 +12,13 @@
 	<!-- Boutons pour modifier ou supprimer une tâche -->
 
 	<div class="boutonOption">
-		<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="boutonInfo">Retour aux informations</a>
-		<a href="<?php echo "/taches/supp/".$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
+
+		<a href="<?php echo "/taches/detail/".$tache->getIdProjet().'/'.$tache->getIdTache() ?>" class="boutonInfo">Retour aux informations</a>
+		<a href="<?php echo "/taches/supp/".$tache->getIdProjet().'/'.$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
 	</div>
 
 	<?php
-		$id = $tache->getIdTache(); // Obligée de passer comme ça l'id
-		echo form_open("/taches/modifier/$id"); 
+		echo form_open("/taches/modifier/".$tache->getIdProjet().'/'.$tache->getIdTache()); 
 	?>
 
 	<!-- Div principale qui englobe toutes les informations -->
@@ -38,6 +38,7 @@
 							'value'       => set_value('titre', $tache->getTitre()),
 							'required'
 						]); ?>
+						
 						</h2>
 						<p><?= validation_show_error('titre') ?></p>
 				</td>
@@ -61,6 +62,7 @@
 							];
 							echo form_dropdown('priorite', $options, set_value('priorite', $tache->getPriorite()), [
 								'id'    => 'priorite',
+								'name'  => 'priorite',
 								'class' => 'priorite',
 								'required' => 'required'
 							]);

@@ -6,6 +6,12 @@
 
 <div style="min-height: 90vh;padding-top: 80px;">
 
+		<div>
+			<div class="ps-5 py-2">
+				<a href="/projets" class="text-dark"><h1><i class="me-2 bi bi-arrow-left-short"></i>Projets</a>/<?php echo $projet->getNomProjet() ?></h1>
+			</div>
+		</div>
+
 
 
 		<div class="container my-4">
@@ -22,7 +28,7 @@
 				<!-- Select Trié par -->
 				<div class="col-md-3 col-lg-3">
 					<div class="input-group">
-						<label class="input-group-text" for="trier-par">Trié par</label>
+						<label class="input-group-text" for="trier-par">Trier par</label>
 						<select class="form-select" id="trier-par">
 							<option value="modiff_tache" <?php if (strcmp($trierPar, "modiff_tache")==0) echo "selected" ?>>Date de modification</option>
 							<option value="echeance"     <?php if (strcmp($trierPar, "echeance"    )==0) echo "selected" ?>>Echéance</option>
@@ -78,18 +84,28 @@
 								<td class="align-middle"><?= $tache->getTitre(); ?></td>
 								<td class="align-middle"><?= $tache->getModiffTache()->format('d/m/Y'); ?></td>
 								<td class="align-middle"><?= $tache->getEcheance()->format('d/m/Y'); ?></td>
-								<td class="align-middle"> <input type="checkbox" name="est_termine" checked id="est_termine" onclick="window.location.href = '<?php echo "/taches/etat/" . $tache->getIdTache() ?>';"> </td>
+								<td class="align-middle">
+									<input type="checkbox" name="est_termine" id="est_termine" 
+										<?php if($tache->getEstTermine()) echo "checked"; ?>
+										<?php if($tache->getIdUtilisateur() != session()->get('id_utilisateur')) echo "disabled"; ?>
+									onclick="window.location.href = '<?= '/taches/etat/' . $tache->getIdProjet(). '/' .$tache->getIdTache() ?>';"
+									>
+								</td>
 								<td class="align-middle"> 
-									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
-									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
-									<i class="bi bi-trash3"></i>
-									</a> 
+									<a href="<?php echo "/taches/detail/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
+
+									<?php if ($projet->getIdCreateur() == session()->get('id_utilisateur')) : ?>
+										<a href="<?php echo "/taches/supp/".$tache->getIdProjet()."/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
+											<i class="bi bi-trash3"></i>
+										</a>
+									<?php endif; ?>
+
 								</td>
 							</tr>
 						<?php endforeach; ?>
 					<?php else : ?>
 						<tr>
-							<td colspan="4" class="text-center py-3"> Aucune tache crée.</td> 
+							<td colspan="5" class="text-center py-3"> Aucune tache.</td> 
 						</tr>
 					<?php endif; ?>
 
@@ -97,13 +113,16 @@
 				</table>
 			</div>
 
-			<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
-				Ajouter une tache
-			</button>
+			<?php if (session()->get('id_utilisateur') == $projet->getIdCreateur()): ?>
+				<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
+					Ajouter une tache
+				</button>
 
+				<a href="/taches/participants/<?= $projet->getIdProjet() ?>" class="btn btn-principale mx-5 my-2">
+					Participants
+				</a>
+			<?php endif; ?>
 
-
-	
 			<div class="m-5">
 				<?= $pagerTache->links('default', 'pager_tache') ?>
 			</div>
@@ -124,6 +143,8 @@
 				<div class="modal-body">
 					<?php echo form_open('/taches/create',['id'=>'formCreate']); ?>
 
+					<input type="hidden" id="id_projet" name="id_projet" value=<?= $projet->getIdProjet() ?> />
+
 					<div class="form-group mb-2">
 						<?php echo form_label('Titre', 'titre'); ?>
 						
@@ -140,15 +161,6 @@
 					
 
 					<div class="form-group mb-2">
-						<?php echo form_label('Categorie', 'categorie'); ?>
-						
-						<?php echo form_input([
-							'name'        => 'categorie',
-							'id'          => 'categorie',
-							'class'       => 'form-control',
-							'value'       => set_value('categorie'),
-							'required'
-						]); ?>
 
 						<p class="text-danger"><?= validation_show_error('titre') ?></p>
 					</div>

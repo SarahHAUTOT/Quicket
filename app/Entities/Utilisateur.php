@@ -135,4 +135,16 @@ class Utilisateur extends Entity
         $utilisateurModel = new UtilisateurModel();
         return $utilisateurModel->getTaches($this);
     }
+
+    public function getProjetsCreer(): array
+    {
+        $utilisateurModel = new UtilisateurModel();
+        return $utilisateurModel->getProjetsCreer($this);
+    }
+
+    public function getProjetsParticipant(): array
+    {
+        $utilisateurModel = new UtilisateurModel();
+        return $utilisateurModel->getProjetsParticipant($this);
+    }
 }

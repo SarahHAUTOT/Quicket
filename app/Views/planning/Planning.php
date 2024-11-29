@@ -21,48 +21,45 @@
 								<div class="card-body overflow-auto p-0">
 
 									<?php foreach ($taches as $tache) :?>
-										<div class="d-flex justify-content-between align-items-center bg-secondary p-2 px-3 lstTache">
-											<!-- Titre à gauche -->
-											<div class="text-start">
-												<?php 
-													switch ($tache->getPriorite()) {
-														case 1 : echo '<i class="bi me-2 bi-exclamation-triangle-fill"></i>'; break;
-														case 2 : echo '<i class="bi me-2 bi-exclamation-lg"></i>'           ; break;
-														case 3 : echo '<i class="bi me-2 bi-exclamation"></i>'              ; break;
-														case 4 : echo '<i class="bi me-2"></i>'                             ; break;
-													}
-												?>
-												<?= $tache->getTitre() ?>
+										<a href="<?php echo "/taches/detail/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="nav-link">
+											<div class="d-flex justify-content-between align-items-center bg-secondary p-2 px-3 lstTache <?= $tache->getEstTermine() ? 'text-secondary' : '' ?>">
+												<!-- Titre à gauche -->
+												<div class="text-start">
+													<i class="bi bi-square-fill me-2" style="color:<?= $tache->getCouleur() ?>"></i>
+													<?= $tache->getNomProjet() ?> | <?= $tache->getTitre() ?>
+												</div>
+
+												<!-- Temps restant à droite -->
+												<div class="text-end">
+													<?php
+														// Calcule du temps restant
+														date_default_timezone_set('Europe/Paris');
+														$now = new \DateTime();
+
+														$deadline = $tache->getEcheance();
+														
+														if ($deadline < $now) {
+															echo "Retard de ";
+														}
+
+														$interval = $deadline->diff($now);
+														if ($interval->days > 0) {
+															echo $interval->days . ' jour' . ($interval->days > 1 ? 's ' : ' ');
+														} else {
+															echo $interval->h . ' heure'.($interval->h > 1 ? 's' : '').' et ' . $interval->i . ' minute'.($interval->i > 1 ? 's' : '');
+														}
+
+														
+														
+														if ($deadline < $now) {
+															echo '<i class="bi bi-hourglass-bottom"></i>';
+														}else{
+															echo '<i class="bi bi-hourglass-split"></i>';
+														}
+													?>
+												</div>
 											</div>
-
-											<!-- Temps restant à droite -->
-											<div class="text-end">
-												<?php
-													// Calcule du temps restant
-													$now = new \DateTime();
-													$deadline = $tache->getEcheance();
-													
-													if ($deadline < $now) {
-														echo "Retard de ";
-													}
-
-													$interval = $deadline->diff($now);
-													if ($interval->days > 0) {
-														echo $interval->days . ' jour' . ($interval->days > 1 ? 's ' : ' ');
-													} else {
-														echo $interval->h . 'heure'.($interval->h > 1 ? 's' : '').' et ' . $interval->i . ' minute'.($interval->i > 1 ? 's' : '');
-													}
-
-													
-													
-													if ($deadline < $now) {
-														echo '<i class="bi bi-hourglass-bottom"></i>';
-													}else{
-														echo '<i class="bi bi-hourglass-split"></i>';
-													}
-												?>
-											</div>
-										</div>
+										</a>
 									<?php endforeach; ?>
 								</div>
 							</div>

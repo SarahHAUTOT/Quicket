@@ -40,26 +40,34 @@ $routes->group('', ['filter' => 'guest'], function($routes) {
 $routes->group('', ['filter' => 'auth'], function($routes) {
 
 	// Redirection vers la liste des taches
-	$routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_ControllerTaches --> v_taches/Taches.php)
-	$routes->get('/taches/(:num)', 'ControllerTaches::grosse_tache/$1'); // (c_ControllerTaches --> v_??? )
+	$routes->get('/taches/(:num)', 'ControllerTaches::redirection_taches/$1/$2'); // (c_ControllerTaches --> v_taches/Taches.php)
+	$routes->get('/taches/detail/(:num)/(:num)', 'ControllerTaches::grosse_tache/$1/$2'); // (c_ControllerTaches --> v_??? )
 
-	$routes->get('/taches/supp/(:num)', 'ControllerTaches::traitement_suppression_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
-    $routes->get('/taches/modif/(:num)', 'ControllerTaches::pis_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
-	$routes->get('/taches/etat/(:num)' , 'ControllerTaches::traitement_etat/$1'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
+	$routes->get('/taches/supp/(:num)/(:num)', 'ControllerTaches::traitement_suppression_tache/$1/$2'); // (c_ControllerTaches  --> v_taches/Taches.php)
+    $routes->get('/taches/modif/(:num)/(:num)', 'ControllerTaches::pis_tache/$1/$2'); // (c_ControllerTaches  --> v_taches/Taches.php)
+	$routes->get('/taches/etat/(:num)/(:num)' , 'ControllerTaches::traitement_etat/$1/$2'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/taches/create'             , 'ControllerTaches::traitement_creation_tache'      ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/detailtache/ajoutComm'     , 'ControllerTaches::traitement_creation_comm'       );
-	$routes->match(['get', 'post'], '/taches/modifier/(:num)'    , 'ControllerTaches::traitement_modification/$1'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
+	$routes->match(['get', 'post'], '/taches/modifier/(:num)/(:num)'    , 'ControllerTaches::traitement_modification/$1/$2'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	
 	
 	$routes->get('/account', 'ControllerUtilisateur::redirection_compte');
 	$routes->match(['get', 'post'], '/account/update', 'ControllerUtilisateur::traitement_modifDonne'); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/account/delete', 'ControllerUtilisateur::traitement_delete'    ); // (c_ControllerTaches  --> v_taches/Taches.php)
-
+	
 	$routes->get('/planning/', 'ControllerPlanning::redirection_vueGlobale');
 	$routes->get('/planning/(:any)', 'ControllerPlanning::redirection_vueGlobale/$1');
+	
+	$routes->get('/projets', 'ControllerProjet::redirection_projets');
+	$routes->get('/projets/delete/(:num)', 'ControllerProjet::traitement_delete_projet/$1');
+	$routes->match(['get', 'post'], '/projets/create', 'ControllerProjet::traitement_creation'    ); // (c_ControllerTaches  --> v_taches/Taches.php)
+	
+	// Redirection vers la liste des participants
+	$routes->get('/taches/participants/(:num)'              , 'ControllerProjet::redirection_participants/$1');
+	$routes->get('/taches/participants/delete/(:num)/(:num)', 'ControllerProjet::traitement_delete_participant/$1/$2');
+	$routes->match(['get', 'post'], '/taches/participants/add', 'ControllerProjet::traitement_ajouter_participant'    );
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
-
 });
 
 /** Route pour le Cron job, uniquement accessible par ligne de commande */

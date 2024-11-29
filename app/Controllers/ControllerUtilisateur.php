@@ -51,7 +51,7 @@ class ControllerUtilisateur extends BaseController
 
         if (!$utilisateur)
         {
-            return redirect()->to('/connexion/EmailMDP')->with('error', 'Cet email ne correspond pas un utilisateur');
+			return view('commun/Navbar') . view('connexion/Perime') . view('commun/Footer');
         }
 
         echo view('commun/Navbar');
@@ -99,7 +99,6 @@ class ControllerUtilisateur extends BaseController
 	 */
 	public function traitement_connexion()
 	{
-		// TODO : Traitement de connexion
 		$session = session();
 		$utilisateurModel = new UtilisateurModel();
 
@@ -127,7 +126,7 @@ class ControllerUtilisateur extends BaseController
 						'isLoggedIn' => true
 					]);
 					// Rediriger vers la page d'accueil
-					return redirect()->to('/taches');
+					return redirect()->to('/projets');
 				} else {
 					return redirect()->back()->withInput()->with('error','Mots de passe incorrect.');
 				}
@@ -136,8 +135,7 @@ class ControllerUtilisateur extends BaseController
 			}
 		} else {
 			// Email non trouvé
-			$session->setFlashdata('msg', 'Email inexistant.');
-            return redirect()->to('/connexion')->with('msg', 'Pas de compte lier a cette email !');
+            return redirect()->to('/connexion')->with('error', 'Pas de compte lié à cette email !');
 		}
 	}
 
@@ -163,7 +161,12 @@ class ControllerUtilisateur extends BaseController
 		$session = session();
 
 		$data = $this->request->getPost();
+		$emailSession  = session()->get('email');
+		$pseudoSession = session()->get('pseudo');
 
+		if ($emailSession == $data['email'] && $pseudoSession == $data['pseudo'])
+			return redirect()->back();
+		
 		// Règles de validation uniquement pour email et pseudo
 		$regleValidation = [];
 
@@ -230,21 +233,7 @@ class ControllerUtilisateur extends BaseController
 		//if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
 			
 			//Supprimer
-			$tableModele = new TacheModel();
-			$commentaireModele = new CommentaireModel();
-			$taches = $utilisateur->getTaches();
-			
-			foreach ($taches as $tache)
-			{
-				$commentaires = $tache->getCommentaires();
-				foreach ($commentaires as $commentaire)
-				{
-					$commentaireModele->delete($commentaire->getIdCommentaire());
-				}
-				$tableModele->delete($tache->getIdTache());
-			}
-
-			$utilisateurModel->delete($utilisateur->getIdUtilisateur());
+			$utilisateurModel->deleteCascade($utilisateur->getIdUtilisateur());
 			
 			// Deconnexion
 			return redirect()->to('/deconnect');
@@ -262,9 +251,15 @@ class ControllerUtilisateur extends BaseController
 	{
 		$utilisateurModel = new UtilisateurModel();
 		$regleValidation = $utilisateurModel->getValidationRules();
-		$regleValidation['mdpConf'] = 'required_with[mdp]|min_length[8]|max_length[255]|matches[mdp]';
+		$regleValidation['mdpConf'] = 'required_with[mdp]|matches[mdp]';
 
-		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
+		$messagesValidation = $utilisateurModel->getValidationMessages();
+		$messagesValidation['mdpConf'] = [
+				'required_with' => 'Champ requis.',
+				'matches' => 'Les mots de passes ne correspondent pas.',
+		];
+
+		$isValid = $this->validate($regleValidation, $messagesValidation);
 		
 		if (!$isValid) {
             session()->setFlashdata('validation', \Config\Services::validation()->getErrors());
@@ -302,8 +297,7 @@ class ControllerUtilisateur extends BaseController
 		$utilisateur = $utilisateurModel->where('token_inscription', $tokenActivation)->first();
 
 		if (!$utilisateur) {
-			// Token invalide
-			return redirect()->to('/inscription')->with('msg', 'Lien d\'activation invalide ou expiré.');
+			return view('commun/Navbar') . view('connexion/Perime') . view('commun/Footer');
 		}
 
 		// Activation de l'utilisateur
@@ -348,7 +342,7 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenMdp($tokenMDP);
 			$utilisateurModel->save($utilisateur);
             mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP, $utilisateur->getPseudo());
-            return redirect()->to('/connexion/mdp');
+			return view('commun/Navbar') . view('connexion/modif') . view('commun/Footer');
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');

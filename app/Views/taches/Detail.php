@@ -10,8 +10,10 @@
 
 	<!-- Boutons pour modifier ou supprimer une tâche -->
 	<div class="boutonOption">
-		<a href="<?php echo "/taches/modif/".$tache->getIdTache() ?>" class="boutonModif">Modifier cette tâche</a>
-		<a href="<?php echo "/taches/supp/".$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
+		<?php if ($projet->getIdCreateur() == session()->get('id_utilisateur')) : ?>
+			<a href="<?= "/taches/modif/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="boutonModif">Modifier cette tâche</a>
+			<a href="<?= "/taches/supp/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
+		<?php endif; ?>
 	</div>
 
 	<!-- Div principale qui englobe toutes les informations -->
@@ -21,8 +23,7 @@
 		<!-- J'ai utilisé un tableau pour mieux structurer les données  -->
 		<table class="head">
 			<tr>
-				<td rowspan=2 class="left"><h2><?= $tache->getTitre() ?></h2></td>
-
+				<td rowspan=2 class="left"><h2><a href="/taches/<?= $tache->getIdProjet() ?>" class="text-dark"><i class="me-2 bi bi-arrow-left-short"></i></a><?= $tache->getTitre() ?></h2></td>
 				<td class="img"><img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image" title="Date de création"></td>
 
 				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
@@ -135,6 +136,7 @@
 				</tbody>
 
 			</table>
+			<input type="hidden" id="id_projet" name="id_projet" value=<?= $projet->getIdProjet() ?> />
 
 			<p class="error"><?= validation_show_error('texte_commentaire') ?></p>
 
