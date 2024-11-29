@@ -26,6 +26,18 @@ class ControllerProjet extends BaseController
     	echo view('commun/Footer'); 
 	}
 	
+	public function traitement_ajouter_participant(int $idProjet, int $idParticipant)
+	{
+		$projetModele = new ProjetModel();
+		$projetModele->insererProjetUtilisateur($idProjet, $idParticipant );
+/*
+		$idParticipants = $this->request->getPost();
+		foreach ($idParticipants as $idParticipant)
+			$projetModele->insererProjetUtilisateur($idProjet, $idParticipant );
+*/
+		return redirect()->to("/taches/".$idProjet);
+	}
+
 	public function traitement_creation()
 	{
 		

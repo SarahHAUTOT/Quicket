@@ -73,6 +73,5 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 	$routes->match(['get', 'post'], '/taches/participants/add', 'ControllerUtilisateur::traitement_ajouter_participant'    );
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
-
 });
 
