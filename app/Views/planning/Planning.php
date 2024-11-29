@@ -46,7 +46,7 @@
 														if ($interval->days > 0) {
 															echo $interval->days . ' jour' . ($interval->days > 1 ? 's ' : ' ');
 														} else {
-															echo $interval->h . 'heure'.($interval->h > 1 ? 's' : '').' et ' . $interval->i . ' minute'.($interval->i > 1 ? 's' : '');
+															echo $interval->h . ' heure'.($interval->h > 1 ? 's' : '').' et ' . $interval->i . ' minute'.($interval->i > 1 ? 's' : '');
 														}
 
 														

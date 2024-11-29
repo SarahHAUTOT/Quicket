@@ -4,15 +4,15 @@
 
 				
 				<div class="d-flex justify-content-center align-items-center">
-					<h2> Modification du mots de passe </h2>
+					<h2> Modification du mot de passe </h2>
 				</div>
 
 				<p class="text-center">
-					Un mail vous a étez envoyé afin de modifier votre mots de passe. <br> Cliquez sur le lien afin de modifier votre mots de passe.
+					Un mail vous a été envoyé afin de modifier votre mot de passe. <br> Cliquez sur le lien afin de modifier votre mot de passe.
 				</p>
 
 				<div class="d-flex justify-content-center align-items-center mt-5">
-					<a href="/connexion" class="btn btn-principale"> Retour a l'écran de connexion</a>
+					<a href="/connexion" class="btn btn-principale"> Retour à l'écran de connexion</a>
 				</div>
 			</div>
 		</div>

@@ -20,11 +20,10 @@ class ControllerProjet extends BaseController
 		$projetsCreer       = $utilisateurModele->getProjetsCreer      ($utilisateurCourant);
 		$projetsParticipant = $utilisateurModele->getProjetsParticipant($utilisateurCourant);
 		
-		$projets = array_merge($projetsParticipant, $projetsCreer);
-
     	echo view('commun/Navbar'); 
     	echo view('projet/Projets', [
-				'projets'     => $projets,
+				'projets'        => $projetsCreer,
+				'projetsPartage' => $projetsParticipant,
 			]
 		);
     	echo view('commun/Footer'); 
