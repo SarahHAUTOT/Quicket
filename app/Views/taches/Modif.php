@@ -9,20 +9,24 @@
 
 <div class="bg2">
 
+	<!-- Boutons pour modifier ou supprimer une tâche -->
+
 	<div class="boutonOption">
 
 		<a href="<?php echo "/taches/detail/".$tache->getIdProjet().'/'.$tache->getIdTache() ?>" class="boutonInfo">Retour aux informations</a>
 		<a href="<?php echo "/taches/supp/".$tache->getIdProjet().'/'.$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
 	</div>
 
-
-
 	<?php
 		echo form_open("/taches/modifier/".$tache->getIdProjet().'/'.$tache->getIdTache()); 
 	?>
 
+	<!-- Div principale qui englobe toutes les informations -->
 	<div class="infoTache">
 
+		<!-- En-tête de l'information d'une tâche, toutes les informations importantes y sont -->
+		<!-- J'ai utilisé un tableau pour mieux structurer les données  -->
+		<!-- Les informations sont remplacées par des champs de modifications -->
 		<table class="head">
 			<tr>
 				<td rowspan=2 class="left"><h2>
@@ -83,6 +87,7 @@
 				</td>
 			</tr>
 			<tr>
+				<!-- L'échéance n'est pas affichée par peu pertinente, cependant je dois conserver les champs pour la strucutre des données -->
 				<td class="img">&nbsp;</td>
 				<td class="annotation">&nbsp;</td>
 			</tr>
@@ -90,15 +95,16 @@
 		
 		<hr>
 		
-		<?php 
-		$value = htmlspecialchars_decode(set_value('description', $tache->getDescription()));
+		<?php
+			// Important d'initialisater la value avant, sinon code igniter est pas content
+			$value = htmlspecialchars_decode(set_value('description', $tache->getDescription()));
 
-		echo form_textarea([
-					'name'        => 'description',
-					'class'       => 'description',
-					'value'       => $value,  
-					'required'
-				]); 
+			echo form_textarea([
+						'name'        => 'description',
+						'class'       => 'description',
+						'value'       => $value,  
+						'required'
+					]); 
 		?>
 
 		<p><?= validation_show_error('description') ?></p>

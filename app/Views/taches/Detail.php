@@ -8,6 +8,7 @@
 
 <div class="bg2">
 
+	<!-- Boutons pour modifier ou supprimer une tâche -->
 	<div class="boutonOption">
 		<?php if ($projet->getIdCreateur() == session()->get('id_utilisateur')) : ?>
 			<a href="<?= "/taches/modif/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="boutonModif">Modifier cette tâche</a>
@@ -15,26 +16,34 @@
 		<?php endif; ?>
 	</div>
 
+	<!-- Div principale qui englobe toutes les informations -->
 	<div class="infoTache">
 
+		<!-- En-tête de l'information d'une tâche, toutes les informations importantes y sont -->
+		<!-- J'ai utilisé un tableau pour mieux structurer les données  -->
 		<table class="head">
 			<tr>
 				<td rowspan=2 class="left"><h2><a href="/taches/<?= $tache->getIdProjet() ?>" class="text-dark"><i class="me-2 bi bi-arrow-left-short"></i></a><?= $tache->getTitre() ?></h2></td>
 				<td class="img"><img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image" title="Date de création"></td>
+
 				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
 			</tr>
 			<tr>
 				<td class="img"><img src="<?=base_url()."assets/img/modif.png";?>" alt="Horloge" class="small-image" title="Date de modification"></td>
+
 				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
 			</tr>
 			<tr>
 				<td rowspan=2 class="left"><p class="prio">Priorité : <?= $tache->getPrioriteString() ?></p></td>
+
 				<td class="img"><img src="<?=base_url()."assets/img/warning.png";?>" alt="Horloge" class="small-image" title="Date de l'échéance"></td>
+
 				<td class="annotation"><?= $tache->getEcheance()->format('d/m/Y'); ?> à <?= $tache->getEcheance()->format('H:i'); ?></td>
 			</tr>
 			<tr>
 				<td class="img"><img src="<?=base_url()."assets/img/horloge.png";?>" alt="Horloge" class="small-image" title="Nombre de jour avant l'échéance"></td>
 				<td class="annotation">
+					<!-- Calcul du temps restant par rapport à l'échéance -->
 					<?php 
 						$tempsRestant = $tache->getTempsRestant();
 						$joursRestants = $tempsRestant->getDays();
@@ -54,12 +63,14 @@
 		</table>
 		
 		<hr>
-
+		
 		<textarea class="desc" name="desc" disabled><?= $tache->getDescription() ?></textarea>
 
 		<h3 class="mt-4">Commentaire</h3>
 
+		<!-- Affichage de tous les commentaires -->
 		<?php if (!empty($commentaires)) : ?>
+
             <table class="tabComm">
                 <tbody>
                     <!-- Génération des lignes selon les données  -->
@@ -78,20 +89,18 @@
                 </tbody>
             </table>
 			
-					
-
         <?php else : ?>
 
-				 <p>Aucun commentaire pour le moment !</p>
+			<p>Aucun commentaire pour le moment !</p>
 		
 		<?php endif; ?>
         
         <div class="m-2">
-				<?= $pagerCommentaire->links('default', 'pager_tache') ?>
+			<?= $pagerCommentaire->links('default', 'pager_tache') ?>
 		</div>
 
-
-			<?php echo form_open('/detailtache/ajoutComm'); ?>
+		<!-- Formulaire pour ajouter un commentaire -->
+		<?php echo form_open('/detailtache/ajoutComm'); ?>
 
 			<table class="tabComm">
 				<tbody>
@@ -101,17 +110,19 @@
 					</tr>
 
 					<tr class="ajout">
+
 						<td class="ajoutComm"> 
 								
-								<?php echo form_input([
+							<?php echo form_input(
+								[
 									'name'        => 'texte_commentaire',
 									'id'          => 'texte_commentaire',
 									'class'       => 'form-control',
 									'value'       => set_value('Entrez votre commentaire ici...'),
 									'required',
-								]); 
-								
+								]);
 							?>
+
 						</td>
 
 						<input type="hidden" id="id_tache" name="id_tache" value=<?php echo $tache->getIdTache()?> />
@@ -120,12 +131,7 @@
 							<?php echo form_submit('submit', 'Enregistrer',"class='bouton'"); ?>
 						</td>
 
-						
 					</tr>
-
-					
-
-					
 
 				</tbody>
 
@@ -134,10 +140,8 @@
 
 			<p class="error"><?= validation_show_error('texte_commentaire') ?></p>
 
-			<?php echo form_close(); ?>
+		<?php echo form_close(); ?>
 
 	</div>
-
-	
 
 </div>
