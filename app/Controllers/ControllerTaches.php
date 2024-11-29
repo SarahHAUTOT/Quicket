@@ -157,7 +157,6 @@ class ControllerTaches extends BaseController
 		$data = $this->request->getPost();
 		$tache = new Tache();
 
-		$data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR');
 		$data['id_projet'] = intval($data['id_projet']);
 		$tache->fill($data);
 
