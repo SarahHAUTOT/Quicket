@@ -79,10 +79,15 @@ class UtilisateurModel extends Model
         $tacheModele = new TacheModel();
         $projetModele = new ProjetModel();
         $taches = $this->getTaches(utilisateur: $this->find($idUtilisateur));
-        $projects = $this->getProjetsCreer(utilisateur: $this->find($idUtilisateur));
+
+        $projects = $this->getProjetsParticipant(utilisateur: $this->find($idUtilisateur));
 
         foreach ($projects as $projet)
             $projetModele->deleteCascade($projet->getIdProjet());
+
+        $projects = $this->getProjetsParticipant(utilisateur: $this->find($idUtilisateur));
+        foreach ($projects as $projet)
+            $projetModele->deleteProjetUtilisateur($projet->getIdProjet(), $idUtilisateur);
 
         foreach ($taches as $tache)
         {
