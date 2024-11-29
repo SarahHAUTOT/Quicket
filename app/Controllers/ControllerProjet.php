@@ -56,7 +56,10 @@ class ControllerProjet extends BaseController
 		$idCreateur = $projetModel->find($idProjet)->getIdCreateur();
 
 		if (session()->get('id_utilisateur') != $idCreateur)
+		{
+			$projetModel->deleteProjetUtilisateur($idProjet, session()->get('id_utilisateur'));
 			return redirect()->back();
+		}
 
 		$projetModel->deleteCascade($idProjet);
 		return redirect()->back();
