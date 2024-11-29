@@ -1,0 +1,7 @@
+/app/Controllers/Email.php
+/app/Config/Routes.php
+
+/writable/logs/*.log
+/writable/session/*
+!/writable/session/index.html
+/.idea

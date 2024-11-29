@@ -8,7 +8,7 @@ use CodeIgniter\I18n\Time;
 class TacheModel extends Model
 {
 	protected $table      = 'tache';
-    protected $autoIncrement = true;
+    protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_tache';
 	protected $returnType = 'App\Entities\Tache';
 	protected $allowedFields = [
@@ -67,6 +67,10 @@ class TacheModel extends Model
 	];
 
     // Fonctions
+	public function getTasks(): array {
+		return $this->doFindAll();
+	}
+	
     public function getPagination(int $parPage)
     {
         $this->paginate($parPage);

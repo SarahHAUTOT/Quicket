@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class UtilisateurModel extends Model
 {
 	protected $table      = 'utilisateur';
-    protected $autoIncrement = true;
+    protected $useAutoIncrement = true;
 	protected $primaryKey = 'id_utilisateur';
 	protected $returnType = 'App\Entities\Utilisateur';
 	protected $allowedFields = [
@@ -50,6 +50,10 @@ class UtilisateurModel extends Model
             'valid_email' => 'Entrez un email valide.',
         ]
     ];
+	
+	public function getUserById(int $id): mixed {
+		return $this->find($id);
+	}
 
 	// Fonctions
     public function getTaches(Utilisateur $utilisateur): array

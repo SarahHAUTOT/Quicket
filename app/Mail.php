@@ -16,9 +16,7 @@ const __EMAIL0 = new Email([
 
 __EMAIL0->setFrom('quicket.noreply@gmail.com', 'Quicket');
 
-function envoyer_mail(string $mail, string $sujet, string $corps, string $titre, string $lien_btn, string $sous_titre =
-""):
-bool {
+function envoyer_mail(string $mail, string $sujet, string $corps, string $titre, string $lien_btn, string $sous_titre = "", string $msg_bouton = "Afficher"): bool {
 	__EMAIL0->setTo($mail);
 	__EMAIL0->setSubject($sujet);
 	__EMAIL0->setMessage(
@@ -42,7 +40,7 @@ bool {
 					<p>'.$corps.'</p>
 				</div>
 				<a href="'.$lien_btn.'" target="_blank">
-					<button style="margin: 35px 0; width: 150px; height: 40px; border: 2px solid #E60026; border-radius: 7.5px; background-color: #E60026; color: #ffd0d0; font-size: medium; cursor: pointer;">Afficher</button>
+					<button style="margin: 35px 0; width: 150px; height: 40px; border: 2px solid #E60026; border-radius: 7.5px; background-color: #E60026; color: #ffd0d0; font-size: medium; cursor: pointer;">'.$msg_bouton.'</button>
 				</a>
 			</div>
 			<div></div>

@@ -3,14 +3,11 @@
 use CodeIgniter\Router\RouteCollection;
 
 /**
+ * v_ ==> Vue (dans le dossier Views)
+ * c_ ==> Controller (dans le dossier Controllers)
+ *
  * @var RouteCollection $routes
  */
-
-/*    v_ ==> Vue (dans le dossier Views)
- *    c_ ==> Controller (dans le dossier Controllers)
- */
-
-
 
 $routes->get('/', 'ControllerHome::redirection_home');
 
@@ -36,9 +33,6 @@ $routes->group('', ['filter' => 'guest'], function($routes) {
 	
 	$routes->match(['get', 'post'], '/connexion/activation/(:any)', 'ControllerUtilisateur::traitement_activation/$1'  ); // (c_ControllerUtilisateur : traitement_inscription())
 });
-
-
-
 
 
 
@@ -68,3 +62,6 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 
 });
 
+/** Route pour le Cron job, uniquement accessible par ligne de commande */
+$routes->cli('cron/(:num)', 'Cron::index/$1');
+$routes->cli('tokens/(:num)', 'Cron::tokens/$1');
