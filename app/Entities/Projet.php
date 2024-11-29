@@ -44,6 +44,11 @@ class Projet extends Entity
 		return intval($this->attributes['id_projet']);
 	}
 
+    public function getIdCreateur(): int
+    {
+        return $this->attributes['id_createur'];
+    }
+
     public function getCreateur(): Utilisateur
     {
 		$projetModel = new ProjetModel();

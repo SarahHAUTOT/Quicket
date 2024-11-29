@@ -41,8 +41,8 @@ class ProjetModel extends Model
 	{
 		$builder = $this->builder();
 		$builder->select(select: 'utilisateur.*')->from('utilisateur')
-				->join('ProjetUtilisateur', 'utilisateur.id_utilisateur = ProjetUtilisateur.id_utilisateur', 'left')
-				->where('ProjetUtilisateur.id_projet', $projet->getIdProjet());
+				->join('projetutilisateur', 'utilisateur.id_utilisateur = projetutilisateur.id_utilisateur', 'left')
+				->where('projetutilisateur.id_projet', $projet->getIdProjet());
 			
 		$utilisateurs = $builder->get()->getResult('App\Entities\Utilisateur');
 		array_push($utilisateurs, $projet->getCreateur());
@@ -52,9 +52,8 @@ class ProjetModel extends Model
 	public function getTaches(Projet $projet): ?array
 	{
 		$builder = $this->builder();
-		$builder->select(select: 'tache.*')
-				->join('projet', 'tache.id_projet = projet.id_projet', 'left')
-				->where('projet.id_projet', $projet->getIdProjet());
+		$builder->select(select: 'tache.*')->from('tache')
+				->where('tache.id_projet', $projet->getIdProjet());
 			
 		$utilisateurs = $builder->get()->getResult('App\Entities\Utilisateur');
 		array_push($utilisateurs, $projet->getCreateur());
@@ -64,7 +63,7 @@ class ProjetModel extends Model
 	public function insererProjetUtilisateur(int $idProjet, int $idUtilisateur): bool
     {
         $db = \Config\Database::connect();
-        $builder = $db->table('ProjetUtilisateur');
+        $builder = $db->table('projetutilisateur');
 
         $data = [
             'id_projet'  => $idProjet,
@@ -77,7 +76,7 @@ class ProjetModel extends Model
 	public function deleteProjetUtilisateur(int $idProjet, int $idUtilisateur): bool
     {
         $db = \Config\Database::connect();
-        $builder = $db->table('ProjetUtilisateur');
+        $builder = $db->table('projetutilisateur');
 
         $data = [
             'id_projet'  => $idProjet,
