@@ -17,8 +17,11 @@ if (!defined('ENVIRONMENT')) {
 
 require_once __DIR__ . "/system/ThirdParty/PSR/Log/LoggerInterface.php";
 require_once __DIR__ . '/system/Log/Logger.php';
+require_once __DIR__ . '/system/Modules/Modules.php';
 require_once __DIR__ . '/system/Test/TestLogger.php';
 require_once __DIR__ . '/system/Config/BaseConfig.php';
+require_once __DIR__ . '/app/Config/Modules.php';
+require_once __DIR__ . '/app/Config/Encryption.php';
 require_once __DIR__ . '/app/Config/Logger.php';
 
 const _LOGGER = new TestLogger(new ConfigLogger());
