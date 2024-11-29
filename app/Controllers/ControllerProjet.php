@@ -50,15 +50,25 @@ class ControllerProjet extends BaseController
 		$projetModel = new ProjetModel();
 		$projetModel->deleteProjetUtilisateur($idProjet, $idParticipant);
 
-		return redirect()->to('/taches/'.$idProjet);
+		return redirect()->back();
 	}
 	
 	public function redirection_participants(int $idProjet)
 	{
 		$projetModel = new ProjetModel();
-		$projetModel->getUtilisateurs($projetModel->find($idProjet));
+		$participants = $projetModel->getUtilisateurs($projetModel->find($idProjet));
 
-		return redirect()->to('/taches/'.$idProjet);
+		$data = [
+			'participants'     => $participants,
+			// 'pagerTache'       => $tacheModele->pager,
+			'idProjet'         => $idProjet
+		];
+
+
+		// Affichages
+		echo view('commun/Navbar'); 
+		echo view('taches/Participants', $data); 
+		echo view('commun/Footer');
 	}
 
 	public function traitement_creation()

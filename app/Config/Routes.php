@@ -70,7 +70,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 	// Redirection vers la liste des participants
 	$routes->get('/taches/participants/(:num)'              , 'ControllerProjet::redirection_participants/$1');
 	$routes->get('/taches/participants/delete/(:num)/(:num)', 'ControllerProjet::traitement_delete_participant/$1/$2');
-	$routes->match(['get', 'post'], '/taches/participants/add', 'ControllerUtilisateur::traitement_ajouter_participant'    );
+	$routes->match(['get', 'post'], '/taches/participants/add', 'ControllerProjet::traitement_ajouter_participant'    );
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
 });

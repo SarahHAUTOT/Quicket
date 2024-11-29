@@ -25,7 +25,7 @@
 								<td class="align-middle"><?= $participant->getPseudo(); ?></td>
 								<td class="align-middle"><?= $participant->getEmail(); ?></td>
 								<td class="align-middle"> 
-									<a href="<?php echo "/participants/supp/".$idProjet."/".$participant->getIdUtilisateur()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
+									<a href="<?php echo "/taches/participants/delete/".$idProjet."/".$participant->getIdUtilisateur() ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
 										<i class="bi bi-trash3"></i>
 									</a> 
 								</td>
@@ -52,9 +52,9 @@
 
 
 	
-			<div class="m-5">
-				<?= $pagerTache->links('default', 'pager_participant') ?>
-			</div>
+			<!-- <div class="m-5">
+				<?//= $pagerTache->links('default', 'pager_participant') ?>
+			</div> -->
 			
 
 
