@@ -10,6 +10,11 @@ if (php_sapi_name() !== 'cli') {
 
 set_time_limit(0);
 
+if (!defined('ENVIRONMENT')) {
+	$env = $_ENV['CI_ENVIRONMENT'] ?? $_SERVER['CI_ENVIRONMENT']  ?? getenv('CI_ENVIRONMENT') ?: 'production';
+	define('ENVIRONMENT', $env);
+}
+
 require_once __DIR__ . "/system/ThirdParty/PSR/Log/LoggerInterface.php";
 require_once __DIR__ . '/system/Log/Logger.php';
 require_once __DIR__ . '/system/Test/TestLogger.php';
