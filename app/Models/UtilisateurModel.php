@@ -58,11 +58,21 @@ class UtilisateurModel extends Model
         return $tacheModele->where('id_utilisateur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Tache');
     }
 
-    public function getProjets(Utilisateur $utilisateur): array
+    public function getProjetsCreer(Utilisateur $utilisateur): array
     {
         $projetModele = new ProjetModel();
         return $projetModele->where('id_createur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Projet');
     }
+	
+	public function getProjetsParticipant(Utilisateur $utilisateur): ?array
+	{
+		$builder = $this->builder();
+		$builder->select(select: 'projet.*')->distinct()->from('projet')
+				->join('projetutilisateur', 'projet.id_projet = projetutilisateur.id_projet', 'left')
+				->where('projetutilisateur.id_utilisateur', $utilisateur->getIdUtilisateur());
+			
+		return $builder->get()->getResult('App\Entities\Projet');
+	}
 
     public function deleteCascade(int $idUtilisateur): bool
     {

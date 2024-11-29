@@ -78,12 +78,22 @@
 								<td class="align-middle"><?= $tache->getTitre(); ?></td>
 								<td class="align-middle"><?= $tache->getModiffTache()->format('d/m/Y'); ?></td>
 								<td class="align-middle"><?= $tache->getEcheance()->format('d/m/Y'); ?></td>
-								<td class="align-middle"> <input type="checkbox" name="est_termine" checked id="est_termine" onclick="window.location.href = '<?php echo "/taches/etat/" . $tache->getIdTache() ?>';"> </td>
+								<td class="align-middle">
+									<input type="checkbox" name="est_termine" id="est_termine" 
+										<?php if($tache->getEstTermine()) echo "checked"; ?>
+										<?php if($tache->getIdUtilisateur() != session()->get('id_utilisateur')) echo "disabled"; ?>
+									onclick="window.location.href = '<?= '/taches/etat/' . $tache->getIdTache() ?>';"
+									>
+								</td>
 								<td class="align-middle"> 
-									<a href="<?php echo "/taches/detail/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
-									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
-									<i class="bi bi-trash3"></i>
-									</a> 
+									<a href="<?php echo "/taches/detail/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
+
+									<?php if ($projet->getIdCreateur() == session()->get('id_utilisateur')) : ?>
+										<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
+											<i class="bi bi-trash3"></i>
+										</a>
+									<?php endif; ?>
+
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -97,17 +107,16 @@
 				</table>
 			</div>
 
-			<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
-				Ajouter une tache
-			</button>
+			<?php if (session()->get('id_utilisateur') == $projet->getIdCreateur()): ?>
+				<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
+					Ajouter une tache
+				</button>
 
-			<a href="/taches/participants/<?= $idProjet ?>" class="btn btn-principale mx-5 my-2">
-				Participants
-			</a>
+				<a href="/taches/participants/<?= $projet->getIdProjet() ?>" class="btn btn-principale mx-5 my-2">
+					Participants
+				</a>
+			<?php endif; ?>
 
-
-
-	
 			<div class="m-5">
 				<?= $pagerTache->links('default', 'pager_tache') ?>
 			</div>
@@ -128,13 +137,7 @@
 				<div class="modal-body">
 					<?php echo form_open('/taches/create',['id'=>'formCreate']); ?>
 
-						<?php echo form_input([
-							'name'        => 'id_projet',
-							'id'          => 'id_projet',
-							'type'        => 'hidden',
-							'value'       => set_value($idProjet),
-							'required'
-						]); ?>
+					<input type="hidden" id="id_projet" name="id_projet" value=<?= $projet->getIdProjet() ?> />
 
 					<div class="form-group mb-2">
 						<?php echo form_label('Titre', 'titre'); ?>

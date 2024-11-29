@@ -158,7 +158,12 @@ class ControllerUtilisateur extends BaseController
 		$session = session();
 
 		$data = $this->request->getPost();
+		$emailSession  = session()->get('email');
+		$pseudoSession = session()->get('pseudo');
 
+		if ($emailSession == $data['email'] && $pseudoSession == $data['pseudo'])
+			return redirect()->back();
+		
 		// Règles de validation uniquement pour email et pseudo
 		$regleValidation = [];
 

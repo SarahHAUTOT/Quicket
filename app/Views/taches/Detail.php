@@ -9,8 +9,10 @@
 <div class="bg2">
 
 	<div class="boutonOption">
-		<a href="<?php echo "/taches/modif/".$tache->getIdTache() ?>" class="boutonModif">Modifier cette tâche</a>
-		<a href="<?php echo "/taches/supp/".$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
+		<?php if ($projet->getIdCreateur() == session()->get('id_utilisateur')) : ?>
+			<a href="<?= "/taches/modif/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="boutonModif">Modifier cette tâche</a>
+			<a href="<?= "/taches/supp/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="boutonSupp">Supprimer cette tâche</a>
+		<?php endif; ?>
 	</div>
 
 	<div class="infoTache">
@@ -128,6 +130,7 @@
 				</tbody>
 
 			</table>
+			<input type="hidden" id="id_projet" name="id_projet" value=<?= $projet->getIdProjet() ?> />
 
 			<p class="error"><?= validation_show_error('texte_commentaire') ?></p>
 

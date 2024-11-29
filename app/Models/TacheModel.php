@@ -18,6 +18,7 @@ class TacheModel extends Model
 		'description',
 		'echeance',
 		'id_utilisateur',
+		'id_projet',
 		'priorite',
 		'categorie',
 		'est_termine'
@@ -31,10 +32,10 @@ class TacheModel extends Model
 	
 	// Règles de validation
 	protected $validationRules = [
-		'titre'       => 'required|alpha_space|max_length[50]|min_length[5]',
+		'titre'       => 'required|alpha_space|max_length[50]|min_length[1]',
 		'description' => 'required|alpha_numeric_punct|max_length[255]',
 		'priorite'    => 'required|greater_than[0]|in_list[1,2,3,4]',
-		'categorie'   => 'required|alpha_space',
+		'categorie'   => 'required|alpha_space|min_length[1]|max_length[50]',
 		'echeance'    => 'required',
 	];
 
@@ -43,7 +44,7 @@ class TacheModel extends Model
 			'required'    => 'Champ requis.',
 			'alpha_space' => 'Les ponctuations ne sont pas accéptées',
 			'max_length'  => 'Votre titre dépasse les de 50 caractères.',
-			'min_length'  => 'Votre titre doit faire plus de 5 caractères.',
+			'min_length'  => 'Votre titre doit faire plus d\'un caractère.',
 		],
 
 		'description' => [
@@ -63,7 +64,8 @@ class TacheModel extends Model
 		'categorie' => [
 			'required'     => 'Champ requis.',
 			'alpha_space'  => 'Les ponctuations ne sont pas accéptées',
-			'greater_than' => 'La priorité doit être supérieure à zéro.',
+			'min_length'   => 'Votre titre dépasse les de 50 caractères.',
+			'max_length'   => 'Votre catégorie doit faire plus d\'un caractère.',
 		],
 	];
 

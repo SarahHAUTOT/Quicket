@@ -40,7 +40,7 @@ class ProjetModel extends Model
 	public function getUtilisateurs(Projet $projet): ?array
 	{
 		$builder = $this->builder();
-		$builder->select(select: 'utilisateur.*')->from('utilisateur')
+		$builder->select(select: 'utilisateur.*')->distinct()->from('utilisateur')
 				->join('projetutilisateur', 'utilisateur.id_utilisateur = projetutilisateur.id_utilisateur', 'left')
 				->where('projetutilisateur.id_projet', $projet->getIdProjet());
 			
@@ -52,12 +52,11 @@ class ProjetModel extends Model
 	public function getTaches(Projet $projet): ?array
 	{
 		$builder = $this->builder();
-		$builder->select(select: 'tache.*')->from('tache')
+		$builder->select(select: 'tache.*')->distinct()->from('tache')
 				->where('tache.id_projet', $projet->getIdProjet());
 			
-		$utilisateurs = $builder->get()->getResult('App\Entities\Utilisateur');
-		array_push($utilisateurs, $projet->getCreateur());
-		return $utilisateurs;
+		$taches = $builder->get()->getResult('App\Entities\Utilisateur');
+		return $taches;
 	}
 
 	public function insererProjetUtilisateur(int $idProjet, int $idUtilisateur): bool
@@ -88,11 +87,15 @@ class ProjetModel extends Model
 
 	public function deleteCascade(int $idProjet): bool
     {
-		$utilisateurModele = new UtilisateurModel();
-		$utilisateurs = $this->getUtilisateurs($idProjet);
+		$tacheModele = new TacheModel();
+		$utilisateurs = $this->getUtilisateurs($this->find($idProjet));
+		$taches = $this->getTaches($this->find($idProjet));
 
 		foreach ($utilisateurs as $utilisateur)
-        	$utilisateurModele->deleteCascade($utilisateur->getIdUtilisateur());
+        	$this->deleteProjetUtilisateur($idProjet, $utilisateur->getIdUtilisateur());
+
+		foreach ($taches as $tache)
+        	$$tacheModele->deleteCascade($tache->getIdTache());
 
 		return $this->delete($idProjet);
     }

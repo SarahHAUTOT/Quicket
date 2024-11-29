@@ -15,9 +15,13 @@ class ControllerProjet extends BaseController
 	
 	public function redirection_projets()
 	{
-		$projetModele = new ProjetModel();
-		$projets = $projetModele->where('id_createur', session()->get('id_utilisateur'))->get()->getResult('App\Entities\Projet');
+		$utilisateurModele = new UtilisateurModel();
+		$utilisateurCourant =$utilisateurModele->find(session()->get('id_utilisateur'));
+		$projetsCreer       = $utilisateurModele->getProjetsCreer      ($utilisateurCourant);
+		$projetsParticipant = $utilisateurModele->getProjetsParticipant($utilisateurCourant);
 		
+		$projets = array_merge($projetsParticipant, $projetsCreer);
+
     	echo view('commun/Navbar'); 
     	echo view('projet/Projets', [
 				'projets'     => $projets,
@@ -30,26 +34,34 @@ class ControllerProjet extends BaseController
 	{
 		$data = $this->request->getPost();
 		$utilisateurModele = new UtilisateurModel();
-		$idProjet = $data['id_projet'];
 
-		$utilisateur = $utilisateurModele->find($data['email']);
+		$idProjet = intval($data['id_projet']);
 
-		if ($utilisateur == null) 
+		$participant = $utilisateurModele->where('email', $data['email'])->first();
+
+		if ($participant == null) 
 		{
 			return redirect()->back()->withInput()->with('errors', 'Cet utilisateur n\'existe pas');
 		}
 
 		$projetModele = new ProjetModel();
-		$projetModele->insererProjetUtilisateur($idProjet, $utilisateur->getIdUtilisateur() );
+		echo '<pre>';
+		var_dump($data);
+		echo '</pre>';
+		$projetModele->insererProjetUtilisateur($idProjet, $participant->getIdUtilisateur());
 
-		return redirect()->to('/taches/'.$idProjet);
+		return redirect()->to('/taches/participants/'.$idProjet)->with('msg', $participant->getPseudo().' a été ajouté dans votre projet');
 	}
 	
 	public function traitement_delete_participant(int $idProjet, int $idParticipant)
 	{
 		$projetModel = new ProjetModel();
-		$projetModel->deleteProjetUtilisateur($idProjet, $idParticipant);
+		$idCreateur = $projetModel->find($idProjet)->getIdCreateur();
 
+		if ($idParticipant == $idCreateur)
+			return redirect()->back();
+
+		$projetModel->deleteProjetUtilisateur($idProjet, $idParticipant);
 		return redirect()->back();
 	}
 	
@@ -60,10 +72,9 @@ class ControllerProjet extends BaseController
 
 		$data = [
 			'participants'     => $participants,
-			// 'pagerTache'       => $tacheModele->pager,
-			'idProjet'         => $idProjet
+			// 'pagerParticipant'       => $tacheModele->pager,
+			'projet'         => $projetModel->find($idProjet)
 		];
-
 
 		// Affichages
 		echo view('commun/Navbar'); 

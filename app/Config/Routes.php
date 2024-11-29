@@ -46,15 +46,15 @@ $routes->group('', ['filter' => 'guest'], function($routes) {
 $routes->group('', ['filter' => 'auth'], function($routes) {
 
 	// Redirection vers la liste des taches
-	$routes->get('/taches/(:num)', 'ControllerTaches::redirection_taches/$1'); // (c_ControllerTaches --> v_taches/Taches.php)
-	$routes->get('/taches/detail/(:num)', 'ControllerTaches::grosse_tache/$1'); // (c_ControllerTaches --> v_??? )
+	$routes->get('/taches/(:num)', 'ControllerTaches::redirection_taches/$1/$2'); // (c_ControllerTaches --> v_taches/Taches.php)
+	$routes->get('/taches/detail/(:num)/(:num)', 'ControllerTaches::grosse_tache/$1/$2'); // (c_ControllerTaches --> v_??? )
 
-	$routes->get('/taches/supp/(:num)', 'ControllerTaches::traitement_suppression_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
-    $routes->get('/taches/modif/(:num)', 'ControllerTaches::pis_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
-	$routes->get('/taches/etat/(:num)' , 'ControllerTaches::traitement_etat/$1'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
+	$routes->get('/taches/supp/(:num)/(:num)', 'ControllerTaches::traitement_suppression_tache/$1/$2'); // (c_ControllerTaches  --> v_taches/Taches.php)
+    $routes->get('/taches/modif/(:num)/(:num)', 'ControllerTaches::pis_tache/$1/$2'); // (c_ControllerTaches  --> v_taches/Taches.php)
+	$routes->get('/taches/etat/(:num)' , 'ControllerTaches::traitement_etat/$1/$2'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/taches/create'             , 'ControllerTaches::traitement_creation_tache'      ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	$routes->match(['get', 'post'], '/detailtache/ajoutComm'     , 'ControllerTaches::traitement_creation_comm'       );
-	$routes->match(['get', 'post'], '/taches/modifier/(:num)'    , 'ControllerTaches::traitement_modification/$1'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
+	$routes->match(['get', 'post'], '/taches/modifier/(:num)/(:num)'    , 'ControllerTaches::traitement_modification/$1/$2'     ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	
 	
 	$routes->get('/account', 'ControllerUtilisateur::redirection_compte');

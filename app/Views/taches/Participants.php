@@ -24,10 +24,12 @@
 							<tr>
 								<td class="align-middle"><?= $participant->getPseudo(); ?></td>
 								<td class="align-middle"><?= $participant->getEmail(); ?></td>
-								<td class="align-middle"> 
-									<a href="<?php echo "/taches/participants/delete/".$idProjet."/".$participant->getIdUtilisateur() ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
-										<i class="bi bi-trash3"></i>
-									</a> 
+								<td class="align-middle">
+									<?php if ($projet->getIdCreateur() != $participant->getIdUtilisateur()) : ?>
+										<a href="<?php echo "/taches/participants/delete/".$projet->getIdProjet()."/".$participant->getIdUtilisateur() ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
+											<i class="bi bi-trash3"></i>
+										</a> 
+									<?php endif; ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -41,11 +43,14 @@
 				</table>
 			</div>
 
-			<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
-				Ajouter des participants
-			</button>
+			<?php if (session()->get('id_utilisateur') == $projet->getIdCreateur()): ?>
+				<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
+					Ajouter des participants
+				</button>
+			<?php endif; ?>
 
-			<a href="/taches/<?= $idProjet ?>" class="btn btn-principale mx-5 my-2">
+
+			<a href="/taches/<?= $projet->getIdProjet() ?>" class="btn btn-principale mx-5 my-2">
 				Taches
 			</a>
 
@@ -72,13 +77,7 @@
 				<div class="modal-body">
 					<?php echo form_open('/taches/participants/add',['id'=>'formCreate']); ?>
 
-						<?php echo form_input([
-							'name'        => 'id_projet',
-							'id'          => 'id_projet',
-							'type'        => 'hidden',
-							'value'       => set_value($idProjet),
-							'required'
-						]); ?>
+					<input type="hidden" id="id_projet" name="id_projet" value=<?= $projet->getIdProjet() ?> />
 
 					<div class="form-group mb-2">
 						<?php echo form_label('Email de l\'utilisateur', 'email'); ?>

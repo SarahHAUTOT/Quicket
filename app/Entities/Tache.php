@@ -54,6 +54,13 @@ class Tache extends Entity
         return $this;
     }
     
+    public function setIdProjet(int $id): Tache
+    {
+        $this->attributes['id_projet'] = $id;
+
+        return $this;
+    }
+    
     public function setModiffTache()
     {
         $this->attributes['modiff_tache'] = Time::now('Europe/Paris', 'fr_FR');
@@ -108,7 +115,7 @@ class Tache extends Entity
 
     public function getEstTermine(): bool
     {
-        return $this->attributes['est_termine'];
+        return strcmp($this->attributes['est_termine'], 'f');
     }
 
     public function getModiffTache(): ?Time
