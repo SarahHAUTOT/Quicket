@@ -16,7 +16,8 @@ class Tache extends Entity
         'description' => null,
         'priorite' => null,
         'echeance' => null,
-        'id_utilisateur' => null
+        'id_utilisateur' => null,
+        'categorie' => null
     ];
 
     protected $dates = ['creation_tache', 'modiff_tache'];
@@ -26,6 +27,13 @@ class Tache extends Entity
     public function setTitre(string $titre): Tache
     {
         $this->attributes['titre'] = $titre;
+
+        return $this;
+    }
+    
+    public function setCategorie(string $categorie): Tache
+    {
+        $this->attributes['categorie'] = $categorie;
 
         return $this;
     }
@@ -73,6 +81,11 @@ class Tache extends Entity
     }
 
     // Getteurs
+    
+    public function getCategorie(): string
+    {
+        return $this->attributes['categorie'];
+    }
 
     public function getIdTache(): int
     {

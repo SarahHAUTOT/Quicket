@@ -20,7 +20,7 @@
 
 <!-- NAVBAR -->
 	<div class="text-display sticky-top">
-		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
+		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
 			<div class="container-fluid">
 
 				<!-- Icône et nom à gauche -->
@@ -37,20 +37,20 @@
 						<ul class="navbar-nav ms-auto">
 							
 							
-							<li class="nav-item">
-								<a class="nav-link" id="taches" href="/taches">Taches</a>
+							<li class="nav-item border-end px-3">
+								<a class="nav-link" id="taches" href="/taches"><i class="bi bi-stickies me-2"></i>Taches </a>
 							</li>
 							
-							<li class="nav-item">
-								<a class="nav-link" id="planning" href="/planning">Planning</a>
+							<li class="nav-item border-end px-3">
+								<a class="nav-link" id="planning" href="/planning"><i class="bi bi-calendar3 me-2"></i>Planning </a>
 							</li>
 							
-							<li class="nav-item">
-								<a class="nav-link" id="account" href="/account">Mon compte</a>
+							<li class="nav-item border-end px-3">
+								<a class="nav-link" id="account" href="/account"><i class="bi bi-person me-1"></i> <?= session()->get('pseudo') ?> </a>
 							</li> 
 							
-							<li class="nav-item">
-								<a class="nav-link" id="deconnect" href="/deconnect">Se déconnecter</a>
+							<li class="nav-item px-2">
+								<a class="nav-link" id="deconnect" href="/deconnect"><i class="bi bi-box-arrow-right me-2"></i></a>
 							</li> 
 						</ul>
 					</div>
