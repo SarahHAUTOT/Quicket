@@ -54,15 +54,6 @@
 				Taches
 			</a>
 
-
-
-	
-			<!-- <div class="m-5">
-				<?//= $pagerTache->links('default', 'pager_participant') ?>
-			</div> -->
-			
-
-
 	</div>
 
 	<div class="modal fade <?= validation_errors() || isset(session('errors')['echeance']) ? 'show' : '' ?>" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="<?= validation_errors() || isset(session('errors')['echeance']) ? 'false' : 'true' ?>">
