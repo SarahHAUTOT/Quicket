@@ -39,15 +39,12 @@ class ControllerProjet extends BaseController
 
 		$participant = $utilisateurModele->where('email', $data['email'])->first();
 
-		if ($participant == null) 
+		if ($participant == null) // TODO empecher insertion memes participants
 		{
 			return redirect()->back()->withInput()->with('errors', 'Cet utilisateur n\'existe pas');
 		}
 
 		$projetModele = new ProjetModel();
-		echo '<pre>';
-		var_dump($data);
-		echo '</pre>';
 		$projetModele->insererProjetUtilisateur($idProjet, $participant->getIdUtilisateur());
 
 		return redirect()->to('/taches/participants/'.$idProjet)->with('msg', $participant->getPseudo().' a été ajouté dans votre projet');
