@@ -55,7 +55,8 @@
 						</ul>
 					</div>
 				<?php else: ?>
-					<div class="justify-content-start text-start">
+					<div class="justify-content-start text-start d-flex gap-2">
+						<a class="nav-link btn btn-principale px-3 py-2" href="/inscription">S'inscrire</a>
 						<a class="nav-link btn btn-principale px-3 py-2" href="/connexion">Se connecter</a>
 					</div>
 				<?php endif; ?>
