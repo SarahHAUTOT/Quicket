@@ -38,7 +38,7 @@
 
 				
 				<div class="d-flex justify-content-center align-items-center mt-4">
-					<a href="/inscription" class="btn btn-link"> Pas de compte ? Inscrivez vous !</a> 
+					<a href="/inscription" class="btn btn-link"> Pas de compte ? Inscrivez-vous !</a> 
 				</div>
 			</div>
 		</div>

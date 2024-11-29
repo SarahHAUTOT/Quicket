@@ -50,7 +50,7 @@
 
 
 					<div class="form-group mb-2">
-						<?php echo form_label('Mots de passe', 'mdp'); ?>
+						<?php echo form_label('Mot de passe', 'mdp'); ?>
 						
 						<?php echo form_input([
 							'name'        => 'mdp',
@@ -66,7 +66,7 @@
 
 
 					<div class="form-group mb-2">
-						<?php echo form_label('Confirmation de mots de passe', 'mdpConf'); ?>
+						<?php echo form_label('Confirmation de mot de passe', 'mdpConf'); ?>
 						
 						<?php echo form_input([
 							'name'        => 'mdpConf',
@@ -88,7 +88,7 @@
 				<?php echo form_close(); ?>
 					
 				<div class="d-flex justify-content-center align-items-center">
-					<a href="/connexion" class="btn btn-link"> Déja inscris ? Connectez vous !</a> 
+					<a href="/connexion" class="btn btn-link"> Déjà inscrit ? Connectez-vous !</a> 
 				</div>
 			</div>
 		</div>
