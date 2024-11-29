@@ -32,7 +32,7 @@ class TacheModel extends Model
 	
 	// Règles de validation
 	protected $validationRules = [
-		'titre'       => 'required|max_length[50]|min_length[1]',
+		'titre'       => 'required|alpha_space|max_length[50]|min_length[1]',
 		'description' => 'required|max_length[255]',
 		'priorite'    => 'required|greater_than[0]|in_list[1,2,3,4]',
 		'echeance'    => 'required',
@@ -43,6 +43,7 @@ class TacheModel extends Model
 			'required'    => 'Champ requis.',
 			'max_length'  => 'Votre titre dépasse les de 50 caractères.',
 			'min_length'  => 'Votre titre doit faire plus d\'un caractère.',
+			'alpha_space' => 'Seuls les lettres et espaces sont autorisés.',
 		],
 
 		'description' => [
