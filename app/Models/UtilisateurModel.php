@@ -74,21 +74,30 @@ class UtilisateurModel extends Model
 		return $builder->get()->getResult('App\Entities\Projet');
 	}
 
+    public function getCommentaires(Utilisateur $utilisateur):array
+    {
+		$builder = $this->builder();
+		$builder->select(select: 'commentaire.*')->from('commentaire')
+				->where('commentaire.id_utilisateur', $utilisateur->getIdUtilisateur());
+			
+		return $builder->get()->getResult('App\Entities\Commentaire');
+
+    }
+
     public function deleteCascade(int $idUtilisateur): bool
     {
         $tacheModele = new TacheModel();
         $projetModele = new ProjetModel();
+        $commentaireModele = new CommentaireModel();
+        
+        // Supprime les commentaire écris car c'est pas tous le temps lié à ses taches 
+        $comms = $this->getCommentaires($this->find($idUtilisateur));
+        foreach ($comms as $comm) {
+            $commentaireModele->delete($comm->getIdCommentaire());
+        }
+        
+        // Supprime les taches qu'il a crée 
         $taches = $this->getTaches(utilisateur: $this->find($idUtilisateur));
-
-        $projects = $this->getProjetsParticipant(utilisateur: $this->find($idUtilisateur));
-
-        foreach ($projects as $projet)
-            $projetModele->deleteCascade($projet->getIdProjet());
-
-        $projects = $this->getProjetsParticipant(utilisateur: $this->find($idUtilisateur));
-        foreach ($projects as $projet)
-            $projetModele->deleteProjetUtilisateur($projet->getIdProjet(), $idUtilisateur);
-
         foreach ($taches as $tache)
         {
             $tacheModele->deleteCascade($tache->getIdTache());
@@ -100,6 +109,17 @@ class UtilisateurModel extends Model
             }
             $tacheModele->delete($tache->getIdTache());*/
         }
+
+        // Supprime les projets crée (et retir les liens des participants, taches, etc...)
+        $projects = $this->getProjetsCreer(utilisateur: $this->find($idUtilisateur));
+        foreach ($projects as $projet)
+            $projetModele->deleteCascade($projet->getIdProjet());
+
+        // Supprime sa participation dans les projets lié
+        $projects = $this->getProjetsParticipant(utilisateur: $this->find($idUtilisateur));
+        foreach ($projects as $projet)
+            $projetModele->deleteProjetUtilisateur($projet->getIdProjet(), $idUtilisateur);
+
 
 		return $this->delete($idUtilisateur);
     }
