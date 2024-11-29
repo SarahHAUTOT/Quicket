@@ -62,6 +62,7 @@
 							];
 							echo form_dropdown('priorite', $options, set_value('priorite', $tache->getPriorite()), [
 								'id'    => 'priorite',
+								'name'  => 'priorite',
 								'class' => 'priorite',
 								'required' => 'required'
 							]);

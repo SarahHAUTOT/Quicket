@@ -106,34 +106,35 @@ class ControllerTaches extends BaseController
 
 		// Modification de certaines données
 
-		$data['priorite'] = intval($data['priorite']); //Cast en int 
+		// $data['priorite'] = intval($data['priorite']); //Cast en int 
 
-		$data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR'); //On recast l'échéance
+		// $data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR'); //On recast l'échéance
+
 	
 		if (!$this->validate($tacheModel->getValidationRules(), $tacheModel->getValidationMessages())) 
 		{
 			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
 		}
 
-		//echo "Il repassera par là";
+		if ($idProjet < 0 || $idTache < 0) 
+		{
+			return redirect()->back();
+		}
 
-		/**
-		 * @var Tache
-		 */
-		$tache = $tacheModel->find($idTache);
+		$data['id_tache'] = $idTache;
+		$tache = new Tache();
+		$tache = $tache->fill($data);
+		
+		echo "<pre>";
+		var_dump($tache);
+		echo "</pre>";
 
-		// Mise à jour des propriétés
-		$tache->setTitre      ($data['titre']         ?? $tache->getTitre()       );
-		$tache->setPriorite   ($data['priorite']        ?? $tache->getPriorite()    );
-		$tache->setEcheance   ($data['echeance']       ?? $tache->getEcheance()    );
-		$tache->setDescription($data['description']   ?? $tache->getDescription()  );
-		$tache->setCategorie($data['categorie']   ?? $tache->getCategorie()  );
 		$tache->setModiffTache();
 
 		// Enregistrer les modifications
 		$tacheModel->save($tache);
 
-		return redirect()->to('/taches/'. $tache->getIdProjet()."/".$tache->getIdTache())->with('success', 'Vos données ont été mises à jour.');
+		return redirect()->to('/taches/modif/'. $idProjet."/".$idTache)->with('success', 'Vos données ont été mises à jour.');
 	}
 
 	public function traitement_creation_tache()
@@ -221,7 +222,7 @@ class ControllerTaches extends BaseController
 		echo view('commun/Navbar'); 
         echo view('taches/Detail', 
         [
-            'tache'  => $tacheModel->getTacheById($idTache),
+            'tache'  => $tacheModel->find($idTache),
             'projet' => $projetModele->find($idProjet),
             'commentaires' => $commentaireModel->getCommentaireTache($idTache),
             'pagerCommentaire' => $commentaireModel->pager
@@ -239,7 +240,7 @@ class ControllerTaches extends BaseController
 		echo view('commun/Navbar'); 
         echo view('taches/Modif', 
         [
-            'tache' => $tacheModel->getTacheById($idTache),
+            'tache' => $tacheModel->find($idTache),
         ]);
 		
 		echo view('commun/Footer');

@@ -68,9 +68,9 @@ class Tache extends Entity
         return $this;
     }
 
-    public function setEcheance(Time $time): Tache
+    public function setEcheance(string $strTime): Tache
     {
-        $this->attributes['echeance'] = $time;
+        $this->attributes['echeance'] = new Time($strTime, new \DateTimeZone('Europe/Paris'), 'fr_FR');
 
         return $this;
     }
