@@ -21,7 +21,7 @@ class ProjetModel extends Model
 	// Règles de validation
 	protected $validationRules = [
 		'couleur'        => 'required|exact_length[7]',
-		'nom_projet'     => 'required|min_length[1]|max_length[50]',
+		'nom_projet'     => 'required|alpha_space|min_length[1]|max_length[50]',
 	];
 
 	protected $validationMessages = [
@@ -33,6 +33,7 @@ class ProjetModel extends Model
 		'nom_projet' => [
 			'required'    => 'Champ requis.',
 			'min_length'  => 'Votre commentaire fait moins de 3 caractères.',
+			'alpha_space' => 'Seuls les lettres et espaces sont autorisés.',
 			'max_length'  => 'Votre nom de projet dépasse les 50 caractères.',
 		],
 	];
