@@ -46,7 +46,7 @@ $routes->group('', ['filter' => 'guest'], function($routes) {
 $routes->group('', ['filter' => 'auth'], function($routes) {
 
 	// Redirection vers la liste des taches
-	$routes->get('/taches', 'ControllerTaches::redirection_taches'); // (c_ControllerTaches --> v_taches/Taches.php)
+	$routes->get('/taches/(:num)', 'ControllerTaches::redirection_taches/$1'); // (c_ControllerTaches --> v_taches/Taches.php)
 	$routes->get('/taches/detail/(:num)', 'ControllerTaches::grosse_tache/$1'); // (c_ControllerTaches --> v_??? )
 
 	$routes->get('/taches/supp/(:num)', 'ControllerTaches::traitement_suppression_tache/$1'); // (c_ControllerTaches  --> v_taches/Taches.php)
