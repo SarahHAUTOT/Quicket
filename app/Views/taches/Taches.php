@@ -82,14 +82,14 @@
 									<input type="checkbox" name="est_termine" id="est_termine" 
 										<?php if($tache->getEstTermine()) echo "checked"; ?>
 										<?php if($tache->getIdUtilisateur() != session()->get('id_utilisateur')) echo "disabled"; ?>
-									onclick="window.location.href = '<?= '/taches/etat/' . $tache->getIdTache() ?>';"
+									onclick="window.location.href = '<?= '/taches/etat/' . $tache->getIdProjet(). '/' .$tache->getIdTache() ?>';"
 									>
 								</td>
 								<td class="align-middle"> 
 									<a href="<?php echo "/taches/detail/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
 
 									<?php if ($projet->getIdCreateur() == session()->get('id_utilisateur')) : ?>
-										<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
+										<a href="<?php echo "/taches/supp/".$tache->getIdProjet()."/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
 											<i class="bi bi-trash3"></i>
 										</a>
 									<?php endif; ?>
@@ -155,15 +155,6 @@
 					
 
 					<div class="form-group mb-2">
-						<?php echo form_label('Categorie', 'categorie'); ?>
-						
-						<?php echo form_input([
-							'name'        => 'categorie',
-							'id'          => 'categorie',
-							'class'       => 'form-control',
-							'value'       => set_value('categorie'),
-							'required'
-						]); ?>
 
 						<p class="text-danger"><?= validation_show_error('titre') ?></p>
 					</div>
