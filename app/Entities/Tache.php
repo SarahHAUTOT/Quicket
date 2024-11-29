@@ -187,4 +187,12 @@ class Tache extends Entity
 		$tacheModele = new TacheModel();
         return $tacheModele->getCommentaires($this);
     }
+
+
+    public function getCouleur():string
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getCouleur($this);
+
+    }
 }

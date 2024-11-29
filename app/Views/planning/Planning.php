@@ -25,14 +25,7 @@
 											<div class="d-flex justify-content-between align-items-center bg-secondary p-2 px-3 lstTache">
 												<!-- Titre à gauche -->
 												<div class="text-start">
-													<?php 
-														switch ($tache->getPriorite()) {
-															case 1 : echo '<i class="bi me-2 bi-exclamation-triangle-fill"></i>'; break;
-															case 2 : echo '<i class="bi me-2 bi-exclamation-lg"></i>'           ; break;
-															case 3 : echo '<i class="bi me-2 bi-exclamation"></i>'              ; break;
-															case 4 : echo '<i class="bi me-2"></i>'                             ; break;
-														}
-													?>
+													<i class="bi bi-square-fill me-2" style="color:<?= $tache->getCouleur() ?>"></i>
 													<?= $tache->getTitre() ?>
 												</div>
 

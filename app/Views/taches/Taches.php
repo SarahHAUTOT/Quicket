@@ -155,17 +155,15 @@
 					
 
 					<div class="form-group mb-2">
-						<?php echo form_label('Categorie', 'categorie'); ?>
 						
 						<?php echo form_input([
 							'name'        => 'categorie',
+							'type'        => 'hidden',
 							'id'          => 'categorie',
 							'class'       => 'form-control',
-							'value'       => set_value('categorie'),
+							'value'       => 'NR',
 							'required'
 						]); ?>
-
-						<p class="text-danger"><?= validation_show_error('titre') ?></p>
 					</div>
 
 

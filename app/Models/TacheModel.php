@@ -132,4 +132,15 @@ class TacheModel extends Model
 							->orderBy('echeance', 'asc')
 							->get()->getResult('App\Entities\Tache');
 	}
+
+
+	public function getCouleur ($tache):string
+	{		
+		$builder = $this->builder();
+		$builder->select(select: 'projet.couleur')
+				->join ('projet', 'projet.id_projet = tache.id_projet', 'left')
+				->where('projet.id_projet', $tache->getIdProjet());
+		
+		return $builder->get(limit: 1)->getRow()->couleur;
+	}
 }

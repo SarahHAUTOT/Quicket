@@ -24,7 +24,26 @@
 								<a href="<?php echo "/taches/".$projet->getIdProjet() ?>" class="text-decoration-none">
 									<div class="card h-100">
 										<div class="card-body text-center">
-											<h5 class="card-title"><?= $projet->getNomProjet() ?></h5>
+
+										<?php
+											$backgroundColor = $projet->getCouleur();  // Exemple de couleur de fond
+											
+											// Supprime le caractère '#' si présent
+											$hexColor = ltrim($backgroundColor, '#');
+
+											// Convertir en RGB
+											$r = hexdec(substr($hexColor, 0, 2));
+											$g = hexdec(substr($hexColor, 2, 2));
+											$b = hexdec(substr($hexColor, 4, 2));
+
+											// Calcul de la luminosité perçue (formule standard)
+											$luminance = (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
+
+											// Retourne "white" si la couleur est sombre, sinon "black"
+											$textColor = ($luminance > 0.5) ? 'black' : 'white';
+										?>
+
+											<h5 class="card-title p-2 rounded" style="background-color: <?= $projet->getCouleur(); ?>; color : <?= $textColor ?>"><?= $projet->getNomProjet() ?></h5>
 											<p class="card-text">
 												<?php 
 													$nb = count($projet->getTaches());
