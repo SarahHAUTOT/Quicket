@@ -1,7 +1,6 @@
 <?php
 
 use CodeIgniter\Test\TestLogger;
-use CodeIgniter\Log\Logger as Logger;
 use Config\Logger as ConfigLogger;
 
 if (php_sapi_name() !== 'cli') {
@@ -11,8 +10,9 @@ if (php_sapi_name() !== 'cli') {
 
 set_time_limit(0);
 
-require_once __DIR__ . '/system/Test/TestLogger.php';
+require_once __DIR__ . "/system/ThirdParty/PSR/Log/LoggerInterface.php";
 require_once __DIR__ . '/system/Log/Logger.php';
+require_once __DIR__ . '/system/Test/TestLogger.php';
 require_once __DIR__ . '/app/Config/Logger.php';
 
 const _LOGGER = new TestLogger(new ConfigLogger());
