@@ -64,3 +64,5 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 
 /** Route pour le Cron job, uniquement accessible par ligne de commande */
 $routes->cli('cron/(:num)', 'Cron::index/$1');
+
+$routes->get('test', 'Cron::test');

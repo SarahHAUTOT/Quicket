@@ -6,11 +6,14 @@ use CodeIgniter\Controller;
 use App\Entities\Utilisateur;
 
 use App\Models\UtilisateurModel;
+use CodeIgniter\HTTP\RedirectResponse;
+use Exception;
+use Random\RandomException;
 
 class ControllerUtilisateur extends BaseController
 {
     /**
-     * helper 
+     * helper
      */
 	public function __construct()
 	{
@@ -24,9 +27,9 @@ class ControllerUtilisateur extends BaseController
      */
 	public function redirection_connexion()
 	{
-		echo view('commun/Navbar'); 
-		echo view('connexion/Connexion'); 
-		echo view('commun/Footer'); 
+		echo view('commun/Navbar');
+		echo view('connexion/Connexion');
+		echo view('commun/Footer');
 	}
 
     /**
@@ -35,9 +38,9 @@ class ControllerUtilisateur extends BaseController
      */
 	public function redirection_inscription()
 	{
-		echo view('commun/Navbar'); 
-		echo view('connexion/Inscription'); 
-		echo view('commun/Footer'); 
+		echo view('commun/Navbar');
+		echo view('connexion/Inscription');
+		echo view('commun/Footer');
 	}
 
     public function redirection_modificationMDP(string $tokenMdp)
@@ -51,11 +54,11 @@ class ControllerUtilisateur extends BaseController
             return redirect()->to('/connexion/EmailMDP')->with('error', 'Cet email ne correspond pas un utilisateur');
         }
 
-        echo view('commun/Navbar'); 
+        echo view('commun/Navbar');
         echo view('connexion/ModifMDP', [
             'token' => $tokenMdp
         ]);
-        echo view('commun/Footer'); 
+        echo view('commun/Footer');
     }
 
     /**
@@ -64,9 +67,9 @@ class ControllerUtilisateur extends BaseController
      */
 	public function redirection_compte()
 	{
-		echo view('commun/Navbar'); 
-		echo view('compte/Compte'); 
-		echo view('commun/Footer'); 
+		echo view('commun/Navbar');
+		echo view('compte/Compte');
+		echo view('commun/Footer');
 	}
 
     /**
@@ -75,9 +78,9 @@ class ControllerUtilisateur extends BaseController
      */
 	public function mail_Modification()
 	{
-		echo view('commun/Navbar'); 
-		echo view('connexion/Modif'); 
-		echo view('commun/Footer'); 
+		echo view('commun/Navbar');
+		echo view('connexion/Modif');
+		echo view('commun/Footer');
 	}
 
 	/**
@@ -86,9 +89,9 @@ class ControllerUtilisateur extends BaseController
 	 */
 	public function email_mdp()
 	{
-		echo view('commun/Navbar'); 
-		echo view('connexion/EmailMDP'); 
-		echo view('commun/Footer'); 
+		echo view('commun/Navbar');
+		echo view('connexion/EmailMDP');
+		echo view('commun/Footer');
 	}
 
 	/**
@@ -124,7 +127,7 @@ class ControllerUtilisateur extends BaseController
 						'isLoggedIn' => true
 					]);
 					// Rediriger vers la page d'accueil
-					return redirect()->to('/taches'); 
+					return redirect()->to('/taches');
 				} else {
 					return redirect()->back()->withInput()->with('error','Mots de passe incorrect.');
 				}
@@ -140,7 +143,7 @@ class ControllerUtilisateur extends BaseController
 
     /**
      * Déconnecte l'utilisateur, redirectionne vers connexion
-     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne vers connexion
+     * @return RedirectResponse redirectionne vers connexion
      */
 	public function traitement_deconnexion()
 	{
@@ -150,8 +153,8 @@ class ControllerUtilisateur extends BaseController
 
     /**
      * Modifie les donné du compte, pseudo et email
-     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne a ala page d'avant
-     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne vers compte
+     * @return RedirectResponse redirectionne a ala page d'avant
+     * @return RedirectResponse redirectionne vers compte
      */
 	public function traitement_modifDonne()
 	{
@@ -207,8 +210,8 @@ class ControllerUtilisateur extends BaseController
 
     /**
      * Supprime l'utilisateur
-     * @return \CodeIgniter\HTTP\RedirectResponse déconnecte l'utilisateur
-     * @return \CodeIgniter\HTTP\RedirectResponse reviens page d'avant si erreur
+     * @return RedirectResponse déconnecte l'utilisateur
+     * @return RedirectResponse reviens page d'avant si erreur
      */
 	public function traitement_delete()
 	{
@@ -244,7 +247,7 @@ class ControllerUtilisateur extends BaseController
 			$utilisateurModel->delete($utilisateur->getIdUtilisateur());
 			
 			// Deconnexion
-			return redirect()->to('/deconnect'); 
+			return redirect()->to('/deconnect');
 		} else {
 			// Mot de passe incorrect
 			return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
@@ -253,7 +256,7 @@ class ControllerUtilisateur extends BaseController
 
     /**
      * traitement pour inscrire un utilisateur role a inactif
-     * @return \CodeIgniter\HTTP\RedirectResponse redirige vers connexion
+     * @return RedirectResponse redirige vers connexion
      */
 	public function traitement_inscription()
 	{
@@ -277,17 +280,17 @@ class ControllerUtilisateur extends BaseController
 			$tokenInsc = $this->generateValidToken();
 			$utilisateur->setTokenInscription($tokenInsc);
 			$utilisateurModel->insert($utilisateur);
-			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
-			echo view('commun/Navbar'); 
-			echo view('connexion/Activation'); 
-			echo view('commun/Footer'); 
+			mail_certif_compte($utilisateur->getEmail(), $tokenInsc, $utilisateur->getPseudo());
+			echo view('commun/Navbar');
+			echo view('connexion/Activation');
+			echo view('commun/Footer');
 		}
 	}
 
     /**
      * traitement pour activer un compte
      * @param string $tokenActivation vtoken généré a inscription et récup par email
-     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne a connexion
+     * @return RedirectResponse redirectionne a connexion
      */
 	public function traitement_activation(string $tokenActivation)
 	{
@@ -320,11 +323,12 @@ class ControllerUtilisateur extends BaseController
 
 		return redirect()->to('/connexion')->with('msg', 'Votre compte a été activé avec succès !');
 	}
-
-    /**
-     * traitement du formualire demande d'email pour oublie mdp
-     * @return \CodeIgniter\HTTP\RedirectResponse redirectionne vers connexion
-     */
+	
+	/**
+	 * traitement du formualire demande d'email pour oublie mdp
+	 * @return RedirectResponse redirectionne vers connexion
+	 * @throws Exception
+	 */
 	public function traitement_emailMDPoublie()
 	{
 		// TODO : Traitement de l'inscription
@@ -335,6 +339,7 @@ class ControllerUtilisateur extends BaseController
 		$email = $this->request->getVar('email');
 
 		// Rechercher l'utilisateur par email
+		/** @var Utilisateur $utilisateur */
 		$utilisateur = $utilisateurModel->where('email', $email)->first();
 
 		// Vérifier si un utilisateur a été trouvé
@@ -342,7 +347,7 @@ class ControllerUtilisateur extends BaseController
             $tokenMDP = $this->generateValidToken();
 			$utilisateur->setTokenMdp($tokenMDP);
 			$utilisateurModel->save($utilisateur);
-            mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
+            mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP, $utilisateur->getPseudo());
             return redirect()->to('/connexion/mdp');
 		} else {
 			// Email non trouvé
@@ -363,16 +368,17 @@ class ControllerUtilisateur extends BaseController
         $utilisateurModel->save($utilisateur);
         return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
     }
-
+	
 	/**
 	 * Génère un token robuste, pour inscription et oubli mdp
 	 * @return string token de 16 caractère
+	 * @throws RandomException
 	 */
 	private function generateValidToken(): string
 	{
 		do {
 			$token = bin2hex(random_bytes(16)); // Génère un token de 32 caractères
-		} while (!is_string($token) || empty($token));
+		} while (empty($token));
 
 		return $token;
 	}

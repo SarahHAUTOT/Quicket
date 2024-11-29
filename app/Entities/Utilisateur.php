@@ -57,18 +57,24 @@ class Utilisateur extends Entity
 
         return $this;
     }
-
-    public function setTokenMdp(string $token): Utilisateur
+	
+	/**
+	 * @throws Exception
+	 */
+	public function setTokenMdp(string $token): Utilisateur
     {
         $this->attributes['token_mdp'] = $token;
-        // $this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
-
+		$this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
         return $this;
     }
-
-    public function setTokenInscription(string $token): Utilisateur
+	
+	/**
+	 * @throws Exception
+	 */
+	public function setTokenInscription(string $token): Utilisateur
     {
         $this->attributes['token_inscription'] = $token;
+		$this->attributes['creation_token_inscription'] = Time::now('Europe/Paris', 'fr_FR');
         return $this;
     }
 

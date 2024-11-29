@@ -82,7 +82,7 @@ class Cron extends BaseController {
 			if ($now->difference($date_creation)->getSeconds() === 0)
 				continue;
 			if ($now->difference($date_creation)->getSeconds() > 3600) {
-				echo "Deleting user number #{$id}", PHP_EOL;
+				echo "Deleting user number #$id", PHP_EOL;
 				$usrMod->delete($id);
 			}
 		}
