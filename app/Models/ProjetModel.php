@@ -55,7 +55,7 @@ class ProjetModel extends Model
 		$builder->select(select: 'tache.*')->distinct()->from('tache')
 				->where('tache.id_projet', $projet->getIdProjet());
 			
-		$taches = $builder->get()->getResult('App\Entities\Utilisateur');
+		$taches = $builder->get()->getResult('App\Entities\Tache');
 		return $taches;
 	}
 
@@ -95,7 +95,7 @@ class ProjetModel extends Model
         	$this->deleteProjetUtilisateur($idProjet, $utilisateur->getIdUtilisateur());
 
 		foreach ($taches as $tache)
-        	$$tacheModele->deleteCascade($tache->getIdTache());
+        	$tacheModele->deleteCascade($tache->getIdTache());
 
 		return $this->delete($idProjet);
     }

@@ -65,6 +65,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 	$routes->get('/planning/(:any)', 'ControllerPlanning::redirection_vueGlobale/$1');
 	
 	$routes->get('/projets', 'ControllerProjet::redirection_projets');
+	$routes->get('/projets/delete/(:num)', 'ControllerProjet::traitement_delete_projet/$1');
 	$routes->match(['get', 'post'], '/projets/create', 'ControllerProjet::traitement_creation'    ); // (c_ControllerTaches  --> v_taches/Taches.php)
 	
 	// Redirection vers la liste des participants

@@ -53,6 +53,18 @@ class ControllerProjet extends BaseController
 		return redirect()->to('/taches/participants/'.$idProjet)->with('msg', $participant->getPseudo().' a été ajouté dans votre projet');
 	}
 	
+	public function traitement_delete_projet(int $idProjet)
+	{
+		$projetModel = new ProjetModel();
+		$idCreateur = $projetModel->find($idProjet)->getIdCreateur();
+
+		if (session()->get('id_utilisateur') != $idCreateur)
+			return redirect()->back();
+
+		$projetModel->deleteCascade($idProjet);
+		return redirect()->back();
+	}
+	
 	public function traitement_delete_participant(int $idProjet, int $idParticipant)
 	{
 		$projetModel = new ProjetModel();

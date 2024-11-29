@@ -44,7 +44,7 @@
 											?>
 											<h5 class="card-title p-2 rounded d-flex justify-content-center align-items-center position-relative" style="background-color: <?= $projet->getCouleur(); ?>; color: <?= $textColor ?>;">
 												<span class="mx-auto"><?= $projet->getNomProjet() ?></span>
-												<a href="" class="nav-link position-absolute end-0 me-3"><i class="bi bi-trash3"></i></a>
+												<a href="/projets/delete/<?= $projet->getIdProjet() ?>" class="nav-link position-absolute end-0 me-3"><i class="bi bi-trash3"></i></a>
 											</h5>
 
 											<a href="<?php echo "/taches/".$projet->getIdProjet() ?>" class="text-decoration-none nav-link">
