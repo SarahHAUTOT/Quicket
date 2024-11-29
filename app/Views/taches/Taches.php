@@ -101,6 +101,10 @@
 				Ajouter une tache
 			</button>
 
+			<button href="" type="button" class="btn btn-principale mx-5 my-2">
+				Participants
+			</button>
+
 
 
 	

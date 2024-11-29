@@ -66,6 +66,11 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 	
 	$routes->get('/projets', 'ControllerProjet::redirection_projets');
 	$routes->match(['get', 'post'], '/projets/create', 'ControllerProjet::traitement_creation'    ); // (c_ControllerTaches  --> v_taches/Taches.php)
+	
+	// Redirection vers la liste des participants
+	$routes->get('/taches/participants/(:num)'              , 'ControllerProjet::redirection_participants/$1');
+	$routes->get('/taches/participants/delete/(:num)/(:num)', 'ControllerProjet::traitement_delete_participant/$1/$2');
+	$routes->match(['get', 'post'], '/taches/participants/add', 'ControllerUtilisateur::traitement_ajouter_participant'    );
 
 	$routes->get('/deconnect', 'ControllerUtilisateur::traitement_deconnexion');
 
