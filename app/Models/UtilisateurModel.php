@@ -77,8 +77,13 @@ class UtilisateurModel extends Model
     public function deleteCascade(int $idUtilisateur): bool
     {
         $tacheModele = new TacheModel();
-        $taches = $this->getTaches($this->find($idUtilisateur));
-        
+        $projetModele = new ProjetModel();
+        $taches = $this->getTaches(utilisateur: $this->find($idUtilisateur));
+        $projects = $this->getProjetsCreer(utilisateur: $this->find($idUtilisateur));
+
+        foreach ($projects as $projet)
+            $projetModele->deleteCascade($projet->getIdProjet());
+
         foreach ($taches as $tache)
         {
             $tacheModele->deleteCascade($tache->getIdTache());

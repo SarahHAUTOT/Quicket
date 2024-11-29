@@ -230,21 +230,7 @@ class ControllerUtilisateur extends BaseController
 		//if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
 			
 			//Supprimer
-			$tacheModele = new TacheModel();
-			$commentaireModele = new CommentaireModel();
-			$taches = $utilisateur->getTaches();
-			
-			foreach ($taches as $tache)
-			{
-				$commentaires = $tache->getCommentaires();
-				foreach ($commentaires as $commentaire)
-				{
-					$commentaireModele->delete($commentaire->getIdCommentaire());
-				}
-				$tacheModele->delete($tache->getIdTache());
-			}
-
-			$utilisateurModel->delete($utilisateur->getIdUtilisateur());
+			$utilisateurModel->deleteCascade($utilisateur->getIdUtilisateur());
 			
 			// Deconnexion
 			return redirect()->to('/deconnect'); 
