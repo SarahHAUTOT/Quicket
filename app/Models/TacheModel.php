@@ -143,4 +143,15 @@ class TacheModel extends Model
 		
 		return $builder->get(limit: 1)->getRow()->couleur;
 	}
+
+
+	public function getNomProjet ($tache):string
+	{		
+		$builder = $this->builder();
+		$builder->select(select: 'projet.nom_projet')
+				->join ('projet', 'projet.id_projet = tache.id_projet', 'left')
+				->where('projet.id_projet', $tache->getIdProjet());
+		
+		return $builder->get(limit: 1)->getRow()->nom_projet;
+	}
 }

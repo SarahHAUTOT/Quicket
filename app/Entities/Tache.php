@@ -195,4 +195,11 @@ class Tache extends Entity
         return $tacheModele->getCouleur($this);
 
     }
+
+    public function getNomProjet():string
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getNomProjet($this);
+
+    }
 }

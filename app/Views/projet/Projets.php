@@ -21,40 +21,45 @@
 					<?php if (!empty($projets)) : ?>
 						<?php foreach ($projets as $projet):?>
 							<div class="col-md-4 my-4">
-								<a href="<?php echo "/taches/".$projet->getIdProjet() ?>" class="text-decoration-none">
+								<a href="<?php echo "/taches/".$projet->getIdProjet() ?>" class="text-decoration-none nav-link">
 									<div class="card h-100">
 										<div class="card-body text-center">
 
-										<?php
-											$backgroundColor = $projet->getCouleur();  // Exemple de couleur de fond
-											
-											// Supprime le caractère '#' si présent
-											$hexColor = ltrim($backgroundColor, '#');
+											<?php
+												$backgroundColor = $projet->getCouleur();  // Exemple de couleur de fond
+												
+												// Supprime le caractère '#' si présent
+												$hexColor = ltrim($backgroundColor, '#');
 
-											// Convertir en RGB
-											$r = hexdec(substr($hexColor, 0, 2));
-											$g = hexdec(substr($hexColor, 2, 2));
-											$b = hexdec(substr($hexColor, 4, 2));
+												// Convertir en RGB
+												$r = hexdec(substr($hexColor, 0, 2));
+												$g = hexdec(substr($hexColor, 2, 2));
+												$b = hexdec(substr($hexColor, 4, 2));
 
-											// Calcul de la luminosité perçue (formule standard)
-											$luminance = (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
+												// Calcul de la luminosité perçue (formule standard)
+												$luminance = (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
 
-											// Retourne "white" si la couleur est sombre, sinon "black"
-											$textColor = ($luminance > 0.5) ? 'black' : 'white';
-										?>
+												// Retourne "white" si la couleur est sombre, sinon "black"
+												$textColor = ($luminance > 0.5) ? 'black' : 'white';
+											?>
+											<h5 class="card-title p-2 rounded d-flex justify-content-center align-items-center position-relative" style="background-color: <?= $projet->getCouleur(); ?>; color: <?= $textColor ?>;">
+												<span class="mx-auto"><?= $projet->getNomProjet() ?></span>
+												<a href="" class="nav-link position-absolute end-0 me-3"><i class="bi bi-trash3"></i></a>
+											</h5>
 
-											<h5 class="card-title p-2 rounded" style="background-color: <?= $projet->getCouleur(); ?>; color : <?= $textColor ?>"><?= $projet->getNomProjet() ?></h5>
-											<p class="card-text">
-												<?php 
-													$nb = count($projet->getTaches());
-													echo $nb . " tache" . ($nb > 1?"s":"") ." <i class=\"bi bi-ui-checks\"></i>";
-												?>
-												<br>
-												<?php 
-													$nb = count($projet->getUtilisateurs());
-													echo $nb . " participant" . ($nb > 1?"s":"") ." <i class=\"bi bi-people-fill\"></i>";
-												?>
-											</p>
+											<a href="<?php echo "/taches/".$projet->getIdProjet() ?>" class="text-decoration-none nav-link">
+												<p class="card-text">
+													<?php 
+														$nb = count($projet->getTaches());
+														echo $nb . " tache" . ($nb > 1?"s":"") ." <i class=\"bi bi-ui-checks\"></i>";
+													?>
+													<br>
+													<?php 
+														$nb = count($projet->getUtilisateurs());
+														echo $nb . " participant" . ($nb > 1?"s":"") ." <i class=\"bi bi-people-fill\"></i>";
+													?>
+												</p>
+											</a>
 										</div>
 									</div>
 								</a>

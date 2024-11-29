@@ -21,12 +21,12 @@
 								<div class="card-body overflow-auto p-0">
 
 									<?php foreach ($taches as $tache) :?>
-										<a href="<?php echo "/taches/detail/".$tache->getIdTache() ?>" class="nav-link">
-											<div class="d-flex justify-content-between align-items-center bg-secondary p-2 px-3 lstTache">
+										<a href="<?php echo "/taches/detail/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="nav-link">
+											<div class="d-flex justify-content-between align-items-center bg-secondary p-2 px-3 lstTache <?= $tache->getEstTermine() ? 'text-secondary' : '' ?>">
 												<!-- Titre à gauche -->
 												<div class="text-start">
 													<i class="bi bi-square-fill me-2" style="color:<?= $tache->getCouleur() ?>"></i>
-													<?= $tache->getTitre() ?>
+													<?= $tache->getNomProjet() ?> | <?= $tache->getTitre() ?>
 												</div>
 
 												<!-- Temps restant à droite -->
