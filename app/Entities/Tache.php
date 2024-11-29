@@ -101,6 +101,11 @@ class Tache extends Entity
         return intval($this->attributes['id_tache']);
     }
 
+    public function getIdProjet(): int
+    {
+        return intval($this->attributes['id_projet']);
+    }
+
     public function getEstTermine(): bool
     {
         return $this->attributes['est_termine'];

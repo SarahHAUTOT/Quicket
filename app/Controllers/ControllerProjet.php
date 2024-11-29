@@ -1,8 +1,8 @@
 <?php
 namespace App\Controllers;
 use App\Models\ProjetModel;
+use App\Models\UtilisateurModel;
 use CodeIgniter\Controller;
-use App\Models\User;
 use App\Entities\Projet;
 
 class ControllerProjet extends BaseController
@@ -26,16 +26,39 @@ class ControllerProjet extends BaseController
     	echo view('commun/Footer'); 
 	}
 	
-	public function traitement_ajouter_participant(int $idProjet, int $idParticipant)
+	public function traitement_ajouter_participant()
 	{
+		$data = $this->request->getPost();
+		$utilisateurModele = new UtilisateurModel();
+		$idProjet = $data['id_projet'];
+
+		$utilisateur = $utilisateurModele->find($data['email']);
+
+		if ($utilisateur == null) 
+		{
+			return redirect()->back()->withInput()->with('errors', 'Cet utilisateur n\'existe pas');
+		}
+
 		$projetModele = new ProjetModel();
-		$projetModele->insererProjetUtilisateur($idProjet, $idParticipant );
-/*
-		$idParticipants = $this->request->getPost();
-		foreach ($idParticipants as $idParticipant)
-			$projetModele->insererProjetUtilisateur($idProjet, $idParticipant );
-*/
-		return redirect()->to("/taches/".$idProjet);
+		$projetModele->insererProjetUtilisateur($idProjet, $utilisateur->getIdUtilisateur() );
+
+		return redirect()->to('/taches/'.$idProjet);
+	}
+	
+	public function traitement_delete_participant(int $idProjet, int $idParticipant)
+	{
+		$projetModel = new ProjetModel();
+		$projetModel->deleteProjetUtilisateur($idProjet, $idParticipant);
+
+		return redirect()->to('/taches/'.$idProjet);
+	}
+	
+	public function redirection_participants(int $idProjet)
+	{
+		$projetModel = new ProjetModel();
+		$projetModel->getUtilisateurs($projetModel->find($idProjet));
+
+		return redirect()->to('/taches/'.$idProjet);
 	}
 
 	public function traitement_creation()
