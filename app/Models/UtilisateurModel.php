@@ -69,7 +69,8 @@ class UtilisateurModel extends Model
 		$builder = $this->builder();
 		$builder->select(select: 'projet.*')->distinct()->from('projet')
 				->join('projetutilisateur', 'projet.id_projet = projetutilisateur.id_projet', 'left')
-				->where('projetutilisateur.id_utilisateur', $utilisateur->getIdUtilisateur());
+				->where('projetutilisateur.id_utilisateur', $utilisateur->getIdUtilisateur())
+                ->where('projet.id_createur !=' , $utilisateur->getIdUtilisateur());
 			
 		return $builder->get()->getResult('App\Entities\Projet');
 	}
@@ -101,13 +102,6 @@ class UtilisateurModel extends Model
         foreach ($taches as $tache)
         {
             $tacheModele->deleteCascade($tache->getIdTache());
-            /*
-            $commentaires = $tache->getCommentaires();
-            foreach ($commentaires as $commentaire)
-            {
-                $commentaireModele->delete($commentaire->getIdCommentaire());
-            }
-            $tacheModele->delete($tache->getIdTache());*/
         }
 
         // Supprime les projets crée (et retir les liens des participants, taches, etc...)
