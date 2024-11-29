@@ -19,7 +19,7 @@
 
 		<table class="head">
 			<tr>
-				<td rowspan=2 class="left"><h2><?= $tache->getTitre() ?></h2></td>
+				<td rowspan=2 class="left"><h2><a href="/taches/<?= $tache->getIdProjet() ?>" class="text-dark"><i class="me-2 bi bi-arrow-left-short"></i></a><?= $tache->getTitre() ?></h2></td>
 				<td class="img"><img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image" title="Date de création"></td>
 				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
 			</tr>

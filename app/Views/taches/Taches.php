@@ -6,6 +6,12 @@
 
 <div style="min-height: 90vh;padding-top: 80px;">
 
+		<div>
+			<div class="ps-5 py-2">
+				<a href="/projets" class="text-dark"><h1><i class="me-2 bi bi-arrow-left-short"></i>Projets</a>/<?php echo $projet->getNomProjet() ?></h1>
+			</div>
+		</div>
+
 
 
 		<div class="container my-4">
