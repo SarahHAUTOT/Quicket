@@ -18,8 +18,6 @@ class ControllerProjet extends BaseController
 		$projetModele = new ProjetModel();
 		$projets = $projetModele->where('id_createur', session()->get('id_utilisateur'))->get()->getResult('App\Entities\Projet');
 		
-		
-
     	echo view('commun/Navbar'); 
     	echo view('projet/Projets', [
 				'projets'     => $projets,

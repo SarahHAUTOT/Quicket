@@ -21,7 +21,7 @@
 					<?php if (!empty($projets)) : ?>
 						<?php foreach ($projets as $projet):?>
 							<div class="col-md-4 my-4">
-								<a href="#" class="text-decoration-none">
+								<a href="<?php echo "/taches/".$projet->getIdProjet() ?>" class="text-decoration-none">
 									<div class="card h-100">
 										<div class="card-body text-center">
 											<h5 class="card-title"><?= $projet->getNomProjet() ?></h5>
