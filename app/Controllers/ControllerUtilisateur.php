@@ -249,12 +249,14 @@ class ControllerUtilisateur extends BaseController
 		$utilisateurModel = new UtilisateurModel();
 		$regleValidation = $utilisateurModel->getValidationRules();
 		$regleValidation['mdpConf'] = 'required_with[mdp]|matches[mdp]';
-		$regleValidation['mdpConf'] = [
-			'required_with[mdp]' => 'Champ requis.',
-			'matches[mdp]' => 'La confirmation du mot de passe est différente que le mot de passe entré.',
+
+		$messagesValidation = $utilisateurModel->getValidationMessages();
+		$messagesValidation['mdpConf'] = [
+				'required_with' => 'Champ requis.',
+				'matches' => 'Les mots de passes ne correspondent pas.',
 		];
 
-		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
+		$isValid = $this->validate($regleValidation, $messagesValidation);
 		
 		if (!$isValid) {
             session()->setFlashdata('validation', \Config\Services::validation()->getErrors());
