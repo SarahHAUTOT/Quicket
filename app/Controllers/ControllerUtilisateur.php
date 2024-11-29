@@ -48,7 +48,7 @@ class ControllerUtilisateur extends BaseController
 
         if (!$utilisateur)
         {
-            return redirect()->to('/connexion/EmailMDP')->with('error', 'Cet email ne correspond pas un utilisateur');
+			return view('commun/Navbar') . view('connexion/Perime') . view('commun/Footer'); 
         }
 
         echo view('commun/Navbar'); 
@@ -331,7 +331,7 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenMdp($tokenMDP);
 			$utilisateurModel->save($utilisateur);
             mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
-			return view('commun/Navbar') . view('connexion/Perime') . view('commun/Footer'); 
+			return view('commun/Navbar') . view('connexion/modif') . view('commun/Footer'); 
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');
