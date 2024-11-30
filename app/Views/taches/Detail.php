@@ -26,7 +26,7 @@
 				<td rowspan=2 class="left"><h2><a href="/taches/<?= $tache->getIdProjet() ?>" class="text-dark"><i class="me-2 bi bi-arrow-left-short"></i></a><?= $tache->getTitre() ?></h2></td>
 				<td class="img"><img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image" title="Date de création"></td>
 
-				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
+				<td class="annotation"><?= $tache->getCreationTache()->format('d/m/Y'); ?> à <?= $tache->getCreationTache()->format('H:i'); ?></td>
 			</tr>
 			<tr>
 				<td class="img"><img src="<?=base_url()."assets/img/modif.png";?>" alt="Horloge" class="small-image" title="Date de modification"></td>

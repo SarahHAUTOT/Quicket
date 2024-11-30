@@ -237,7 +237,7 @@ class ControllerUtilisateur extends BaseController
 			return redirect()->to('/deconnect'); 
 		} else {
 			// Mot de passe incorrect
-			return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
+			return redirect()->back()->withInput()->with('error', 'Mot de passe incorrect');
 		}
 	}
 
@@ -254,7 +254,7 @@ class ControllerUtilisateur extends BaseController
 		$messagesValidation = $utilisateurModel->getValidationMessages();
 		$messagesValidation['mdpConf'] = [
 				'required_with' => 'Champ requis.',
-				'matches' => 'Les mots de passes ne correspondent pas.',
+				'matches' => 'Les mots de passe ne correspondent pas.',
 		];
 
 		$isValid = $this->validate($regleValidation, $messagesValidation);
@@ -365,7 +365,7 @@ class ControllerUtilisateur extends BaseController
 		$messageValidation = [
 			'mdpConf' => [
 				'required_with' => 'Champ requis.',
-				'matches' => 'Les mots de passes ne correspondent pas.',
+				'matches' => 'Les mots de passe ne correspondent pas.',
 			],
 			'mdp' => [
 				'required'    => 'Champ requis.',

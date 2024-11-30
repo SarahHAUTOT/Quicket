@@ -31,11 +31,14 @@
 			<tr>
 				<td rowspan=2 class="left"><h2>
 						
-						<?php echo form_input([
+						<?php 
+							$value = htmlspecialchars_decode(set_value('titre', $tache->getTitre()));
+
+							echo form_input([
 							'name'        => 'titre',
 							'id'          => 'titre',
 							'class'       => 'form-control',
-							'value'       => set_value('titre', $tache->getTitre()),
+							'value'       => $value,
 							'required'
 						]); ?>
 						
@@ -43,7 +46,7 @@
 						<p><?= validation_show_error('titre') ?></p>
 				</td>
 				<td class="img"><img src="<?=base_url()."assets/img/calendrier.png";?>" alt="Horloge" class="small-image" title="Date de création"></td>
-				<td class="annotation"><?= $tache->getModiffTache()->format('d/m/Y'); ?> à <?= $tache->getModiffTache()->format('H:i'); ?></td>
+				<td class="annotation"><?= $tache->getCreationTache()->format('d/m/Y'); ?> à <?= $tache->getCreationTache()->format('H:i'); ?></td>
 			</tr>
 			<tr>
 				<td class="img"><img src="<?=base_url()."assets/img/modif.png";?>" alt="Horloge" class="small-image" title="Date de modification"></td>

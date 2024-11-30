@@ -110,6 +110,11 @@ class Tache extends Entity
     {
         return new Time($this->attributes['modiff_tache']);
     }
+
+    public function getCreationTache(): ?Time
+    {
+        return new Time($this->attributes['creation_tache']);
+    }
     
     public function getTitre(): ?string
     {
