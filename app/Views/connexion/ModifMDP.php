@@ -4,16 +4,26 @@
 
 				
 				<div class="d-flex justify-content-center align-items-center">
-					<h2> Modification du mots de passe </h2>
+					<h2> Modification du mot de passe </h2>
 				</div>
 
                 <?php echo form_open('/connexion/mdp/change/'.$token); ?>
+				
+					<?php if (session()->has('errors')) : ?>
+						<p class="text-danger">
+							<?php foreach (session()->get('errors') as $erreur) : ?>
+								<?= $erreur ?>
+							<?php endforeach; ?>
+						</p>
+					<?php endif; ?>
+
 					<div class="form-group mb-2">
 						<?php echo form_label('Mots de passe', 'mdp'); ?>
 						
 						<?php echo form_input([
 							'name'        => 'mdp',
 							'id'          => 'mdp',
+							'type'        => 'password',
 							'class'       => 'form-control',
 							'value'       => set_value('mdp'),
 							'required'
@@ -24,17 +34,18 @@
 
 
 					<div class="form-group mb-2">
-						<?php echo form_label('Confirmation de mots de passe', 'mdpConf'); ?>
+						<?php echo form_label('Confirmation de mot de passe', 'mdpConf'); ?>
 						
 						<?php echo form_input([
 							'name'        => 'mdpConf',
 							'id'          => 'mdpConf',
+							'type'        => 'password',
 							'class'       => 'form-control',
 							'value'       => set_value('mdpConf'),
 							'required'
 						]); ?>
 
-						<?= validation_show_error('mdp') ?>
+						<?= validation_show_error('mdpConf') ?>
 					</div>
 					
 					<br>

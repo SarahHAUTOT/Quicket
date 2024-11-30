@@ -32,29 +32,89 @@ class UtilisateurModel extends Model
 	];
 
 	protected $validationMessages = [
-		'pseudo' => [
+        'pseudo' => [
             'required'    => 'Champ requis.',
-			'max_length'  => 'Votre pseudo dépasse les de 50 caractères.',
-		],
+            'max_length'  => 'Votre pseudo fait plus de 50 caractères.',
+        ],
 
-		'mdp' => [
+        'mdp' => [
             'required'    => 'Champ requis.',
-			'max_length'  => 'Votre mot de passe dépasse les 255 caractères.',
-			'min_length'  => 'Votre mot de passe est inférieur à 8 caractères.',
-		],
+            'max_length'  => 'Votre mot de passe doit faire moins de 255 caractères.',
+            'min_length'  => 'Votre mot de passe doit faire plus de 8 caractères.',
+        ],
 
-		'email' => [
+        'email' => [
             'required'    => 'Champ requis.',
-			'is_unique'   => 'Cet émail est déjà utilisé.',
-			'max_length'  => 'Votre émail dépasse les 255 caractères.',
-			'valid_email' => 'Entrer un émail valid.',
-		]
-	];
+            'is_unique'   => 'Cet email est déjà utilisé.',
+            'max_length'  => 'Votre email dépasse les 255 caractères.',
+            'valid_email' => 'Entrez un email valide.',
+        ]
+    ];
 
 	// Fonctions
     public function getTaches(Utilisateur $utilisateur): array
     {
         $tacheModele = new TacheModel();
         return $tacheModele->where('id_utilisateur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Tache');
+    }
+
+    public function getProjetsCreer(Utilisateur $utilisateur): array
+    {
+        $projetModele = new ProjetModel();
+        return $projetModele->where('id_createur', $utilisateur->getIdUtilisateur())->get()->getResult('App\Entities\Projet');
+    }
+	
+	public function getProjetsParticipant(Utilisateur $utilisateur): ?array
+	{
+		$builder = $this->builder();
+		$builder->select(select: 'projet.*')->distinct()->from('projet')
+				->join('projetutilisateur', 'projet.id_projet = projetutilisateur.id_projet', 'left')
+				->where('projetutilisateur.id_utilisateur', $utilisateur->getIdUtilisateur())
+                ->where('projet.id_createur !=' , $utilisateur->getIdUtilisateur());
+			
+		return $builder->get()->getResult('App\Entities\Projet');
+	}
+
+    public function getCommentaires(Utilisateur $utilisateur):array
+    {
+		$builder = $this->builder();
+		$builder->select(select: 'commentaire.*')->from('commentaire')
+				->where('commentaire.id_utilisateur', $utilisateur->getIdUtilisateur());
+			
+		return $builder->get()->getResult('App\Entities\Commentaire');
+
+    }
+
+    public function deleteCascade(int $idUtilisateur): bool
+    {
+        $tacheModele = new TacheModel();
+        $projetModele = new ProjetModel();
+        $commentaireModele = new CommentaireModel();
+        
+        // Supprime les commentaire écris car c'est pas tous le temps lié à ses taches 
+        $comms = $this->getCommentaires($this->find($idUtilisateur));
+        foreach ($comms as $comm) {
+            $commentaireModele->delete($comm->getIdCommentaire());
+        }
+        
+        // Supprime les taches qu'il a crée 
+        $taches = $this->getTaches(utilisateur: $this->find($idUtilisateur));
+        foreach ($taches as $tache)
+        {
+            $tacheModele->deleteCascade($tache->getIdTache());
+        }
+
+        // Supprime les projets crée (et retir les liens des participants, taches, etc...)
+        $projects = $this->getProjetsCreer(utilisateur: $this->find($idUtilisateur));
+        foreach ($projects as $projet)
+            $projetModele->deleteCascade($projet->getIdProjet());
+
+        // Supprime sa participation dans les projets lié
+        $projects = $this->getProjetsParticipant(utilisateur: $this->find($idUtilisateur));
+        foreach ($projects as $projet)
+            $projetModele->deleteProjetUtilisateur($projet->getIdProjet(), $idUtilisateur);
+
+
+		return $this->delete($idUtilisateur);
     }
 }

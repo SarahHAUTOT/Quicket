@@ -4,11 +4,12 @@
 
 				
 				<div class="d-flex justify-content-center align-items-center">
-					<h2> Activation du compte </h2>
+					<h2> Lien invalide </h2>
 				</div>
 
 				<p class="text-center">
-					Un mail vous a été envoyé afin de valider votre adresse email. <br> Cliquez sur le lien afin d'activer votre compte.
+					Oops ! Il semblerait que le lien ait expiré. <br>
+					Êtes-vous sûr de vous ?
 				</p>
 
 				<div class="d-flex justify-content-center align-items-center mt-5">

@@ -1,6 +1,7 @@
 <?php
 namespace App\Entities;
 
+use App\Entities\Projet;
 use App\Models\TacheModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
@@ -16,7 +17,9 @@ class Tache extends Entity
         'description' => null,
         'priorite' => null,
         'echeance' => null,
-        'id_utilisateur' => null
+        'id_utilisateur' => null,
+        'est_termine' => null,
+        'id_projet' => null
     ];
 
     protected $dates = ['creation_tache', 'modiff_tache'];
@@ -29,10 +32,24 @@ class Tache extends Entity
 
         return $this;
     }
+
+    public function setEstTermine(bool $bool): Tache
+    {
+        $this->attributes['est_termine'] = $bool;
+
+        return $this;
+    }
     
     public function setIdUtilisateur(int $id): Tache
     {
         $this->attributes['id_utilisateur'] = $id;
+
+        return $this;
+    }
+    
+    public function setIdProjet(int $id): Tache
+    {
+        $this->attributes['id_projet'] = $id;
 
         return $this;
     }
@@ -51,9 +68,9 @@ class Tache extends Entity
         return $this;
     }
 
-    public function setEcheance(Time $time): Tache
+    public function setEcheance(string $strTime): Tache
     {
-        $this->attributes['echeance'] = $time;
+        $this->attributes['echeance'] = new Time($strTime, new \DateTimeZone('Europe/Paris'), 'fr_FR');
 
         return $this;
     }
@@ -79,9 +96,24 @@ class Tache extends Entity
         return intval($this->attributes['id_tache']);
     }
 
+    public function getIdProjet(): int
+    {
+        return intval($this->attributes['id_projet']);
+    }
+
+    public function getEstTermine(): bool
+    {
+        return strcmp($this->attributes['est_termine'], 'f');
+    }
+
     public function getModiffTache(): ?Time
     {
         return new Time($this->attributes['modiff_tache']);
+    }
+
+    public function getCreationTache(): ?Time
+    {
+        return new Time($this->attributes['creation_tache']);
     }
     
     public function getTitre(): ?string
@@ -147,5 +179,26 @@ class Tache extends Entity
     {
 		$tacheModele = new TacheModel();
         return $tacheModele->getCommentaires($this);
+    }
+
+    public function getProjet(): Projet
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getProjet($this);
+    }
+
+
+    public function getCouleur():string
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getCouleur($this);
+
+    }
+
+    public function getNomProjet():string
+    {
+		$tacheModele = new TacheModel();
+        return $tacheModele->getNomProjet($this);
+
     }
 }

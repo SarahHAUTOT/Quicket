@@ -3,6 +3,7 @@ namespace App\Controllers;
 use App\Models\CommentaireModel;
 use App\Models\TacheModel;
 use CodeIgniter\Controller;
+use CodeIgniter\I18n\Time;
 use App\Entities\Utilisateur;
 
 use App\Models\UtilisateurModel;
@@ -48,7 +49,7 @@ class ControllerUtilisateur extends BaseController
 
         if (!$utilisateur)
         {
-            return redirect()->to('/connexion/EmailMDP')->with('error', 'Cet email ne correspond pas un utilisateur');
+			return view('commun/Navbar') . view('connexion/Perime') . view('commun/Footer'); 
         }
 
         echo view('commun/Navbar'); 
@@ -96,7 +97,6 @@ class ControllerUtilisateur extends BaseController
 	 */
 	public function traitement_connexion()
 	{
-		// TODO : Traitement de connexion
 		$session = session();
 		$utilisateurModel = new UtilisateurModel();
 
@@ -124,17 +124,16 @@ class ControllerUtilisateur extends BaseController
 						'isLoggedIn' => true
 					]);
 					// Rediriger vers la page d'accueil
-					return redirect()->to('/taches'); 
+					return redirect()->to('/projets'); 
 				} else {
-					return redirect()->back()->withInput()->with('error','Mots de passe incorrect.');
+					return redirect()->back()->withInput()->with('error','Mot de passe incorrect.');
 				}
 			} else {
 				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif. Consultez vos mails pour l\'activer !');
 			}
 		} else {
 			// Email non trouvé
-			$session->setFlashdata('msg', 'Email inexistant.');
-            return redirect()->to('/connexion')->with('msg', 'Pas de compte lier a cette email !');
+            return redirect()->to('/connexion')->with('error', 'Pas de compte lié à cette email !');
 		}
 	}
 
@@ -160,7 +159,12 @@ class ControllerUtilisateur extends BaseController
 		$session = session();
 
 		$data = $this->request->getPost();
+		$emailSession  = session()->get('email');
+		$pseudoSession = session()->get('pseudo');
 
+		if ($emailSession == $data['email'] && $pseudoSession == $data['pseudo'])
+			return redirect()->back();
+		
 		// Règles de validation uniquement pour email et pseudo
 		$regleValidation = [];
 
@@ -227,27 +231,13 @@ class ControllerUtilisateur extends BaseController
 		//if (strcmp($mdp, $utilisateur->getMdp()) == 0) {  // TODO : A changer quand on hashera le code avec la ligne du dessu
 			
 			//Supprimer
-			$tableModele = new TacheModel();
-			$commentaireModele = new CommentaireModel();
-			$taches = $utilisateur->getTaches();
-			
-			foreach ($taches as $tache)
-			{
-				$commentaires = $tache->getCommentaires();
-				foreach ($commentaires as $commentaire)
-				{
-					$commentaireModele->delete($commentaire->getIdCommentaire());
-				}
-				$tableModele->delete($tache->getIdTache());
-			}
-
-			$utilisateurModel->delete($utilisateur->getIdUtilisateur());
+			$utilisateurModel->deleteCascade($utilisateur->getIdUtilisateur());
 			
 			// Deconnexion
 			return redirect()->to('/deconnect'); 
 		} else {
 			// Mot de passe incorrect
-			return redirect()->back()->withInput()->with('error', 'Mots de passe incorrect');
+			return redirect()->back()->withInput()->with('error', 'Mot de passe incorrect');
 		}
 	}
 
@@ -259,18 +249,21 @@ class ControllerUtilisateur extends BaseController
 	{
 		$utilisateurModel = new UtilisateurModel();
 		$regleValidation = $utilisateurModel->getValidationRules();
-		$regleValidation['mdpConf'] = 'required_with[mdp]|min_length[8]|max_length[255]|matches[mdp]';
+		$regleValidation['mdpConf'] = 'required_with[mdp]|matches[mdp]';
 
-		$isValid = $this->validate($regleValidation, $utilisateurModel->getValidationMessages());
+		$messagesValidation = $utilisateurModel->getValidationMessages();
+		$messagesValidation['mdpConf'] = [
+				'required_with' => 'Champ requis.',
+				'matches' => 'Les mots de passe ne correspondent pas.',
+		];
+
+		$isValid = $this->validate($regleValidation, $messagesValidation);
 		
 		if (!$isValid) {
             session()->setFlashdata('validation', \Config\Services::validation()->getErrors());
             // Rediriger vers la page d'inscription
             return redirect()->to('/inscription');
 		} else {
-			echo view('commun/Navbar'); 
-			echo view('connexion/Activation'); 
-			echo view('commun/Footer'); 
 
 			$data = $this->request->getPost();
 			$utilisateur = new Utilisateur();
@@ -279,9 +272,13 @@ class ControllerUtilisateur extends BaseController
 
 			$tokenInsc = $this->generateValidToken();
 			$utilisateur->setTokenInscription($tokenInsc);
+			$utilisateur->setCreationTokenInscription(Time::now('Europe/Paris', 'fr_FR'));
+
 			$utilisateurModel->insert($utilisateur);
 			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
-      return redirect()->to('/connexion')->with('msg', 'Votre compte a été créer avec succès, maintenant il faut l\'activer avec votre mail !');
+			echo view('commun/Navbar'); 
+			echo view('connexion/Activation'); 
+			echo view('commun/Footer'); 
 		}
 	}
 
@@ -300,14 +297,14 @@ class ControllerUtilisateur extends BaseController
 		$utilisateur = $utilisateurModel->where('token_inscription', $tokenActivation)->first();
 
 		if (!$utilisateur) {
-			// Token invalide
-			return redirect()->to('/inscription')->with('msg', 'Lien d\'activation invalide ou expiré.');
+			return view('commun/Navbar') . view('connexion/Perime') . view('commun/Footer'); 
 		}
 
 		// Activation de l'utilisateur
 		
 		$utilisateur->setRole(Utilisateur::$ROLE_UTILISATEUR);
 		$utilisateur->setTokenInscription(""); // Suppression du token
+		$utilisateur->setCreationTokenInscription(null); // Suppression de la date du token
 		$utilisateurModel->save($utilisateur);
 
 		// Création de la session
@@ -342,9 +339,10 @@ class ControllerUtilisateur extends BaseController
 		if ($utilisateur) {
             $tokenMDP = $this->generateValidToken();
 			$utilisateur->setTokenMdp($tokenMDP);
+			$utilisateur->setCreationTokenMdp(Time::now('Europe/Paris', 'fr_FR'));
 			$utilisateurModel->save($utilisateur);
             mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
-            return redirect()->to('/connexion/mdp');
+			return view('commun/Navbar') . view('connexion/Modif') . view('commun/Footer'); 
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');
@@ -354,15 +352,45 @@ class ControllerUtilisateur extends BaseController
 
     public function traitement_modificationMDP(string $tokenMdp)
     {
-        // TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
+		$validation = \Config\Services::validation();
+
         $utilisateurModel = new UtilisateurModel();
         $utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
 
-        $data = $this->request->getPost();
-        $utilisateur->setMdp($data['mdp']);
+		$regleValidation = [
+			'mdp'     => 'required|max_length[255]|min_length[8]',
+			'mdpConf' => 'required_with[mdp]|matches[mdp]'
+		];
 
-        $utilisateurModel->save($utilisateur);
-        return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
+		$messageValidation = [
+			'mdpConf' => [
+				'required_with' => 'Champ requis.',
+				'matches' => 'Les mots de passe ne correspondent pas.',
+			],
+			'mdp' => [
+				'required'    => 'Champ requis.',
+				'max_length'  => 'Votre mot de passe doit faire moins de 255 caractères.',
+				'min_length'  => 'Votre mot de passe doit faire plus de 8 caractères.',
+			],
+		];
+
+		$isValid = $this->validate($regleValidation, $messageValidation);
+		
+		if (!$isValid) {
+            return redirect()->to('/connexion/mdp/'. $tokenMdp)->with('errors', $validation->getErrors());
+		} else {
+			$data = $this->request->getPost();
+			$mdpEncrypte = $data['mdp'];
+
+			if (strcmp($mdpEncrypte, $utilisateur->getMdp()) == 0)
+            	return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
+			
+			$utilisateur->setMdp($data['mdp']);
+			$utilisateur->setTokenMdp('');
+			$utilisateur->setCreationTokenMdp(null);
+			$utilisateurModel->save($utilisateur);
+			return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
+		}
     }
 
 	/**

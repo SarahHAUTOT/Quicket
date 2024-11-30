@@ -60,14 +60,24 @@ class Utilisateur extends Entity
     public function setTokenMdp(string $token): Utilisateur
     {
         $this->attributes['token_mdp'] = $token;
-        // $this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
-
         return $this;
     }
 
     public function setTokenInscription(string $token): Utilisateur
     {
         $this->attributes['token_inscription'] = $token;
+        return $this;
+    }
+
+    public function setCreationTokenMdp(?Time $time): Utilisateur
+    {
+        $this->attributes['creation_token_mdp'] = $time;
+        return $this;
+    }
+
+    public function setCreationTokenInscription(?Time $time): Utilisateur
+    {
+        $this->attributes['creation_token_inscription'] = $time;
         return $this;
     }
 
@@ -124,5 +134,17 @@ class Utilisateur extends Entity
     {
         $utilisateurModel = new UtilisateurModel();
         return $utilisateurModel->getTaches($this);
+    }
+
+    public function getProjetsCreer(): array
+    {
+        $utilisateurModel = new UtilisateurModel();
+        return $utilisateurModel->getProjetsCreer($this);
+    }
+
+    public function getProjetsParticipant(): array
+    {
+        $utilisateurModel = new UtilisateurModel();
+        return $utilisateurModel->getProjetsParticipant($this);
     }
 }

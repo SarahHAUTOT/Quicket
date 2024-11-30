@@ -6,6 +6,12 @@
 
 <div style="min-height: 90vh;padding-top: 80px;">
 
+		<div>
+			<div class="ps-5 py-2">
+				<a href="/projets" class="text-dark"><h1><i class="me-2 bi bi-arrow-left-short"></i>Projets</a>/<?php echo $projet->getNomProjet() ?></h1>
+			</div>
+		</div>
+
 
 
 		<div class="container my-4">
@@ -22,7 +28,7 @@
 				<!-- Select Trié par -->
 				<div class="col-md-3 col-lg-3">
 					<div class="input-group">
-						<label class="input-group-text" for="trier-par">Trié par</label>
+						<label class="input-group-text" for="trier-par">Trier par</label>
 						<select class="form-select" id="trier-par">
 							<option value="modiff_tache" <?php if (strcmp($trierPar, "modiff_tache")==0) echo "selected" ?>>Date de modification</option>
 							<option value="echeance"     <?php if (strcmp($trierPar, "echeance"    )==0) echo "selected" ?>>Echéance</option>
@@ -64,6 +70,7 @@
 						<th scope="col">Titre</th>
 						<th scope="col">Date de modification</th>
 						<th scope="col">Echéance</th>
+						<th scope="col">Terminé</th>
 						<th scope="col">Actions</th>
 					</tr>
 				</thead>
@@ -77,17 +84,28 @@
 								<td class="align-middle"><?= $tache->getTitre(); ?></td>
 								<td class="align-middle"><?= $tache->getModiffTache()->format('d/m/Y'); ?></td>
 								<td class="align-middle"><?= $tache->getEcheance()->format('d/m/Y'); ?></td>
+								<td class="align-middle">
+									<input type="checkbox" name="est_termine" id="est_termine" 
+										<?php if($tache->getEstTermine()) echo "checked"; ?>
+										<?php if($tache->getIdUtilisateur() != session()->get('id_utilisateur')) echo "disabled"; ?>
+									onclick="window.location.href = '<?= '/taches/etat/' . $tache->getIdProjet(). '/' .$tache->getIdTache() ?>';"
+									>
+								</td>
 								<td class="align-middle"> 
-									<a href="<?php echo "/taches/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
-									<a href="<?php echo "/taches/supp/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
-									   <i class="bi bi-trash3"></i>
-									</a> 
+									<a href="<?php echo "/taches/detail/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
+
+									<?php if ($projet->getIdCreateur() == session()->get('id_utilisateur')) : ?>
+										<a href="<?php echo "/taches/supp/".$tache->getIdProjet()."/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
+											<i class="bi bi-trash3"></i>
+										</a>
+									<?php endif; ?>
+
 								</td>
 							</tr>
 						<?php endforeach; ?>
 					<?php else : ?>
 						<tr>
-							<td colspan="4" class="text-center py-3"> Aucune tache crée.</td> 
+							<td colspan="5" class="text-center py-3"> Aucune tache.</td> 
 						</tr>
 					<?php endif; ?>
 
@@ -95,13 +113,16 @@
 				</table>
 			</div>
 
-			<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
-				Ajouter une tache
-			</button>
+			<?php if (session()->get('id_utilisateur') == $projet->getIdCreateur()): ?>
+				<button type="button" class="btn btn-principale mx-5 my-2" data-bs-toggle="modal" data-bs-target="#add">
+					Ajouter une tache
+				</button>
 
+				<a href="/taches/participants/<?= $projet->getIdProjet() ?>" class="btn btn-principale mx-5 my-2">
+					Participants
+				</a>
+			<?php endif; ?>
 
-
-	
 			<div class="m-5">
 				<?= $pagerTache->links('default', 'pager_tache') ?>
 			</div>
@@ -110,7 +131,7 @@
 
 	</div>
 
-	<div class="modal fade <?= validation_errors() ? 'show' : '' ?>" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="<?= validation_errors() ? 'false' : 'true' ?>">
+	<div class="modal fade <?= validation_errors() || isset(session('errors')['echeance']) ? 'show' : '' ?>" id="add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="<?= validation_errors() || isset(session('errors')['echeance']) ? 'false' : 'true' ?>">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -122,19 +143,26 @@
 				<div class="modal-body">
 					<?php echo form_open('/taches/create',['id'=>'formCreate']); ?>
 
+					<input type="hidden" id="id_projet" name="id_projet" value=<?= $projet->getIdProjet() ?> />
+
 					<div class="form-group mb-2">
 						<?php echo form_label('Titre', 'titre'); ?>
 						
-						<?php echo form_input([
+						<?php 
+							
+							$value = isset($tache) ? htmlspecialchars_decode(set_value('titre', $tache->getTitre())) : set_value('titre');
+
+							echo form_input([
 							'name'        => 'titre',
 							'id'          => 'titre',
 							'class'       => 'form-control',
-							'value'       => set_value('titre'),
+							'value'       => $value,
 							'required'
 						]); ?>
 
 						<p class="text-danger"><?= validation_show_error('titre') ?></p>
 					</div>
+					
 
 
 					<div class="form-group mb-2">
@@ -164,13 +192,16 @@
 					<div class="form-group mb-2">
 						<?php echo form_label('Description', 'description'); ?>
 						
-						<?php echo form_textarea([
+						<?php 
+							$value = isset($tache) ? htmlspecialchars_decode(set_value('description', $tache->getDescription())) : set_value('description');
+
+							echo form_textarea([
 							'name'        => 'description' ,
 							'id'          => 'description' ,
 							'class'       => 'form-control',
 							'rows'        => '3',
 							'maxlength'   => '255',
-							'value'       => set_value('description'),
+							'value'       =>  $value,
 							'required'
 						]); ?>
 
@@ -190,13 +221,13 @@
 							'required'
 						]); ?>
 
-						<p class="text-danger"><?= validation_show_error('echeance') ?></p>
+						<p class="text-danger"><?php if (isset(session('errors')['echeance'])) echo session('errors')['echeance']; ?></p>
 					</div>
 
 					<br>
 					
 					<div class="d-flex justify-content-center align-items-center">
-						<?php echo form_submit('submit', 'Ajouter la tache', "class='btn w-50 btn-principale' onclick=\"this.classList.add('disabled')\""); ?>
+						<?php echo form_submit('submit', 'Ajouter la tâche', "class='btn w-50 btn-principale' id='btnSub'"); ?>
 					</div>
 
 
@@ -219,7 +250,24 @@
 		}
 
 		document.getElementById('formCreate').onsubmit = function() {
-            document.getElementById("formCreate").disabled = true;
-        }
+			document.getElementById("formCreate").disabled = true;
+		}
 	});
+
+
+	document.getElementById('formCreate').addEventListener('submit', function(event) {
+		const submitButton = document.getElementById("btnSub"); // Correction ici
+		if (this.checkValidity()) {
+			// Disable the button only if the form is valid
+			console.log("nnnnn")
+			submitButton.classList.add('disabled');
+			submitButton.style.pointerEvents = 'none';
+			submitButton.innerHTML="<i class=\"bi bi-arrow-repeat\"></i>"
+		} else {
+			// Prevent submission and show validation errors
+			event.preventDefault();
+		}
+	});
+
 </script>
+

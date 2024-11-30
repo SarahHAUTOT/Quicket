@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Quicket : LE site web de gestion de tâches !</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -15,12 +15,11 @@
 	<link rel="shortcut icon" type="image/png" href="<?=base_url()."assets/img/Logoicone.png";?>">
 </head>
 <body>
-	  
-  
 
-<!-- NAVBAR -->
+
+<!-- NAVBAR -->	
 	<div class="text-display sticky-top">
-		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
+		<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
 			<div class="container-fluid">
 
 				<!-- Icône et nom à gauche -->
@@ -37,25 +36,26 @@
 						<ul class="navbar-nav ms-auto">
 							
 							
-							<li class="nav-item">
-								<a class="nav-link" id="taches" href="/taches">Taches</a>
+							<li class="nav-item border-end px-3">
+								<a class="nav-link" id="taches" href="/projets"><i class="bi bi-stickies me-2"></i>Projets </a>
 							</li>
 							
-							<li class="nav-item">
-								<a class="nav-link" id="planning" href="/planning">Planning</a>
+							<li class="nav-item border-end px-3">
+								<a class="nav-link" id="planning" href="/planning"><i class="bi bi-calendar3 me-2"></i>Planning </a>
 							</li>
 							
-							<li class="nav-item">
-								<a class="nav-link" id="account" href="/account">Mon compte</a>
+							<li class="nav-item border-end px-3">
+								<a class="nav-link" id="account" href="/account"><i class="bi bi-person me-1"></i> <?= session()->get('pseudo') ?> </a>
 							</li> 
 							
-							<li class="nav-item">
-								<a class="nav-link" id="deconnect" href="/deconnect">Se déconnecter</a>
+							<li class="nav-item px-2">
+								<a class="nav-link" id="deconnect" href="/deconnect"><i class="bi bi-box-arrow-right me-2"></i></a>
 							</li> 
 						</ul>
 					</div>
 				<?php else: ?>
-					<div class="justify-content-start text-start">
+					<div class="justify-content-start text-start d-flex gap-2">
+						<a class="nav-link btn btn-principale px-3 py-2" href="/inscription">S'inscrire</a>
 						<a class="nav-link btn btn-principale px-3 py-2" href="/connexion">Se connecter</a>
 					</div>
 				<?php endif; ?>
@@ -63,6 +63,12 @@
 		</nav>
 	</div>
 
+
+	<?php if (session()->has('alert')) : ?>
+		<script>
+			alert(<?= session('alert') ?>)
+		</script>
+	<?php endif; ?>
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="<?=base_url()."assets/js/navbar_color_scroll.js";?>"></script>

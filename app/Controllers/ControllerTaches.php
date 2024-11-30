@@ -2,11 +2,10 @@
 namespace App\Controllers;
 use App\Entities\Tache;
 use App\Entities\Commentaire;
+use App\Models\ProjetModel;
 use App\Models\TacheModel;
 use App\Models\CommentaireModel;
-use CodeIgniter\Controller;
 use CodeIgniter\I18n\Time;
-use App\Models\User;
 
 
 // @author   : Sarah Hautot, Alizéa Lebaron
@@ -20,9 +19,10 @@ class ControllerTaches extends BaseController
 	{
 		//Chargement du helper Form
 		helper(['form']);
+        $this->validation = \Config\Services::validation();
 	}
 
-	public function redirection_taches()
+	public function redirection_taches(int $idProjet)
 	{
 		$session = session();
 		$idUtilisateur = $session->get('id_utilisateur');
@@ -34,8 +34,8 @@ class ControllerTaches extends BaseController
 
 		// Récupération 
 		$titreRech = $this->request->getGet('titre')    ?? '';
-		$trierPar  = $this->request->getGet('trierPar') ?? $request->getCookie('trierPar') ?? 'modiff_tache';
-		$ordre     = $this->request->getGet('ordre')    ?? $request->getCookie('ordre')    ?? 'ASC';
+		$trierPar  = $this->request->getGet('trierPar') ?? $request->getCookie('trierPar') ?? 'modiff_tache'; // TODO cookie non fonctionnelle
+		$ordre     = $this->request->getGet('ordre')    ?? $request->getCookie('ordre')    ?? 'DESC';
 		
 		// Si ils sont définis la, c'est que les préférences ont changé
 		set_cookie('titre'   , $titreRech, 1800);
@@ -45,15 +45,16 @@ class ControllerTaches extends BaseController
 
 		// Recherches des données (filtre + pagination)
 		$tacheModele = new TacheModel();
+		$projetModele = new ProjetModel();
 
-		$taches = $tacheModele->getFiltre($trierPar, $ordre, $titreRech)->where('id_utilisateur', $idUtilisateur)->paginate(5);
-		
+		$taches = $tacheModele->getFiltre($trierPar, $ordre, $titreRech)->where('id_projet', $idProjet)->paginate(5);
 		$data = [
 			'taches'     => $taches,
 			'pagerTache' => $tacheModele->pager,
 			'titre'      => $titreRech,
 			'trierPar'   => $trierPar,
-			'ordre'      => $ordre
+			'ordre'      => $ordre,
+			'projet'     => $projetModele->find($idProjet)
 		];
 
 
@@ -63,7 +64,19 @@ class ControllerTaches extends BaseController
 		echo view('commun/Footer');
 	}
 
-	public function traitement_suppression_tache(int $idTache)
+	public function traitement_etat(int $idProjet, int $idTache)
+	{
+		$tacheModele = new TacheModel();
+		$tache = $tacheModele->find($idTache);
+		$tache->setEstTermine(!$tache->getEstTermine());
+		$tache->setModiffTache();
+
+		$tacheModele->save($tache);
+
+		return redirect()->to('/taches/'.$tache->getIdProjet());
+	}
+
+	public function traitement_suppression_tache(int $idProjet, int $idTache)
 	{
 		$tacheModele = new TacheModel();
 		$commentaireModele = new CommentaireModel();
@@ -75,11 +88,39 @@ class ControllerTaches extends BaseController
 		{
 			$commentaireModele->delete($commentaire->getIdCommentaire());
 		}
-
+-
 		$tacheModele->delete($idTache);
 
         $page    = (int) ($this->request->getGet('page') ?? 1);
-		return redirect()->to('/taches?page='.$page);
+		return redirect()->to('/taches/'.$idProjet.'?page='.$page);
+	}
+
+	public function traitement_modification(int $idProjet, int $idTache)
+	{
+		$validation = \Config\Services::validation();
+		$tacheModel = new TacheModel();
+
+		$data = $this->request->getPost();
+
+		if (!$this->validate($tacheModel->getValidationRules(), $tacheModel->getValidationMessages())) 
+		{
+			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+		}
+
+		if ($idProjet < 0 || $idTache < 0) 
+		{
+			return redirect()->back();
+		}
+
+		$data['id_tache'] = $idTache;
+		$tache = new Tache();
+		$tache = $tache->fill($data);
+		$tache->setModiffTache();
+
+		// Enregistrer les modifications
+		$tacheModel->save($tache);
+
+		return redirect()->to('/taches/detail/'. $idProjet."/".$idTache)->with('success', 'Vos données ont été mises à jour.');
 	}
 
 	public function traitement_creation_tache()
@@ -91,22 +132,42 @@ class ControllerTaches extends BaseController
 		if (!$this->validate($tacheModel->getValidationRules(), $tacheModel->getValidationMessages())) {
 			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
 		}
+
+		if (!ControllerTaches::date_check($this->request->getPost('echeance'))) {
+			// Ajouter une erreur structurée dans le tableau associatif
+			return redirect()->back()->withInput()->with('errors', ['echeance' => 'Le format de la date est invalide ou la date est dans le passé.']);
+		}
+		
+		/// Verifier la
 	
 		$data = $this->request->getPost();
 		$tache = new Tache();
 
-		$data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR');
+		$data['id_projet'] = intval($data['id_projet']);
 		$tache->fill($data);
+
 		$tache->setCreationTache();
+		$tache->setEstTermine(false);
 		$tache->setIdUtilisateur(session()->get('id_utilisateur'));
 		$tache->setModiffTache();
 
 		$tacheModel->insert($tache);
-
-		$tacheModele = new TacheModel();
-		var_dump($tacheModel);
-		return redirect()->to('/taches'); // TODO Page courante après insertion
+		return redirect()->to('/taches/'.$tache->getIdProjet()); 
 	}
+
+	
+    public static function date_check(string $str): bool
+    {
+        $date = \DateTime::createFromFormat('Y-m-d\TH:i', $str);
+
+        if (!$date || $date->format('Y-m-d\TH:i') !== $str) {
+            return false;
+        }
+
+        $current_date = new \DateTime('now', new \DateTimeZone('Europe/Paris') );
+		$bool = $date >= $current_date;
+        return $bool;
+    }
 
 	public function traitement_creation_comm()
 	{
@@ -123,10 +184,9 @@ class ControllerTaches extends BaseController
 
 		$data['id_tache'] = intval($data['id_tache']);
 		$comm = new Commentaire();
-		$comm->fill($data);
 
 		// Je récupère la date actuelle
-		$date = new \DateTime();
+		$date = new \DateTime("now", new \DateTimeZone("Europe/Paris"));
 		$date->format('Y-m-d H:i:s');
 
 		$data['creation_commentaire'] = $date;
@@ -135,21 +195,20 @@ class ControllerTaches extends BaseController
 		$comm->setIdUtilisateur(session()->get('id_utilisateur'));
 
 		$commModel->insert($comm);
-
-		var_dump($commModel);
-		return redirect()->to('/taches/'.$data['id_tache']);
+		return redirect()->to('/taches/detail/'.$data['id_projet'].'/'.$data['id_tache']);
 	}
 
-	public function grosse_tache($idTache)
+	public function grosse_tache(int $idProjet, int $idTache)
 	{
         $commentaireModel = new CommentaireModel();
         $tacheModel = new TacheModel();
-        $commentaires = $commentaireModel->getCommentaireTache($idTache);
+        $projetModele = new ProjetModel();
 
 		echo view('commun/Navbar'); 
         echo view('taches/Detail', 
         [
-            'tache' => $tacheModel->getTacheById($idTache),
+            'tache'  => $tacheModel->find($idTache),
+            'projet' => $projetModele->find($idProjet),
             'commentaires' => $commentaireModel->getCommentaireTache($idTache),
             'pagerCommentaire' => $commentaireModel->pager
         ]);
@@ -159,14 +218,14 @@ class ControllerTaches extends BaseController
 
 	// C'est pour  la view qui modifie les tâches mais j'aime beaucoup l'humour
 	// Pitié ne supprimez pas ça
-	public function pis_tache($idTache)
+	public function pis_tache(int $idProjet, int $idTache)
 	{
 		$commentaireModel = new CommentaireModel();
         $tacheModel = new TacheModel();
 		echo view('commun/Navbar'); 
         echo view('taches/Modif', 
         [
-            'tache' => $tacheModel->getTacheById($idTache),
+            'tache' => $tacheModel->find($idTache),
         ]);
 		
 		echo view('commun/Footer');
