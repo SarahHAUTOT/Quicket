@@ -99,18 +99,9 @@ class ControllerTaches extends BaseController
 	{
 		$validation = \Config\Services::validation();
 		$tacheModel = new TacheModel();
-		
-		//echo "Il est passé par ici";
 
 		$data = $this->request->getPost();
 
-		// Modification de certaines données
-
-		// $data['priorite'] = intval($data['priorite']); //Cast en int 
-
-		// $data['echeance'] = new Time($data['echeance'], 'Europe/Paris', 'fr_FR'); //On recast l'échéance
-
-	
 		if (!$this->validate($tacheModel->getValidationRules(), $tacheModel->getValidationMessages())) 
 		{
 			return redirect()->back()->withInput()->with('errors', $validation->getErrors());
@@ -124,11 +115,6 @@ class ControllerTaches extends BaseController
 		$data['id_tache'] = $idTache;
 		$tache = new Tache();
 		$tache = $tache->fill($data);
-		
-		echo "<pre>";
-		var_dump($tache);
-		echo "</pre>";
-
 		$tache->setModiffTache();
 
 		// Enregistrer les modifications

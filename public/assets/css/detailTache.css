@@ -48,6 +48,9 @@ h2
 
 .annotation
 {
+	
+	display: flex;
+	align-items: center;
 	text-align: right;
 }
 

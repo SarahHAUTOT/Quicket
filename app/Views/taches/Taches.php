@@ -149,11 +149,15 @@
 					<div class="form-group mb-2">
 						<?php echo form_label('Titre', 'titre'); ?>
 						
-						<?php echo form_input([
+						<?php 
+							
+							$value = isset($tache) ? htmlspecialchars_decode(set_value('titre', $tache->getTitre())) : set_value('titre');
+
+							echo form_input([
 							'name'        => 'titre',
 							'id'          => 'titre',
 							'class'       => 'form-control',
-							'value'       => set_value('titre'),
+							'value'       => $value,
 							'required'
 						]); ?>
 
@@ -189,13 +193,16 @@
 					<div class="form-group mb-2">
 						<?php echo form_label('Description', 'description'); ?>
 						
-						<?php echo form_textarea([
+						<?php 
+							$value = isset($tache) ? htmlspecialchars_decode(set_value('description', $tache->getDescription())) : set_value('description');
+
+							echo form_textarea([
 							'name'        => 'description' ,
 							'id'          => 'description' ,
 							'class'       => 'form-control',
 							'rows'        => '3',
 							'maxlength'   => '255',
-							'value'       => set_value('description'),
+							'value'       =>  $value,
 							'required'
 						]); ?>
 
