@@ -358,8 +358,11 @@ class ControllerUtilisateur extends BaseController
 			return redirect()->to('/connexion/EmailMDP')->with('error', 'Email inexistant !');
 		}
 	}
-
-    public function traitement_modificationMDP(string $tokenMdp)
+	
+	/**
+	 * @throws ReflectionException
+	 */
+	public function traitement_modificationMDP(string $tokenMdp)
     {
 		$validation = \Config\Services::validation();
 
