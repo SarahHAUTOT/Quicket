@@ -1,14 +1,19 @@
 <?php
+
 namespace App\Controllers;
-use CodeIgniter\Controller;
-use App\Models\User;
 
 class ControllerHome extends BaseController
 {
-	public function redirection_home()
+	
+	/**
+	 * Fonction pour rediriger vers l'accueil.
+	 *
+	 * @return void
+	 */
+	public function redirection_home(): void
 	{
-    	echo view('commun/Navbar'); 
-    	echo view('Accueil'); 
-    	echo view('commun/Footer'); 
+    	echo view('commun/Navbar');
+    	echo view('Accueil');
+    	echo view('commun/Footer');
 	}
 }

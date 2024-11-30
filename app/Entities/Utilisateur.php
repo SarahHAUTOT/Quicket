@@ -25,6 +25,12 @@ class Utilisateur extends Entity
     ];
 
     protected $dates = ['creation_token_mdp', 'creation_token_inscription'];
+	
+	public function resetTokenMdp(): Utilisateur {
+		$this->attributes['token_mdp'] = "";
+		$this->attributes['creation_token_mdp'] = "";
+		return $this;
+	}
 
     /* ---------------------------------------- */
 	/* ---------------- Setter ---------------- */
@@ -111,10 +117,13 @@ class Utilisateur extends Entity
     {
         return $this->attributes['token_mdp'];
     }
-
-    public function getCreationTokenMdp(): ?string
+	
+	/**
+	 * @throws Exception
+	 */
+	public function getCreationTokenMdp(): Time
     {
-        return $this->attributes['creation_token_mdp'];
+        return new Time($this->attributes['creation_token_mdp']);
     }
 
     public function getTokenInscription(): ?string

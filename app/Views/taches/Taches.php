@@ -21,7 +21,8 @@
 				<!-- Barre de recherche -->
 				<div class="col-md-6 col-lg-3">
 					<div class="input-group">
-						<input type="text" class="form-control" id="titre-recherche" value="<?=$titre?>" placeholder="Rechercher..." aria-label="Recherche" aria-describedby="titre-recherche">
+						<input type="search" class="form-control" id="titre-recherche" value="<?=$titre?>" placeholder="Rechercher..."
+							   aria-label="Recherche" aria-describedby="titre-recherche">
 					</div>
 				</div>
 		
@@ -31,7 +32,7 @@
 						<label class="input-group-text" for="trier-par">Trier par</label>
 						<select class="form-select" id="trier-par">
 							<option value="modiff_tache" <?php if (strcmp($trierPar, "modiff_tache")==0) echo "selected" ?>>Date de modification</option>
-							<option value="echeance"     <?php if (strcmp($trierPar, "echeance"    )==0) echo "selected" ?>>Echéance</option>
+							<option value="echeance"     <?php if (strcmp($trierPar, "echeance"    )==0) echo "selected" ?>>Échéance</option>
 							<option value="retard"       <?php if (strcmp($trierPar, "retard"      )==0) echo "selected" ?>>Retard</option>
 							<option value="priorite"     <?php if (strcmp($trierPar, "priorite"    )==0) echo "selected" ?>>Priorité</option>
 						</select>
@@ -85,14 +86,14 @@
 								<td class="align-middle"><?= $tache->getModiffTache()->format('d/m/Y'); ?></td>
 								<td class="align-middle"><?= $tache->getEcheance()->format('d/m/Y'); ?></td>
 								<td class="align-middle">
-									<input type="checkbox" name="est_termine" id="est_termine" 
+									<input type="checkbox" name="est_termine" id="est_termine"
 										<?php if($tache->getEstTermine()) echo "checked"; ?>
 										<?php if($tache->getIdUtilisateur() != session()->get('id_utilisateur')) echo "disabled"; ?>
 									onclick="window.location.href = '<?= '/taches/etat/' . $tache->getIdProjet(). '/' .$tache->getIdTache() ?>';"
 									>
 								</td>
-								<td class="align-middle"> 
-									<a href="<?php echo "/taches/detail/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a> 
+								<td class="align-middle">
+									<a href="<?php echo "/taches/detail/".$tache->getIdProjet()."/".$tache->getIdTache() ?>" class="btn btn-troisieme" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';"><i class="bi bi-eye"></i></a>
 
 									<?php if ($projet->getIdCreateur() == session()->get('id_utilisateur')) : ?>
 										<a href="<?php echo "/taches/supp/".$tache->getIdProjet()."/".$tache->getIdTache()."?page=".$pagerTache->getCurrentPage(); ?>" class="btn btn-secondaire" onclick="this.style.pointerEvents='none'; this.style.opacity='0.5';">
@@ -105,7 +106,7 @@
 						<?php endforeach; ?>
 					<?php else : ?>
 						<tr>
-							<td colspan="5" class="text-center py-3"> Aucune tache.</td> 
+							<td colspan="5" class="text-center py-3"> Aucune tache.</td>
 						</tr>
 					<?php endif; ?>
 
@@ -164,7 +165,7 @@
 					<div class="form-group mb-2">
 						<?php echo form_label('Priorité', 'priorite'); ?>
 						
-						<?php 
+						<?php
 							$options = [
 								'4'=> 'Négligeable',
 								'3'=> 'Neutre',

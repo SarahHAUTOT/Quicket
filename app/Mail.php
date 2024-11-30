@@ -22,6 +22,9 @@ __EMAIL0->setFrom('quicket.noreply@gmail.com', 'Quicket');
  * Méthode générique pour envoyer des mails depuis le serveur en passant
  * par le serveur SMTP de Google et le compte associé à l'application.
  *
+ * PS : Si vous voulez conserver votre sanité, je vous recommande de ne PAS lire
+ * le code qui se trouve juste au-dessus du HTML.
+ *
  * @param string $mail L'adresse mail du destinataire.
  * @param string $sujet Le sujet du mail.
  * @param string $corps Le corps du mail

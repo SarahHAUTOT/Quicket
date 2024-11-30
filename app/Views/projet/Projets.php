@@ -16,7 +16,7 @@
 
 					<div class="collapse mt-3 px-3 row show" id="projCreate">
 						<div class="col-md-4 my-4">
-							<a  data-bs-toggle="modal" data-bs-target="#add" class="text-decoration-none">
+							<a  data-bs-toggle="modal" role="button" data-bs-target="#add" class="text-decoration-none">
 								<div class="card h-100" style="background-color:#FF3354; color:white;">
 									<div class="card-body text-center">
 										<h5 class="card-title">Créer un nouveau projet <br><br> <i class="bi bi-plus-circle"></i> </h5>
@@ -56,12 +56,12 @@
 
 												<a href="<?php echo "/taches/".$projet->getIdProjet() ?>" class="text-decoration-none nav-link">
 													<p class="card-text">
-														<?php 
+														<?php
 															$nb = count($projet->getTaches());
 															echo $nb . " tache" . ($nb > 1?"s":"") ." <i class=\"bi bi-ui-checks\"></i>";
 														?>
 														<br>
-														<?php 
+														<?php
 															$nb = count($projet->getUtilisateurs());
 															echo $nb . " participant" . ($nb > 1?"s":"") ." <i class=\"bi bi-people-fill\"></i>";
 														?>
@@ -119,12 +119,12 @@
 
 												<a href="<?php echo "/taches/".$projet->getIdProjet() ?>" class="text-decoration-none nav-link">
 													<p class="card-text">
-														<?php 
+														<?php
 															$nb = count($projet->getTaches());
 															echo $nb . " tache" . ($nb > 1?"s":"") ." <i class=\"bi bi-ui-checks\"></i>";
 														?>
 														<br>
-														<?php 
+														<?php
 															$nb = count($projet->getUtilisateurs());
 															echo $nb . " participant" . ($nb > 1?"s":"") ." <i class=\"bi bi-people-fill\"></i>";
 														?>

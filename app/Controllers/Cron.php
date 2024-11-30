@@ -78,12 +78,15 @@ class Cron extends BaseController {
 		$now = Time::now('Europe/Paris', 'fr_FR');
 		foreach ($utilisateurs as $u) {
 			$id = $u->getIdUtilisateur();
-			$date_creation = $u->getCreationTokenInscription();
-			if ($now->difference($date_creation)->getSeconds() === 0)
-				continue;
-			if ($now->difference($date_creation)->getSeconds() > 3600) {
+			$date_creation_inscription = $u->getCreationTokenInscription();
+			$date_creation_mdp = $u->getCreationTokenMdp();
+			if ($now->difference($date_creation_inscription)->getSeconds() > 3600) {
 				echo "Deleting user number #$id", PHP_EOL;
 				$usrMod->delete($id);
+			}
+			if ($now->difference($date_creation_mdp)->getSeconds() > 3600) {
+				echo "Deleting password token of user number #$id", PHP_EOL;
+				$usrMod->update($id, $u->resetTokenMdp());
 			}
 		}
 	}
