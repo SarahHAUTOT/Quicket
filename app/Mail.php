@@ -42,7 +42,7 @@ bool {
 					<p>'.$corps.'</p>
 				</div>
 				<a href="'.$lien_btn.'" target="_blank">
-					<button style="margin: 35px 0; width: 150px; height: 40px; border: 2px solid #E60026; border-radius: 7.5px; background-color: #E60026; color: #ffd0d0; font-size: medium; cursor: pointer;">Afficher</button>
+					<button style="margin: 35px 0; width: 150px; height: 40px; border: 2px solid #E60026; border-radius: 7.5px; background-color: #E60026; color: #ffd0d0; font-size: medium; cursor: pointer;">Cliquer ici</button>
 				</a>
 			</div>
 			<div></div>
@@ -57,10 +57,10 @@ bool {
 
 function mail_certif_compte(string $mail, string $jeton): bool {
 	$lien = site_url("connexion/activation/$jeton");
-	return envoyer_mail($mail, "Vérification du compte Quicket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Vérification", $lien);
+	return envoyer_mail($mail, "Activation du compte - Quicket", "Cliquez sur le bouton pour activer votre compte.", "Activation", $lien);
 }
 
 function mail_modifier_mdp(string $mail, string $jeton): bool {
     $lien = site_url("connexion/mdp/$jeton");
-    return envoyer_mail($mail, "Réinitialisation du mot de passe Quicket", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", "Réinitialisation de votre mot de passe", $lien);
+    return envoyer_mail($mail, "Réinitialisation du mot de passe - Quicket", "Cliquez sur le bouton pour réinitialiser votre mot de passe.", "Réinitialisation de votre mot de passe", $lien);
 }
