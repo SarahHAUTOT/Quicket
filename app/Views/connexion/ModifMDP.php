@@ -12,6 +12,7 @@
 						<?php echo form_label('Mots de passe', 'mdp'); ?>
 						
 						<?php echo form_input([
+							'type'        => 'password',
 							'name'        => 'mdp',
 							'id'          => 'mdp',
 							'class'       => 'form-control',
@@ -27,6 +28,7 @@
 						<?php echo form_label('Confirmation de mot de passe', 'mdpConf'); ?>
 						
 						<?php echo form_input([
+							'type'        => 'password',
 							'name'        => 'mdpConf',
 							'id'          => 'mdpConf',
 							'class'       => 'form-control',
