@@ -9,9 +9,11 @@
 
                 <?php echo form_open('/connexion/mdp/change/'.$token); ?>
 				
-					<?php if (session()->has('error')) : ?>
+					<?php if (session()->has('errors')) : ?>
 						<p class="text-danger">
-							<?= session('error') ?>
+							<?php foreach (session()->get('errors') as $erreur) : ?>
+								<?= $erreur ?>
+							<?php endforeach; ?>
 						</p>
 					<?php endif; ?>
 

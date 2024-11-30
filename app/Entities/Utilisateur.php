@@ -69,6 +69,18 @@ class Utilisateur extends Entity
         return $this;
     }
 
+    public function setCreationTokenMdp(?Time $time): Utilisateur
+    {
+        $this->attributes['creation_token_mdp'] = $time;
+        return $this;
+    }
+
+    public function setCreationTokenInscription(?Time $time): Utilisateur
+    {
+        $this->attributes['creation_token_inscription'] = $time;
+        return $this;
+    }
+
     /* ---------------------------------------- */
 	/* ---------------- Getter ---------------- */
 	/* ---------------------------------------- */

@@ -3,6 +3,7 @@ namespace App\Controllers;
 use App\Models\CommentaireModel;
 use App\Models\TacheModel;
 use CodeIgniter\Controller;
+use CodeIgniter\I18n\Time;
 use App\Entities\Utilisateur;
 
 use App\Models\UtilisateurModel;
@@ -125,7 +126,7 @@ class ControllerUtilisateur extends BaseController
 					// Rediriger vers la page d'accueil
 					return redirect()->to('/projets'); 
 				} else {
-					return redirect()->back()->withInput()->with('error','Mots de passe incorrect.');
+					return redirect()->back()->withInput()->with('error','Mot de passe incorrect.');
 				}
 			} else {
 				return redirect()->back()->withInput()->with('error','Votre compte n\'est pas actif. Consultez vos mails pour l\'activer !');
@@ -271,6 +272,8 @@ class ControllerUtilisateur extends BaseController
 
 			$tokenInsc = $this->generateValidToken();
 			$utilisateur->setTokenInscription($tokenInsc);
+			$utilisateur->setCreationTokenInscription(Time::now('Europe/Paris', 'fr_FR'));
+
 			$utilisateurModel->insert($utilisateur);
 			mail_certif_compte($utilisateur->getEmail(), $tokenInsc);
 			echo view('commun/Navbar'); 
@@ -301,6 +304,7 @@ class ControllerUtilisateur extends BaseController
 		
 		$utilisateur->setRole(Utilisateur::$ROLE_UTILISATEUR);
 		$utilisateur->setTokenInscription(""); // Suppression du token
+		$utilisateur->setCreationTokenInscription(null); // Suppression de la date du token
 		$utilisateurModel->save($utilisateur);
 
 		// Création de la session
@@ -335,6 +339,7 @@ class ControllerUtilisateur extends BaseController
 		if ($utilisateur) {
             $tokenMDP = $this->generateValidToken();
 			$utilisateur->setTokenMdp($tokenMDP);
+			$utilisateur->setCreationTokenMdp(Time::now('Europe/Paris', 'fr_FR'));
 			$utilisateurModel->save($utilisateur);
             mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
 			return view('commun/Navbar') . view('connexion/Modif') . view('commun/Footer'); 
@@ -347,14 +352,32 @@ class ControllerUtilisateur extends BaseController
 
     public function traitement_modificationMDP(string $tokenMdp)
     {
+		$validation = \Config\Services::validation();
+
         $utilisateurModel = new UtilisateurModel();
         $utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
 
-		$regleValidation = [ 'mdpConf' => 'required_with[mdp]|matches[mdp]'];
-		$isValid = $this->validate($regleValidation);
+		$regleValidation = [
+			'mdp'     => 'required|max_length[255]|min_length[8]',
+			'mdpConf' => 'required_with[mdp]|matches[mdp]'
+		];
+
+		$messageValidation = [
+			'mdpConf' => [
+				'required_with' => 'Champ requis.',
+				'matches' => 'Les mots de passes ne correspondent pas.',
+			],
+			'mdp' => [
+				'required'    => 'Champ requis.',
+				'max_length'  => 'Votre mot de passe doit faire moins de 255 caractères.',
+				'min_length'  => 'Votre mot de passe doit faire plus de 8 caractères.',
+			],
+		];
+
+		$isValid = $this->validate($regleValidation, $messageValidation);
 		
 		if (!$isValid) {
-            return redirect()->to('/connexion/mdp/'. $tokenMdp)->with('error', 'Les mots de passes ne correspondent pas');
+            return redirect()->to('/connexion/mdp/'. $tokenMdp)->with('errors', $validation->getErrors());
 		} else {
 			$data = $this->request->getPost();
 			$mdpEncrypte = $data['mdp'];
@@ -362,9 +385,10 @@ class ControllerUtilisateur extends BaseController
 			if (strcmp($mdpEncrypte, $utilisateur->getMdp()) == 0)
             	return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
 			
-				$utilisateur->setMdp($data['mdp']);
-				$utilisateur->setTokenMdp('');
-				$utilisateurModel->save($utilisateur);
+			$utilisateur->setMdp($data['mdp']);
+			$utilisateur->setTokenMdp('');
+			$utilisateur->setCreationTokenMdp(null);
+			$utilisateurModel->save($utilisateur);
 			return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
 		}
     }
