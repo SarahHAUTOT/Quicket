@@ -20,6 +20,12 @@ class CreateProjet extends Migration
 				'constraint' => 50,
 				'null'       => false,
 			],
+			
+			'couleur' => [
+				'type'       => 'CHAR',
+				'constraint' => 7,
+				'null'       => false,
+			],
 
 			'id_createur' => [
 				'type'       => 'INT',
