@@ -337,7 +337,7 @@ class ControllerUtilisateur extends BaseController
 			$utilisateur->setTokenMdp($tokenMDP);
 			$utilisateurModel->save($utilisateur);
             mail_modifier_mdp($utilisateur->getEmail(), $tokenMDP);
-			return view('commun/Navbar') . view('connexion/modif') . view('commun/Footer'); 
+			return view('commun/Navbar') . view('connexion/Modif') . view('commun/Footer'); 
 		} else {
 			// Email non trouvé
 			$session->setFlashdata('msg', 'Email inexistant.');
@@ -347,15 +347,26 @@ class ControllerUtilisateur extends BaseController
 
     public function traitement_modificationMDP(string $tokenMdp)
     {
-        // TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
         $utilisateurModel = new UtilisateurModel();
         $utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
 
-        $data = $this->request->getPost();
-        $utilisateur->setMdp($data['mdp']);
+		$regleValidation = [ 'mdpConf' => 'required_with[mdp]|matches[mdp]'];
+		$isValid = $this->validate($regleValidation);
+		
+		if (!$isValid) {
+            return redirect()->to('/connexion/mdp/'. $tokenMdp)->with('error', 'Les mots de passes ne correspondent pas');
+		} else {
+			$data = $this->request->getPost();
+			$mdpEncrypte = $data['mdp'];
 
-        $utilisateurModel->save($utilisateur);
-        return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
+			if (strcmp($mdpEncrypte, $utilisateur->getMdp()) == 0)
+            	return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
+			
+				$utilisateur->setMdp($data['mdp']);
+				$utilisateur->setTokenMdp('');
+				$utilisateurModel->save($utilisateur);
+			return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
+		}
     }
 
 	/**

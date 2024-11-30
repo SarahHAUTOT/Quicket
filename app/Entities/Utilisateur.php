@@ -60,8 +60,6 @@ class Utilisateur extends Entity
     public function setTokenMdp(string $token): Utilisateur
     {
         $this->attributes['token_mdp'] = $token;
-        // $this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
-
         return $this;
     }
 

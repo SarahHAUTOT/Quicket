@@ -8,12 +8,20 @@
 				</div>
 
                 <?php echo form_open('/connexion/mdp/change/'.$token); ?>
+				
+					<?php if (session()->has('error')) : ?>
+						<p class="text-danger">
+							<?= session('error') ?>
+						</p>
+					<?php endif; ?>
+
 					<div class="form-group mb-2">
 						<?php echo form_label('Mots de passe', 'mdp'); ?>
 						
 						<?php echo form_input([
 							'name'        => 'mdp',
 							'id'          => 'mdp',
+							'type'        => 'password',
 							'class'       => 'form-control',
 							'value'       => set_value('mdp'),
 							'required'
@@ -29,12 +37,13 @@
 						<?php echo form_input([
 							'name'        => 'mdpConf',
 							'id'          => 'mdpConf',
+							'type'        => 'password',
 							'class'       => 'form-control',
 							'value'       => set_value('mdpConf'),
 							'required'
 						]); ?>
 
-						<?= validation_show_error('mdp') ?>
+						<?= validation_show_error('mdpConf') ?>
 					</div>
 					
 					<br>
