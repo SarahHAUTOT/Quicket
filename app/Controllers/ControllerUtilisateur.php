@@ -411,7 +411,7 @@ class ControllerUtilisateur extends BaseController
 	private function generateValidToken(): string
 	{
 		do {
-			$token = bin2hex(random_bytes(16)); // Génère un token de 32 caractères
+			$token = md5(random_bytes(16) . time()); // Génère un token de 32 caractères
 		} while (empty($token));
 
 		return $token;

@@ -86,7 +86,9 @@ class Cron extends BaseController {
 			}
 			if ($now->difference($date_creation_mdp)->getSeconds() > 3600) {
 				echo "Deleting password token of user number #$id", PHP_EOL;
-				$usrMod->update($id, $u->resetTokenMdp());
+				$u = $u->setTokenMdp("");
+				$u = $u->setCreationTokenMdp(null);
+				$usrMod->update($id, $u);
 			}
 		}
 	}
