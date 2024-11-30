@@ -25,12 +25,6 @@ class Utilisateur extends Entity
     ];
 
     protected $dates = ['creation_token_mdp', 'creation_token_inscription'];
-	
-	public function resetTokenMdp(): Utilisateur {
-		$this->attributes['token_mdp'] = "";
-		$this->attributes['creation_token_mdp'] = null;
-		return $this;
-	}
 
     /* ---------------------------------------- */
 	/* ---------------- Setter ---------------- */
@@ -63,24 +57,28 @@ class Utilisateur extends Entity
 
         return $this;
     }
-	
-	/**
-	 * @throws Exception
-	 */
-	public function setTokenMdp(string $token): Utilisateur
+
+    public function setTokenMdp(string $token): Utilisateur
     {
         $this->attributes['token_mdp'] = $token;
-		$this->attributes['creation_token_mdp'] = Time::now('Europe/Paris', 'fr_FR');
         return $this;
     }
-	
-	/**
-	 * @throws Exception
-	 */
-	public function setTokenInscription(string $token): Utilisateur
+
+    public function setTokenInscription(string $token): Utilisateur
     {
         $this->attributes['token_inscription'] = $token;
-		$this->attributes['creation_token_inscription'] = Time::now('Europe/Paris', 'fr_FR');
+        return $this;
+    }
+
+    public function setCreationTokenMdp(?Time $time): Utilisateur
+    {
+        $this->attributes['creation_token_mdp'] = $time;
+        return $this;
+    }
+
+    public function setCreationTokenInscription(?Time $time): Utilisateur
+    {
+        $this->attributes['creation_token_inscription'] = $time;
         return $this;
     }
 
