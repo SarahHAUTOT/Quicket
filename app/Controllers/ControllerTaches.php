@@ -134,7 +134,7 @@ class ControllerTaches extends BaseController
 		// Enregistrer les modifications
 		$tacheModel->save($tache);
 
-		return redirect()->to('/taches/modif/'. $idProjet."/".$idTache)->with('success', 'Vos données ont été mises à jour.');
+		return redirect()->to('/taches/detail/'. $idProjet."/".$idTache)->with('success', 'Vos données ont été mises à jour.');
 	}
 
 	public function traitement_creation_tache()

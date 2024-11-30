@@ -21,8 +21,8 @@
 .infoTache
 {
 	/* Fond */
-	background-color: aliceblue;
-	border: 1px gray solid;
+	background-color: #F2F2F2;
+	border: 1px #EAEDEF solid;
 
 	/* Position de la boîte */
 	margin: 0 auto;
@@ -32,7 +32,7 @@
 	width: 80%;
 
 	/* Intérieur */
-	padding: 2vh;	
+	padding: 2vh;
 }
 
 h2
