@@ -28,7 +28,7 @@ class Utilisateur extends Entity
 	
 	public function resetTokenMdp(): Utilisateur {
 		$this->attributes['token_mdp'] = "";
-		$this->attributes['creation_token_mdp'] = "";
+		$this->attributes['creation_token_mdp'] = null;
 		return $this;
 	}
 

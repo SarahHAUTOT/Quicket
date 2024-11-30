@@ -354,10 +354,12 @@ class ControllerUtilisateur extends BaseController
     {
         // TODO : Modifier le mots de passe avec les données (doit attandre l'envoie de mail OK)
         $utilisateurModel = new UtilisateurModel();
-        $utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
+        /** @var Utilisateur $utilisateur */
+		$utilisateur = $utilisateurModel->where('token_mdp', $tokenMdp)->first();
 
         $data = $this->request->getPost();
         $utilisateur->setMdp($data['mdp']);
+		$utilisateur->resetTokenMdp();
 
         $utilisateurModel->save($utilisateur);
         return redirect()->to('/connexion')->with('msg', 'Votre mot de passe a bien été modifié !');
